@@ -1,0 +1,24 @@
+/* styles/index.css */
+/* File này chứa các style dành riêng cho trang chọn vai trò (index.html) */
+
+/* Tùy chỉnh kích thước của logo */
+.logo-img {
+    max-width: 180px;
+    height: auto;
+}
+
+/* 
+  Ghi đè style của .btn-custom để nút ở trang index to hơn.
+*/
+.role-selection .btn-custom {
+    padding: 1.1rem 0;      /* Nút cao */
+    min-width: 250px;     /* Nút rộng */
+    text-align: center;
+    font-size: 1.2rem;    /* Chữ to */
+    font-weight: 500;
+}
+
+/* Tăng khoảng cách giữa logo và các nút */
+.logo-container.mb-5 {
+    margin-bottom: 5rem !important;
+}

@@ -1,0 +1,27 @@
+/* styles/tutor_home.css */
+
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-card .card-title {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Layout lưới tự động co giãn */
+    gap: 1.5rem; /* Khoảng cách giữa các nút */
+}
+
+/* Kích thước riêng cho các nút trên trang này */
+.button-grid .btn-custom {
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}

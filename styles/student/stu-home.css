@@ -1,0 +1,36 @@
+/* styles/student/stu-home.css */
+
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-height: 400px; /* Giữ chiều cao tối thiểu để đồng bộ với các trang khác */
+}
+
+.dashboard-card .card-title {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.button-grid {
+    display: grid;
+    /* Tạo lưới với 3 cột bằng nhau */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; /* Khoảng cách giữa các nút */
+}
+
+/* Kích thước riêng cho các nút trên trang này */
+.button-grid .btn-custom {
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    /* Cho phép chữ trên nút tự xuống dòng nếu cần */
+    white-space: normal;
+    /* Căn giữa nội dung theo chiều dọc nếu nút cao hơn chữ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px; /* Đảm bảo các nút có cùng chiều cao */
+}

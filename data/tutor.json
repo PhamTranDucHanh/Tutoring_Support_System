@@ -1,0 +1,18 @@
+[
+  {
+    "id": "TUT001",
+    "username": "thay_x",
+    "password": "111",
+    "fullName": "Lê Văn X",
+    "email": "thayx@example.com",
+    "bio": "Có 5 năm kinh nghiệm dạy kèm cho sinh viên năm nhất."
+  },
+  {
+    "id": "TUT002",
+    "username": "co_y",
+    "password": "222",
+    "fullName": "Phạm Thị Y",
+    "email": "coy@example.com",
+    "bio": "Chuyên gia tâm lý học, kỹ năng giao tiếp."
+  }
+]

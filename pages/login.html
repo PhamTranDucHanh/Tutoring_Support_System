@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - TutorConnect</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS Chung -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <!-- CSS riêng cho trang đăng nhập -->
+    <link rel="stylesheet" href="/styles/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-form">
+            <!-- Tiêu đề sẽ được cập nhật bằng JavaScript -->
+            <h2 class="text-center mb-4" id="login-title">Đăng Nhập</h2>
+            
+            <!-- Form đăng nhập -->
+            <form id="login-form-element">
+                <!-- Trường nhập Tài khoản -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">Tài khoản</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                
+                <!-- Trường nhập Mật khẩu -->
+                <div class="mb-4">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                
+                <!-- Nút Đăng nhập -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-custom">Đăng Nhập</button>
+                </div>
+            </form>
+            
+            <!-- Đường kẻ phân cách -->
+            <hr class="my-4">
+            
+            <!-- Nút Quay lại -->
+            <div class="d-grid">
+                <a href="/index.html" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS riêng cho trang đăng nhập -->
+    <script src="/scripts/login.js"></script>
+</body>
+</html>
