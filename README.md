@@ -41,3 +41,5 @@ repo này (git push -u origin tennhanhmoi) -> cả nhóm cùng họp để merge
 ## Note 1: Logic và hiện thực nên tạch biệt vào đúng bộ 3 html/css/js của trang đó, hạn chế thay đổi bộ 3 của các trang khác và bộ 3 main (để tránh bị lỗi định dạng chung).
 ---
 ## Note 2: Giữ định dạng footer và header được injected vào các trang.
+---
+## Note 3: Tài khoản mật khẩu của các nick được ghi sẵn ở trong /data/, có tài khoản và mật khẩu để đăng nhập vô.
