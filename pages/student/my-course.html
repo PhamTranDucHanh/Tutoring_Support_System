@@ -23,15 +23,12 @@
         <div class="container">
             <h1 class="mb-4">Khóa học đã đăng ký</h1>
             
-            <p class="text-muted">Chọn một khóa học bên dưới để xem chi tiết và đăng ký.</p>
+            <p class="text-muted">Chọn một khóa học bên dưới để xem chi tiết.</p>
 
             <!-- Demo danh sách khóa học có sẵn để đăng ký -->
             <div class="list-group">
-                <!-- 
-                  Đây là một khóa học mẫu.
-                  Khi người dùng bấm vào, họ sẽ được chuyển đến trang fill-form.html.
-                -->
-                <a href="/pages/student/course-detail.html" class="list-group-item list-group-item-action">
+                <!-- Course items. Each has a data-course-id used to load sessions. -->
+                <a href="#" data-course-id="course-1" class="list-group-item list-group-item-action course-item">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Khóa học: Nhập môn C++</h5>
                         <small>Gia sư: Nguyễn Văn A</small>
@@ -40,8 +37,7 @@
                     <small>Lịch học dự kiến: 3 buổi/tuần</small>
                 </a>
 
-                <!-- Khóa học mẫu khác -->
-                <a href="/pages/student/course-detail.html" class="list-group-item list-group-item-action">
+                <a href="#" data-course-id="course-2" class="list-group-item list-group-item-action course-item">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Khóa học: STM32 cho người mới</h5>
                         <small>Gia sư: Trần Thị B</small>
@@ -50,7 +46,7 @@
                     <small>Lịch học dự kiến: 2 buổi/tuần</small>
                 </a>
 
-                <a href="/pages/student/course-detail.html" class="list-group-item list-group-item-action">
+                <a href="#" data-course-id="course-3" class="list-group-item list-group-item-action course-item">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Arduino nâng cao</h5>
                         <small>Gia sư: Lê Văn C</small>
@@ -59,6 +55,92 @@
                     <small>Lịch học dự kiến: 2 buổi/tuần</small>
                 </a>
             </div>
+
+                        <!-- Session list modal (Bootstrap) -->
+                        <div class="modal fade" id="sessionModal" tabindex="-1" aria-labelledby="sessionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sessionModalTitle">Danh sách buổi học</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless mb-0 session-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ngày cụ thể</th>
+                                                        <th>Chủ đề</th>
+                                                        <th>Thời gian</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="session-table-body">
+                                                    <!-- Rows injected by JS -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Confirmation modal for delete/hủy (top-level so it stacks above other modals) -->
+                        <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-sm modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p class="mb-0 fw-bold">Bạn chắc chắn với lựa chọn này?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="confirm-yes" class="btn btn-primary">Xác nhận</button>
+                                        <button type="button" id="confirm-no" class="btn btn-secondary">Hủy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Session detail modal (Bootstrap) -->
+                        <div class="modal fade" id="sessionDetailModal" tabindex="-1" aria-labelledby="sessionDetailLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content session-detail-card">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Chi tiết buổi học</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-row mb-3">
+                                            <label class="form-label fw-bold">Giảng viên:</label>
+                                            <input type="text" id="detail-lecturer" class="form-control" readonly />
+                                        </div>
+                                        <div class="form-row mb-3">
+                                            <label class="form-label fw-bold">Chủ đề:</label>
+                                            <input type="text" id="detail-topic" class="form-control" readonly />
+                                        </div>
+                                        <div class="form-row mb-3">
+                                            <label class="form-label fw-bold">Mô tả chi tiết:</label>
+                                            <textarea id="detail-desc" rows="4" class="form-control" readonly></textarea>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Hình thức:</label>
+                                                <input type="text" id="detail-format" class="form-control" readonly />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Phòng học / Link học trực tuyến</label>
+                                                <input type="text" id="detail-room" class="form-control" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">THOÁT</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
         </div>
     </main>
 
