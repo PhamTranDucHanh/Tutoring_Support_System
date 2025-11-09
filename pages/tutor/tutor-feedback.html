@@ -19,9 +19,78 @@
     <div id="app-header-placeholder"></div>
 
     <!-- Phần thân trang -->
-    <main class="main-content">
+    <main class="main-content py-5">
         <div class="container">
-            <h1>Đây là trang Nhận Xét Của Tutor</h1>
+            <div class="tutor-feedback-container">
+
+                <!-- Tiêu đề sinh viên -->
+                <div class="student-info">
+                    <strong>Họ và tên SV _ MSSV _ Lớp L01</strong>
+                </div>
+
+                <!-- Thanh công cụ định dạng -->
+                <div class="toolbar">
+                    <button data-command="undo"><i class="fa-solid fa-undo"></i></button>
+                    <button data-command="redo"><i class="fa-solid fa-redo"></i></button>
+                    <button data-command="bold"><i class="fa-solid fa-bold"></i></button>
+                    <button data-command="italic"><i class="fa-solid fa-italic"></i></button>
+                    <button data-command="underline"><i class="fa-solid fa-underline"></i></button>
+                    <button data-command="strikeThrough"><i class="fa-solid fa-strikethrough"></i></button>
+                    <button data-command="justifyLeft"><i class="fa-solid fa-align-left"></i></button>
+                    <button data-command="justifyCenter"><i class="fa-solid fa-align-center"></i></button>
+                    <button data-command="justifyRight"><i class="fa-solid fa-align-right"></i></button>
+                    <button data-command="indent"><i class="fa-solid fa-indent"></i></button>
+                    <button data-command="outdent"><i class="fa-solid fa-outdent"></i></button>
+                    <button data-command="insertImage"><i class="fa-solid fa-image"></i></button>
+                    <button data-command="insertUnorderedList"><i class="fa-solid fa-list-ul"></i></button>
+                    <button data-command="insertOrderedList"><i class="fa-solid fa-list-ol"></i></button>
+                    <button data-command="createLink"><i class="fa-solid fa-link"></i></button>
+                </div>
+
+                <!-- 2 cột: Điểm + Nhận xét -->
+                <div class="feedback-grid">
+                    <!-- Cột ĐIỂM - giờ là các input -->
+                    <div class="score-box">
+                        <h3>Thống kê</h3>
+                        <div class="score-inputs">
+                            <div class="input-group">
+                                <label>Số buổi vắng:</label>
+                                <input type="number" min="0" class="form-control" placeholder="0">
+                            </div>
+                            <div class="input-group">
+                                <label>Quiz 1:</label>
+                                <input type="number" min="0" max="10" step="0.1" class="form-control" placeholder="0.0">
+                            </div>
+                            <div class="input-group">
+                                <label>Quiz 2:</label>
+                                <input type="number" min="0" max="10" step="0.1" class="form-control" placeholder="0.0">
+                            </div>
+                            <div class="input-group">
+                                <label>Quiz 3:</label>
+                                <input type="number" min="0" max="10" step="0.1" class="form-control" placeholder="0.0">
+                            </div>
+                            <div class="input-group">
+                                <label>Midterm:</label>
+                                <input type="number" min="0" max="100" step="0.5" class="form-control" placeholder="0.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cột NHẬN XÉT -->
+                    <div class="comment-box">
+                        <h3>Nhận xét của Tutor</h3>
+                        <div class="comment-editor" id="commentEditor" contenteditable="true">
+                            <!-- Nội dung sẽ được xử lý bằng JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nút hành động -->
+                <div class="action-buttons">
+                    <button class="btn-clear">Xóa</button>
+                    <button class="btn-submit">Gửi nhận xét</button>
+                </div>
+            </div>
         </div>
     </main>
 
