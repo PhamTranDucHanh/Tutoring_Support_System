@@ -14,6 +14,7 @@
 	const inputDesc = document.getElementById('detail-desc');
 	const inputFormat = document.getElementById('detail-format');
 	const inputRoom = document.getElementById('detail-room');
+	const detailExitBtn = document.getElementById('detail-exit-btn');
 
 		// Try to fetch course/session data from /data/courses.json.
 	// If that fails or returns nothing, use a fallback demo dataset.
@@ -242,6 +243,20 @@
 					openModal(title, sessions, id);
 			});
 		});
+
+		// When exiting detail modal via THOÁT button, return to session list (not course list)
+		if (detailExitBtn && detailBootstrapModal) {
+			detailExitBtn.addEventListener('click', () => {
+				// Wait until detail modal fully hidden, then reopen session list modal if we still have a current course
+				const handler = function () {
+					detailModalEl.removeEventListener('hidden.bs.modal', handler);
+					if (currentCourseId && sessionBootstrapModal) {
+						sessionBootstrapModal.show();
+					}
+				};
+				detailModalEl.addEventListener('hidden.bs.modal', handler);
+			});
+		}
 
 				// confirmation modal handlers are declared at module scope
 	}
