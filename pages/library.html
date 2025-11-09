@@ -5,18 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thư Viện - TutorConnect</title>
     
+    <!-- Xác thực người dùng -->
+    <script src="/scripts/auth-guard.js"></script>
+    <!-- Các link CSS chung -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/library.css">
 </head>
 <body>
+    <!-- Header sẽ được tải vào đây -->
     <div id="app-header-placeholder"></div>
+
+    <!-- Nội dung chính của trang Thư viện -->
     <main class="main-content">
-        <div class="container">
-            <h1>Đây là trang Thư Viện</h1>
+        <div class="container py-5">
+            <!-- Khung chính chứa toàn bộ chức năng -->
+            <div class="library-container">
+                <!-- 1. Ô tìm kiếm -->
+                <div class="search-box">
+                    <form id="search-form">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                            <input type="text" class="form-control" id="search-input" placeholder="Tìm kiếm tài liệu...">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2. Khu vực hiển thị kết quả (ban đầu sẽ ẩn) -->
+                <div id="results-box" class="results-box d-none">
+                    <h4 class="mb-3">Kết quả tìm kiếm</h4>
+                    
+                    <!-- Vùng chứa danh sách tài liệu -->
+                    <div class="list-group" id="document-list">
+                        <!-- Kết quả sẽ được JS chèn vào đây -->
+                    </div>
+
+                    <!-- Thông báo khi không có kết quả -->
+                    <div id="no-results-message" class="text-center p-4 d-none">
+                        <p class="mb-0">Không tìm thấy tài liệu nào phù hợp.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+
+    <!-- Footer sẽ được tải vào đây -->
     <div id="app-footer-placeholder"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

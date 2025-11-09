@@ -27,10 +27,13 @@
                 </div>
                 
                 <!-- Trường nhập Mật khẩu -->
-                <div class="mb-4">
+                <div class="mb-3"> <!-- Thay đổi: Giảm khoảng cách dưới từ mb-4 thành mb-3 -->
                     <label for="password" class="form-label">Mật khẩu</label>
                     <input type="password" class="form-control" id="password" required>
                 </div>
+
+                <!-- === THÊM MỚI: Vùng hiển thị thông báo lỗi === -->
+                <div id="error-message" class="mb-3"></div>
                 
                 <!-- Nút Đăng nhập -->
                 <div class="d-grid">

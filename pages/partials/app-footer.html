@@ -1,8 +1,27 @@
 <!-- pages/partials/app-footer.html -->
 <footer class="app-footer">
-    <!-- THAY ĐỔI: Xóa class "text-center" để chữ tự động căn trái -->
+    <!-- Xóa class "text-center" để chữ tự động căn trái -->
     <div class="container">
         <p class="mb-1">Nhóm: CNMP 1001 new</p>
         <p class="mb-0">BTL CNPM HK251</p>
     </div>
 </footer>
+
+<!-- === Modal xác nhận đăng xuất === -->
+<div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutConfirmModalLabel">Xác nhận đăng xuất</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn đăng xuất không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+        <button type="button" class="btn btn-primary" id="confirm-logout-button">Có, đăng xuất</button>
+      </div>
+    </div>
+  </div>
+</div>

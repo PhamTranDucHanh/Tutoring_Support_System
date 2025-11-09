@@ -5,6 +5,7 @@
     border-radius: 15px;
     padding: 2rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-height: 400px; /* Giữ chiều cao tối thiểu để đồng bộ với các trang khác */
 }
 
 .dashboard-card .card-title {
