@@ -14,9 +14,56 @@
 </head>
 <body>
     <div id="app-header-placeholder"></div>
-    <main class="main-content">
+    <main class="main-content py-5">
         <div class="container">
-            <h1>Đây là trang để feedback (dành cho Sinh viên)</h1>
+            <div class="feedback-container">
+                <!-- Tiêu đề môn học -->
+                <div class="feedback-header">
+                    <strong>PHƯƠNG PHÁP (AB1234)_TÊN GIẢNG VIÊN_LỚP</strong>
+                </div>
+                
+                <!-- Thanh công cụ -->
+                <div class="toolbar">
+                    <button data-command="undo"><i class="fa-solid fa-undo"></i></button>
+                    <button data-command="redo"><i class="fa-solid fa-redo"></i></button>
+                    <button data-command="bold"><i class="fa-solid fa-bold"></i></button>
+                    <button data-command="italic"><i class="fa-solid fa-italic"></i></button>
+                    <button data-command="underline"><i class="fa-solid fa-underline"></i></button>
+                    <button data-command="strikeThrough"><i class="fa-solid fa-strikethrough"></i></button>
+                    <button data-command="justifyLeft"><i class="fa-solid fa-align-left"></i></button>
+                    <button data-command="justifyCenter"><i class="fa-solid fa-align-center"></i></button>
+                    <button data-command="justifyRight"><i class="fa-solid fa-align-right"></i></button>
+                    <button data-command="indent"><i class="fa-solid fa-indent"></i></button>
+                    <button data-command="outdent"><i class="fa-solid fa-outdent"></i></button>
+                    <button data-command="insertImage"><i class="fa-solid fa-image"></i></button>
+                    <button data-command="insertUnorderedList"><i class="fa-solid fa-list-ul"></i></button>
+                    <button data-command="insertOrderedList"><i class="fa-solid fa-list-ol"></i></button>
+                    <button data-command="createLink"><i class="fa-solid fa-link"></i></button>
+                </div>
+
+                <!-- Ô nhập phản hồi -->
+                <div class="editor" contenteditable="true" data-placeholder="Sinh viên đưa ra phản hồi tại đây">
+                    Sinh viên đưa ra phản hồi tại đây
+                </div>
+
+                <!-- Đánh giá & Nút -->
+                <div class="actions">
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <span>0 / 5</span>
+                    </div>
+                    <div class="buttons">
+                        <button class="clear">Xóa</button>
+                        <button class="submit">Gửi phản hồi</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
     <div id="app-footer-placeholder"></div>

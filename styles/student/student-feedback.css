@@ -1,0 +1,156 @@
+/* === PHẢN HỒI SINH VIÊN - KHUNG ĐẸP NHƯ TUTOR === */
+.feedback-container {
+  max-width: 850px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;                    /* BO TRÒN 10PX */
+  border: 1.5px solid #ddd;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Tiêu đề môn học */
+.feedback-header {
+  margin-bottom: 24px;
+  font-size: 15px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Thanh công cụ */
+.toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 10px;
+  background: #f8f9fc;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.toolbar button {
+  background: none;
+  border: none;
+  font-size: 25px;
+  color: #555;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.toolbar button:hover {
+  background: #e8f4ff;
+  color: #0066cc;
+}
+
+/* Ô nhập phản hồi */
+.editor {
+  min-height: 300px;
+  padding: 18px;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 15px;
+  line-height: 1.6;
+  outline: none;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+/* Placeholder */
+.editor::before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  pointer-events: none;
+  font-size: 15px;
+}
+
+.editor:not(:empty)::before,
+.editor:focus::before {
+  display: none;
+}
+
+/* Hành động */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Đánh giá sao */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #666;
+}
+
+.stars {
+  display: flex;
+  gap: 6px;
+}
+
+.stars i {
+  font-size: 26px;
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.stars i.filled {
+  color: #f39c12;
+}
+
+.stars i:hover {
+  color: #f1c40f;
+  transform: scale(1.15);
+}
+
+/* Nút */
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+
+button.clear, button.submit {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button.clear {
+  background: #f5f5f5;
+  border: 1.5px solid #ddd;
+  color: #555;
+}
+
+button.clear:hover {
+  background: #eaeaea;
+}
+
+button.submit {
+  background: #3a8abf;
+  color: white;
+  border: none;
+}
+
+button.submit:hover {
+  background: #0056b3;
+}
