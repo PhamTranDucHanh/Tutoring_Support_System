@@ -1,0 +1,78 @@
+[
+  {
+    "id": "c001",
+    "title": "Phương pháp học giải tích 1",
+    "image": "/assets/images/calculus.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "desc": "Môn giải tích 1 bao gồm các kiến thức cơ bản về vi tích phân hàm 1 biến và phương trình vi phân thường, ứng dụng các kiến thức này để giải quyết một số bài toán thực tế. Chương trình soạn có tính đến đối tượng chủ yếu là các kỹ sư tương lai nên chú ý vào các công thức ứng dụng và không đặt nặng các vấn đề lý thuyết toán học. Vì thời gian hướng dẫn có hạn nên Sinh viên cần nhiều thời gian tìm hiểu thêm và chuẩn bị bài.",
+    "tutors": [
+      {
+        "name": "Lê Văn X",
+        "rating": 4.4,
+        "reviews": 555,
+        "registered": 1001
+      },
+      {
+        "name": "Phạm Thị Y",
+        "rating": 4.2,
+        "reviews": 678,
+        "registered": 950
+      }
+    ],
+    "level": "Đại học",
+    "duration": "1 - 6 tháng",
+    "flexibleSchedule": true
+  },
+  {
+    "id": "c002",
+    "title": "Kỹ năng giao tiếp",
+    "image": "/assets/images/ky-nang1.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "desc": "Khóa học giúp sinh viên cải thiện kỹ năng giao tiếp cá nhân và chuyên nghiệp. Bao gồm các bài tập tình huống thực tế, phản hồi từ giảng viên, và các hoạt động nhóm.",
+    "tutors": [
+      {
+        "name": "Lê Văn X",
+        "rating": 4.5,
+        "reviews": 500,
+        "registered": 700
+      },
+      {
+        "name": "Phạm Thị Y",
+        "rating": 4.3,
+        "reviews": 450,
+        "registered": 500
+      }
+    ],
+    "level": "Đại học",
+    "duration": "2 - 4 tháng",
+    "flexibleSchedule": true
+  },
+  {
+    "id": "c003",
+    "title": "Lập trình Python cơ bản",
+    "image": "/assets/images/cnpm.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "desc": "Khóa học này cung cấp kiến thức cơ bản về lập trình Python, bao gồm cú pháp, cấu trúc dữ liệu, và các khái niệm lập trình hướng đối tượng.",
+    "tutors": [
+      {
+        "name": "Lê Văn X",
+        "rating": 4.6,
+        "reviews": 800,
+        "registered": 920
+      },
+      {
+        "name": "Phạm Thị Y",
+        "rating": 4.4,
+        "reviews": 750,
+        "registered": 850
+      }
+    ],
+    "level": "Đại học",
+    "duration": "3 - 5 tháng",
+    "flexibleSchedule": false
+  }
+]
+
