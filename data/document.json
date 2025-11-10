@@ -1,0 +1,92 @@
+[
+  {
+    "id": "TL001",
+    "ten_tai_lieu": "Slide môn kiến trúc máy tính",
+    "mo_ta": "Bộ slide bài giảng môn Cấu trúc rời rạc, bao gồm các chủ đề về tập hợp, quan hệ, hàm, logic mệnh đề, và đồ thị.",
+    "tac_gia": "Ths. Trần Thanh Bình",
+    "nam_phat_hanh": 2021,
+    "loai_tai_lieu": "Bài giảng",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://drive.google.com/drive/u/0/folders/1RJEL5yuDAx-D-ilsZ3b1BTMcSDYA2jPU"
+  },
+  {
+    "id": "TL002",
+    "ten_tai_lieu": "Slide môn hệ thống số",
+    "mo_ta": "Bộ slide bài giảng môn Hệ thống số, bao gồm các chủ đề về biểu diễn số, mạch logic, và thiết kế hệ thống số cơ bản.",
+    "tac_gia": "PGS.TS. Trần Ngọc Thịnh",
+    "nam_phat_hanh": 2024,
+    "loai_tai_lieu": "Bài giảng",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://drive.google.com/drive/folders/1GwVaHE5qGq1SqoJ1PF02yGC7a5pdGqVd"
+  },
+  {
+    "id": "TL003",
+    "ten_tai_lieu": "Slide môn cấu trúc dữ liệu và giải thuật",
+    "mo_ta": "Bộ slide bài giảng môn Cấu trúc dữ liệu và Giải thuật, bao gồm các chủ đề về danh sách, ngăn xếp, hàng đợi, cây, đồ thị, và các thuật toán sắp xếp và tìm kiếm.",
+    "tac_gia": "Ths. Trần Ngọc Bảo Duy",
+    "nam_phat_hanh": 2023,
+    "loai_tai_lieu": "Bài giảng",
+    "thuoc_bo_mon": "Khoa học Máy tính",
+    "file_url": "https://drive.google.com/drive/folders/1V7uneQuALs1vWY9PlQoywllmxVz4lnR_"
+  },
+  {
+    "id": "TL004",
+    "ten_tai_lieu": "Đồ án mẫu Thiết kế luận lý",
+    "mo_ta": "Báo cáo của một đồ án mẫu môn Thiết kế luận lý",
+    "tac_gia": "Nhóm sinh viên K21",
+    "nam_phat_hanh": 2021,
+    "loai_tai_lieu": "Đồ án mẫu",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://drive.google.com/drive/folders/19MBFVuHuNJDZxEfGoQqwDcq32hBi3M0I"
+  },
+  {
+    "id": "TL005",
+    "ten_tai_lieu": "Đề tài đồ án Thiết kế luận lý",
+    "mo_ta": "Đề tài đồ án môn Thiết kế luận lý HK241",
+    "tac_gia": "Bộ môn Kỹ thuật Máy tính",
+    "nam_phat_hanh": 2024,
+    "loai_tai_lieu": "Đề tài đồ án",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://drive.google.com/drive/folders/14iQBZJRRbDn4d509envRfrkptuSgWTwW"
+  },
+    {
+    "id": "TL006",
+    "ten_tai_lieu": "Testcase mẫu cho đồ án Thiết kế luận lý",
+    "mo_ta": "Testase mẫu cho đồ án môn Thiết kế luận lý HK241",
+    "tac_gia": "Bộ môn Kỹ thuật Máy tính",
+    "nam_phat_hanh": 2024,
+    "loai_tai_lieu": "Testcase mẫu",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://drive.google.com/drive/folders/14iQBZJRRbDn4d509envRfrkptuSgWTwW"
+  },
+    {
+    "id": "TL007",
+    "ten_tai_lieu": "Hướng dẫn đồ án Thiết kế luận lý",
+    "mo_ta": "Hướng dẫn đồ án môn Thiết kế luận lý HK251",
+    "tac_gia": "TS. Lê Trọng Nhân",
+    "nam_phat_hanh": 2025,
+    "loai_tai_lieu": "Hướng dẫn đồ án",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://docs.google.com/document/d/12bduGStphxG-Sbs2MS3mzozuIFHOlEYY/edit?usp=sharing&ouid=106079537306308041998&rtpof=true&sd=true"
+  },
+    {
+    "id": "TL008",
+    "ten_tai_lieu": "Đề tài đồ án Thiết kế luận lý",
+    "mo_ta": "Đề tài đồ án môn Thiết kế luận lý HK251",
+    "tac_gia": "TS. Lê Trọng Nhân",
+    "nam_phat_hanh": 2025,
+    "loai_tai_lieu": "Đề tài đồ án",
+    "thuoc_bo_mon": "Kỹ thuật Máy tính",
+    "file_url": "https://docs.google.com/document/d/1IiUrcd4r7Dy7EuIcMSzEPE-nTPYigeO6/edit?usp=sharing&ouid=106079537306308041998&rtpof=true&sd=true"
+  },
+    {
+    "id": "TL009",
+    "ten_tai_lieu": "Đề bài tập lớn môn công nghệ phần mềm HK251",
+    "mo_ta": "Hệ thống hỗ trợ tutor",
+    "tac_gia": "Bộ môn Công nghệ Phần mềm",
+    "nam_phat_hanh": 2025,
+    "loai_tai_lieu": "Đề bài tập lớn",
+    "thuoc_bo_mon": "Công nghệ Phần mềm",
+    "file_url": "https://drive.google.com/file/d/1Oiei2ZtUaPujoFLU9i5Kfji8fb1AwpiV/view?usp=sharing"
+    }
+]

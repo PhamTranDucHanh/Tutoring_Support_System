@@ -24,24 +24,32 @@ document.addEventListener('DOMContentLoaded', function() {
         redirectUrl = '/pages/admin/dashboard.html';
         roleText = 'Coordinator';
     } else {
-        // Nếu không có vai trò, quay về trang chọn vai trò
         window.location.href = '/index.html';
-        return; // Dừng thực thi script
+        return;
     }
 
-    // Cập nhật tiêu đề trang đăng nhập
     loginTitle.textContent = `Đăng Nhập - ${roleText}`;
 
     // --- PHẦN 2: XỬ LÝ FORM ĐĂNG NHẬP ---
     const loginForm = document.getElementById('login-form-element');
+    
+    // Lấy các phần tử input và vùng báo lỗi
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorMessageDiv = document.getElementById('error-message');
 
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        // Lấy giá trị từ các biến đã được khai báo ở trên
+        const username = usernameInput.value;
+        const password = passwordInput.value;
 
-        // === LOGIC MỚI: ĐỌC FILE JSON VÀ XÁC THỰC ===
+        // Xóa trạng thái lỗi cũ trước mỗi lần thử đăng nhập
+        usernameInput.classList.remove('is-invalid');
+        passwordInput.classList.remove('is-invalid');
+        errorMessageDiv.innerHTML = '';
+
         fetch(dataFile)
             .then(response => {
                 if (!response.ok) {
@@ -50,28 +58,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(users => {
-                // Tìm người dùng trong mảng dữ liệu
                 const foundUser = users.find(user => user.username === username && user.password === password);
 
                 if (foundUser) {
-                    // Nếu tìm thấy người dùng
-                    alert('Đăng nhập thành công!');
-                    
-                    // Lưu thông tin người dùng vào localStorage
+                    // Đăng nhập thành công, không cần alert
                     localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
                     localStorage.setItem('userRole', role);
-
-                    // Chuyển hướng đến trang tương ứng
                     window.location.href = redirectUrl;
                 } else {
-                    // Nếu không tìm thấy
-                    alert('Tài khoản hoặc mật khẩu không chính xác!');
+                    // Đăng nhập thất bại: Thay thế alert()
+                    // 1. Thêm class is-invalid để làm đỏ viền input
+                    usernameInput.classList.add('is-invalid');
+                    passwordInput.classList.add('is-invalid');
+
+                    // 2. Hiển thị thông báo lỗi
+                    errorMessageDiv.innerHTML = '<p class="error-text">Tài khoản hoặc mật khẩu không chính xác!</p>';
                 }
             })
             .catch(error => {
-                // Xử lý lỗi (ví dụ: file data không tồn tại)
                 console.error('Đã xảy ra lỗi:', error);
-                alert('Đã có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại.');
+                // Hiển thị lỗi hệ thống trên UI
+                errorMessageDiv.innerHTML = '<p class="error-text">Đã có lỗi xảy ra. Vui lòng thử lại.</p>';
             });
     });
 });
