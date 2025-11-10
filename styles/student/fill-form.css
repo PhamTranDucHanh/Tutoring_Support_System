@@ -1,0 +1,122 @@
+.fill-form-page {
+  background-color: #f9fafc;
+  padding: 40px;
+}
+
+/* Bên trái: mô tả khóa học */
+
+
+
+.course-title {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.course-desc {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.tutor-info {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 15px;
+}
+
+.tutor-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+
+/* Bên phải: form */
+.form-section {
+  background-color: #fff;
+  padding: 60px ;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  gap: 20px;
+  min-height: calc(92vh - 160px);
+}
+
+
+.form-section h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: #007bff;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95px;
+  height: 60px;
+  border-radius: 10px;
+  margin: 70px auto 0 auto; /* ❗ căn giữa nút, top margin 20px */ 
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.course-meta-card {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  gap: 40px;                     /* khoảng cách giữa các mục */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 15px 25px;
+  margin-top: 100px auto 100px auto;;
+  width: 850px;            /* khung vừa đủ nội dung */
+  margin-left: auto;             /* căn giữa theo chiều ngang */
+  margin-right: auto;
+  position: fixed;
+  bottom: 120px;       /* cách mép dưới 20px */
+  left: 33%;
+  transform: translateX(-50%);
+}
+
+.course-meta-item {
+  display: flex;        
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.course-desc {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 15px;
+  max-width: 70%; /* Giới hạn độ rộng tối đa */
+  line-height: 1.6;
+}
+
+.course-desc + .course-desc {
+  margin-top: 25px;
+}
+
+.logo-bk {
+  position: fixed; /* Hoặc fixed nếu muốn logo luôn hiện trên màn hình khi cuộn */
+  top: 50%;           /* điều chỉnh vị trí dọc */
+  left: 50%;          /* điều chỉnh vị trí ngang */
+  transform: translate(-50%, -50%); /* căn giữa chính xác */
+  z-index: -1;        /* đẩy logo ra sau nội dung */
+  pointer-events: none; /* tránh che form, không thể click */
+}
+
+.logo-bk img {
+  width: 400px;       /* thay đổi kích thước logo */
+  opacity: 0.05;      /* mờ nhẹ */
+}
+
+

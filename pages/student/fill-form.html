@@ -18,14 +18,127 @@
     <div id="app-header-placeholder"></div>
 
     <!-- Phần thân trang -->
-    <main class="main-content">
-        <div class="container">
-            <h1>Điền thông tin để đăng ký khóa học</h1>
+  <main class="container-fluid fill-form-page">
+    <div class="row">
+        <!-- <div class="logo-bk">
+            <img src="/assets/images/hcmut_logo.png" alt="Logo Trường">
+        </div> -->
+        
+      <!-- Bên trái: Thông tin khóa học -->
+      <div class="col-lg-8 col-md-7 course-info">
+        <!--
+        <h1 class="mb-4">Đại cương<br></h1>
+        <h1 class="course-title">Phương pháp học giải tích 1</h1>
+
+        <p class="course-desc">
+          Môn giải tích 1 bao gồm các kiến thức cơ bản về vi tích phân hàm 1 biến và phương trình vi phân thường,
+          ứng dụng các kiến thức này để giải quyết một số bài toán thực tế.
+        </p>
+
+        <p class="course-desc">
+            Chương trình soạn có tính đến đối tượng chủ yếu là các kỹ sư tương lai nên chú ý vào các công thức ứng dụng 
+            và không đặt nặng các vấn đề lý thuyết toán học. Vì thời gian hướng dẫn có hạn nên Sinh viên cần nhiều thời gian tìm hiểu thêm và chuẩn bị bài.      
+        </p>
+
+        <div class="tutor-info" id="tutorInfo" style="cursor:pointer;">
+          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Tutor">
+          <span><strong>Tutor:</strong> Phạm Trần Đức Hạnh</span>
         </div>
-    </main>
+        <div class="registered">
+            <p> <b> 1001 </b> đã đăng ký </p>
+        </div>
+
+        <div class="course-meta-card">
+            <div class="course-meta-item rating">
+                <p> <b>4.4<i class="fa fa-star"></i> <br> (1001 đánh giá)</b>  </p>
+            </div>
+            <div class="course-meta-item level">
+                <p> <b>Cấp độ đại học</b></p>
+            </div>
+            <div class="course-meta-item duration">
+                <p><b>1 - 6 tháng để hoàn thành</b></p>
+            </div>
+            <div class="course-meta-item schedule">
+                <p> <b>Lịch trình linh hoạt</b> </p>
+            </div>
+        </div>-->
+        
+    <!-- Các nội dung khóa học sẽ được render bởi JS -->
+        <h1 class="mb-4 course-title"></h1>
+        <div id="course-desc-container"></div>
+        <div class="tutor-info" id="tutorInfo" style="cursor:pointer;">
+          <span id="selected-tutor-name"><strong>Tutor:</strong> </span>
+        </div>
+        <div class="course-desc" id="registered"></div>
+        <div class="course-meta-card" id="course-meta-container"></div>
+        
+        
+
+      </div>
+
+      <!-- Bên phải: Form đăng ký -->
+      <div class="col-lg-4 col-md-5 form-section">
+        <h2>Đăng ký tham gia khoá học</h2>
+        <form id="registerForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email cá nhân</label>
+            <input type="email" class="form-control" id="email" placeholder="Nhập địa chỉ email" required>
+          </div>
+          <div class="mb-3">
+            <label for="course" class="form-label">Khoá</label>
+            <input type="text" class="form-control" id="course" placeholder="Nhập khoá học">
+          </div>
+          <button type="submit" class="btn">Gửi</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
 
     <!-- Placeholder cho Footer chung -->
     <div id="app-footer-placeholder"></div>
+
+   <!-- Tutor Selection Modal -->
+    <div class="modal fade" id="tutorModal" tabindex="-1" aria-labelledby="tutorModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tutorModalLabel">Chọn Tutor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Chọn một tutor hoặc để hệ thống ghép ngẫu nhiên:</p>
+            <ul class="list-group" id="tutorList">
+              <!-- JS sẽ render danh sách tutor từ JSON -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success/Error Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">Thông báo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="registerModalBody">
+            <!-- Nội dung thông báo sẽ được cập nhật bằng JS -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="modalOkBtn" data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
