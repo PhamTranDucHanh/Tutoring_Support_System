@@ -1,0 +1,97 @@
+/* styles/tutor/create-course.css
+   To change colors/spacing edit CSS here only.
+*/
+
+:root {
+  --ts-primary: #3A8ABF; /* chính */
+  --ts-primary-dark: #3278A3;
+  --ts-bg: #ffffff;
+  --ts-card-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  --ts-border:  #000000;
+  --ts-text: #000000;
+  --ts-muted: #666;
+}
+.create-course-card {
+  width: 700px;
+  border-radius: 10px;
+  box-shadow: var(--ts-card-shadow);
+  background: var(--ts-bg);
+  border: none;
+}
+
+.create-course-card .card-body {
+  padding: 28px 36px;
+}
+
+.create-course-title {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  color: var(--ts-text);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--ts-border);
+  margin-bottom: 18px;
+}
+
+.field-label {
+  display: block;
+  font-weight: 700;
+  color: var(--ts-text);
+}
+
+.field-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d6d6d6;
+  box-sizing: border-box;
+  background: #fff;
+  transition: border-color .12s ease;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #3A8ABF;
+  box-shadow: 0 0 6px rgba(58, 138, 191, 0.3);
+}
+
+.form-actions { margin-top: 20px; }
+
+.submit-btn {
+  background: var(--ts-primary);
+  border-color: var(--ts-primary);
+  padding: 12px 48px;
+  font-weight: 700;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.submit-btn:hover {
+  background: var(--ts-primary-dark);
+  border-color: var(--ts-primary-dark);
+}
+
+/* Message (success/error) */
+.form-message {
+  font-weight: 700;
+  color: var(--ts-primary);
+  text-align: center;
+  min-height: 1.2em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .create-course-card { width: 100%; margin: 0 12px; }
+  .create-course-card .card-body { padding: 20px; }
+  .submit-btn { width: 100%; padding: 12px; }
+}
+
+/* Small tweak to match project look for bootstrap controls */
+#createCourseForm .form-control {
+  border-radius: 10px;
+  box-shadow: none;
+}

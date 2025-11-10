@@ -22,31 +22,11 @@
     <main class="main-content">
         <div class="container">
             <h1 class="mb-4">Các khóa học của tôi</h1>
-            
-            <!-- Demo một danh sách khóa học -->
-            <div class="list-group">
-                <!-- 
-                  Đây là một khóa học mẫu.
-                  Khi người dùng bấm vào, họ sẽ được chuyển đến trang manage-sessions.html.
-                -->
-                <a href="/pages/tutor/manage-sessions.html" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Khóa học: Lập trình Web Nâng cao</h5>
-                        <small>3 buổi/tuần</small>
-                    </div>
-                    <p class="mb-1">Khóa học này tập trung vào các kỹ thuật xây dựng giao diện và xử lý logic phía client.</p>
-                    <small>Trạng thái: Đang hoạt động</small>
-                </a>
 
-                <!-- Bạn có thể thêm các khóa học mẫu khác ở đây -->
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Khóa học: Cấu trúc dữ liệu và Giải thuật</h5>
-                        <small>2 buổi/tuần</small>
-                    </div>
-                    <p class="mb-1">Cung cấp kiến thức nền tảng vững chắc cho sinh viên ngành CNTT.</p>
-                    <small>Trạng thái: Đã kết thúc</small>
-                </a>
+            <div id="coursesList" class="list-group mb-4"></div>
+
+            <div class="text-end">
+                <a href="/pages/tutor/create-course.html" class="btn btn-outline-primary">Tạo khóa học mới</a>
             </div>
         </div>
     </main>

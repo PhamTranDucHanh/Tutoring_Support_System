@@ -1,0 +1,66 @@
+/* styles for create-session page */
+:root {
+  --ts-primary: #3A8ABF; /* chính */
+  --ts-primary-dark: #3278A3;
+  --ts-bg: #ffffff;
+  --ts-success: #0BB965;
+  --ts-card-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  --ts-border:  #000000;
+  --ts-text: #000000;
+  --ts-muted: #666;
+}
+
+
+.form-label {
+  display: block;
+  font-weight: 700;
+  color: var(--ts-text);
+}
+
+.form-control  {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #d6d6d6;
+    box-sizing: border-box;
+    background: #fff;
+    transition: border-color .12s ease;
+}
+.submit-btn {
+    width: auto;
+    background: var(--ts-primary);
+    border-color: var(--ts-primary);
+    padding: 12px 48px;
+    font-weight: 700;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  border-color: #3A8ABF;
+  box-shadow: 0 0 6px rgba(58, 138, 191, 0.3);
+}
+.create-session-card{
+    max-width: 900px;
+}
+
+.btn-add-schedule {
+    background: var(--ts-success);
+    border-color: var(--ts-success);
+    padding: 8px 24px;
+    font-weight: 500;
+    border-radius: 10px;
+    color: #ffffff;
+}
+.btn-secondary {
+    background: #6c757d;
+    border-color: #6c757d;
+    padding: 8px 24px;
+    font-weight: 500;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+#selectedSchedules .badge { margin-right: 6px; }
+

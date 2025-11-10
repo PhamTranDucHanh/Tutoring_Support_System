@@ -18,12 +18,95 @@
     <!-- Placeholder cho Header chung -->
     <div id="app-header-placeholder"></div>
 
-    <!-- Phần thân trang -->
-    <main class="main-content">
-        <div class="container">
-            <h1>Đây là trang Quản Lý Buổi Học</h1>
-        </div>
-    </main>
+        <!-- Phần thân trang -->
+        <main class="main-content">
+                <div class="container">
+                        <div class="d-flex align-items-center justify-content-between my-4">
+                                <h2 class="h4 mb-0">Quản lý buổi học</h2>
+                                <div>
+                                        <select id="manageCourseSelect" class="form-select">
+                                                <option value="">-- Chọn khóa học --</option>
+                                        </select>
+                                </div>
+                        </div>
+
+                        <div class="mb-3">
+                                <input id="searchSession" class="form-control" placeholder="Tìm theo chủ đề...">
+                        </div>
+
+                        <div class="table-responsive">
+                                <table class="table table-bordered" id="sessionsTable">
+                                        <thead class="table-light">
+                        <tr>
+                            <th>Chủ đề</th>
+                            <th>Ngày học</th>
+                            <th>Thời gian</th>
+                            <th>Hình thức</th>
+                            <th>Địa điểm</th>
+                            <th>Hành động</th>
+                        </tr>
+                                        </thead>
+                                        <tbody>
+                                                <!-- rows injected by JS -->
+                                        </tbody>
+                                </table>
+                        </div>
+
+                        <div id="manageMessage" class="mt-3" role="status" aria-live="polite"></div>
+                </div>
+
+                <!-- Modal cập nhật buổi học -->
+                <div class="modal fade" id="editSessionModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Cập nhật buổi học</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="editSessionId">
+                                <div class="mb-3">
+                                    <label class="form-label">Chủ đề</label>
+                                    <input id="editTopic" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Mô tả</label>
+                                    <textarea id="editDescription" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label">Ngày</label>
+                                        <input id="editDate" type="date" class="form-control">
+                                    </div>
+                                    <div class="col-3">
+                                        <label class="form-label">Bắt đầu</label>
+                                        <input id="editStart" type="time" class="form-control">
+                                    </div>
+                                    <div class="col-3">
+                                        <label class="form-label">Kết thúc</label>
+                                        <input id="editEnd" type="time" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Hình thức</label>
+                                    <select id="editMode" class="form-select">
+                                        <option>Online</option>
+                                        <option>Offline</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phòng/Link</label>
+                                    <input id="editLocation" class="form-control">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" id="saveEditBtn" class="btn btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
 
     <!-- Placeholder cho Footer chung -->
     <div id="app-footer-placeholder"></div>
