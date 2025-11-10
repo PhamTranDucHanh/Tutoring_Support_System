@@ -14,5 +14,13 @@
     "fullName": "Phạm Thị Y",
     "email": "coy@example.com",
     "bio": "Chuyên gia tâm lý học, kỹ năng giao tiếp."
+  },
+  {
+    "id": "TUT003",
+    "username": "thay_z",
+    "password": "333",
+    "fullName": "Trần Văn Z",
+    "email": "thayz@example.com",
+    "bio": "Giáo viên dạy lập trình Python với 3 năm kinh nghiệm."
   }
 ]

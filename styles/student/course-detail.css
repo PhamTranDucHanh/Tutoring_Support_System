@@ -1,0 +1,33 @@
+/* Course Detail page styles */
+
+.main-content {
+	padding-top: 24px;
+	padding-bottom: 40px;
+}
+
+.card {
+	box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+	border: 1px solid #e9ecef;
+	border-radius: 12px;
+}
+
+.card-body .form-label {
+	color: #374151;
+}
+
+.card-body .form-control[readonly] {
+	background-color: #f9fafb;
+	color: #111827;
+}
+
+.card-footer {
+	background-color: #fff;
+	border-top: 1px solid #e9ecef;
+}
+
+@media (max-width: 576px) {
+	.card {
+		border-radius: 10px;
+	}
+}
+

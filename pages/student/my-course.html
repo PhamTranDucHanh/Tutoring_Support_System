@@ -28,31 +28,31 @@
             <!-- Demo danh sách khóa học có sẵn để đăng ký -->
             <div class="list-group">
                 <!-- Course items. Each has a data-course-id used to load sessions. -->
-                <a href="#" data-course-id="course-1" class="list-group-item list-group-item-action course-item">
+                <a href="#" data-course-id="a_000" class="list-group-item list-group-item-action course-item">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Khóa học: Nhập môn C++</h5>
-                        <small>Gia sư: Nguyễn Văn A</small>
+                        <h5 class="mb-1">Phương pháp học Giải tích 1</h5>
+                        <small>Gia sư: Lê Văn X</small>
                     </div>
-                    <p class="mb-1">Khóa học dành cho người mới bắt đầu, không yêu cầu kinh nghiệm lập trình.</p>
-                    <small>Lịch học dự kiến: 3 buổi/tuần</small>
+                    <p class="mb-1">Môn Giải tích 1 bao gồm các kiến thức cơ bản về vi tích phân hàm 1 biến và phương trình vi phân.</p>
+                    <small>Lịch học dự kiến: 1 buổi/tuần · Thời gian: 2 tháng</small>
                 </a>
 
-                <a href="#" data-course-id="course-2" class="list-group-item list-group-item-action course-item">
+                <a href="#" data-course-id="b_000" class="list-group-item list-group-item-action course-item">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Khóa học: STM32 cho người mới</h5>
-                        <small>Gia sư: Trần Thị B</small>
+                        <h5 class="mb-1">Kỹ năng thuyết trình</h5>
+                        <small>Gia sư: Phạm Thị Y</small>
                     </div>
-                    <p class="mb-1">Xây dựng giao diện web hiện đại và tương tác cao với thư viện ReactJS.</p>
-                    <small>Lịch học dự kiến: 2 buổi/tuần</small>
+                    <p class="mb-1">Khóa học rèn luyện kỹ năng thuyết trình, trình bày slide, xử lý câu hỏi, và giao tiếp trước đám đông.</p>
+                    <small>Lịch học dự kiến: 1 buổi/tuần · Thời gian: 1 tháng</small>
                 </a>
 
-                <a href="#" data-course-id="course-3" class="list-group-item list-group-item-action course-item">
+                <a href="#" data-course-id="c_000" class="list-group-item list-group-item-action course-item">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Arduino nâng cao</h5>
-                        <small>Gia sư: Lê Văn C</small>
+                        <h5 class="mb-1">Lập trình Python cơ bản</h5>
+                        <small>Gia sư: Trần Văn Z</small>
                     </div>
-                    <p class="mb-1">Học cách làm sạch, xử lý và phân tích các bộ dữ liệu lớn bằng thư viện Pandas của Python.</p>
-                    <small>Lịch học dự kiến: 2 buổi/tuần</small>
+                    <p class="mb-1">Giới thiệu lập trình Python cho người mới bắt đầu: cú pháp, cấu trúc điều khiển, hàm, xử lý chuỗi.</p>
+                    <small>Lịch học dự kiến: 2 buổi/tuần · Thời gian: 1 tháng</small>
                 </a>
             </div>
 
@@ -103,44 +103,7 @@
                             </div>
                         </div>
 
-                        <!-- Session detail modal (Bootstrap) -->
-                        <div class="modal fade" id="sessionDetailModal" tabindex="-1" aria-labelledby="sessionDetailLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content session-detail-card">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Chi tiết buổi học</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-row mb-3">
-                                            <label class="form-label fw-bold">Giảng viên:</label>
-                                            <input type="text" id="detail-lecturer" class="form-control" readonly />
-                                        </div>
-                                        <div class="form-row mb-3">
-                                            <label class="form-label fw-bold">Chủ đề:</label>
-                                            <input type="text" id="detail-topic" class="form-control" readonly />
-                                        </div>
-                                        <div class="form-row mb-3">
-                                            <label class="form-label fw-bold">Mô tả chi tiết:</label>
-                                            <textarea id="detail-desc" rows="4" class="form-control" readonly></textarea>
-                                        </div>
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <label class="form-label fw-bold">Hình thức:</label>
-                                                <input type="text" id="detail-format" class="form-control" readonly />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="form-label fw-bold">Phòng học / Link học trực tuyến</label>
-                                                <input type="text" id="detail-room" class="form-control" readonly />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" id="detail-exit-btn" class="btn btn-primary" data-bs-dismiss="modal">THOÁT</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- (Session detail moved to separate page: course-detail.html) -->
         </div>
     </main>
 
