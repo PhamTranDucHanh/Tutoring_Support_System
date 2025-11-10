@@ -18,12 +18,94 @@
     <!-- Placeholder cho Header chung -->
     <div id="app-header-placeholder"></div>
 
-    <!-- Phần thân trang -->
-    <main class="main-content">
-        <div class="container">
-            <h1>Đây là trang Tạo Buổi Học, phải chỉ thị là tạo trong khóa học nào nữa nha</h1>
-        </div>
-    </main>
+        <!-- Phần thân trang -->
+        <main class="main-content">
+                <div class="container">
+                            <div class="card my-4 mx-auto create-session-card">
+                                <div class="card-body">
+                                        <h2 class="h4 text-center">TẠO BUỔI HỌC</h2>
+
+                                        <form id="createSessionForm" novalidate>
+                                                <div class="mb-3">
+                                                        <label for="courseSelect" class="form-label">Chọn Khóa học</label>
+                                                        <select id="courseSelect" class="form-select" required>
+                                                                <option value="">-- Chọn khóa học --</option>
+                                                        </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                        <label for="sessionTopic" class="form-label">Chủ đề</label>
+                                                        <input id="sessionTopic" class="form-control" type="text" placeholder="Ví dụ: Buổi 1: Ôn tập Đạo hàm cơ bản" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                        <label for="sessionDescription" class="form-label">Mô tả chi tiết</label>
+                                                        <textarea id="sessionDescription" class="form-control" rows="4" placeholder="Mô tả nội dung buổi học"></textarea>
+                                                </div>
+
+                                                <div class="row g-3 mb-3">
+                                                        <div class="col-md-5">
+                                                                <label for="sessionMode" class="form-label">Hình thức</label>
+                                                                <select id="sessionMode" class="form-select">
+                                                                        <option value="Online">Online</option>
+                                                                        <option value="Offline">Offline</option>
+                                                                </select>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                                <label for="sessionLocation" class="form-label">Phòng học / Link</label>
+                                                                <input id="sessionLocation" class="form-control" type="text" placeholder="Nhập mã phòng hoặc đường dẫn lớp học trực tuyến">
+                                                        </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                        <label class="form-label">Lịch học</label>
+                                                        <div class="d-flex gap-2 align-items-center">
+                                                                <button type="button" id="btnChooseSchedule" class="btn btn-outline-primary">Chọn lịch</button>
+                                                                <div id="selectedSchedules" class="flex-grow-1"></div>
+                                                        </div>
+                                                </div>
+
+                                                <div class="text-center mt-3">
+                                                        <button type="submit" class="btn btn-primary submit-btn">XÁC NHẬN</button>
+                                                </div>
+                                                <div id="sessionMessage" class="mt-3 text-center" role="status" aria-live="polite"></div>
+                                        </form>
+                                </div>
+                        </div>
+                </div>
+
+                <!-- Modal chọn lịch -->
+                <div class="modal fade" id="chooseScheduleModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Chọn lịch</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-2">
+                                    <label for="scheduleDate" class="form-label">Ngày</label>
+                                    <input id="scheduleDate" type="date" class="form-control">
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label for="startTime" class="form-label">Thời gian bắt đầu</label>
+                                        <input id="startTime" type="time" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="endTime" class="form-label">Thời gian kết thúc</label>
+                                        <input id="endTime" type="time" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" id="addScheduleBtn" class="btn btn-primary btn-add-schedule">THÊM LỊCH</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
 
     <!-- Placeholder cho Footer chung -->
     <div id="app-footer-placeholder"></div>
