@@ -1,0 +1,108 @@
+/* Styles for session list modal on my-course page */
+.session-modal {
+	position: fixed;
+	inset: 0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	z-index: 1050;
+}
+.session-modal[aria-hidden="false"] {
+	display: flex;
+}
+.session-modal-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0,0,0,0.35);
+}
+.session-modal-card {
+	position: relative;
+	width: min(900px, 92%);
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+	padding: 18px;
+	z-index: 2;
+}
+.session-modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.session-modal-header h3 {
+	margin: 0;
+	font-size: 1.4rem;
+}
+.btn-close {
+	border: none;
+	background: transparent;
+	font-size: 1.6rem;
+	line-height: 1;
+	cursor: pointer;
+}
+.session-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.session-table thead th {
+	background: #f0f0f0;
+	padding: 12px 10px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+.session-table tbody td {
+	padding: 14px 10px;
+	border-bottom: 1px solid #eee;
+	vertical-align: middle;
+}
+.session-table tbody tr:last-child td {
+	border-bottom: none;
+}
+.session-actions {
+	display: flex;
+	gap: 8px;
+}
+.session-actions .btn {
+	padding: 6px 10px;
+	font-size: 0.9rem;
+}
+.session-modal-footer {
+	margin-top: 14px;
+	text-align: right;
+}
+
+/* small responsive tweak */
+@media (max-width:600px){
+	.session-modal-card{padding:12px}
+	.session-table thead{display:none}
+	.session-table tbody td{display:block;padding:10px}
+	.session-table tbody tr{margin-bottom:12px;border-bottom:1px solid #eee}
+}
+
+/* improve list-group cursor for clickable items */
+.list-group .course-item{cursor:pointer}
+
+/* Session detail modal styles */
+.session-detail-modal{
+	position: fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1060;
+}
+.session-detail-modal[aria-hidden="false"]{display:flex}
+.session-detail-card{
+	background:#fff; width:min(720px,94%); border-radius:12px; padding:18px; box-shadow:0 12px 30px rgba(0,0,0,0.15); z-index:2;
+}
+.session-detail-card .form-row{margin-bottom:12px; display:flex; flex-direction:column}
+.session-detail-card .form-row label{font-weight:700; margin-bottom:6px}
+.session-detail-card input[type="text"], .session-detail-card textarea{border:1px solid #d0d0d0; border-radius:8px; padding:8px}
+.session-detail-card .two-cols{display:flex; gap:12px}
+.session-detail-card .two-cols > div{flex:1}
+.session-detail-card .session-modal-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+.session-detail-card .session-modal-header h3{margin:0}
+.session-detail-card .btn-close{font-size:1.6rem; background:transparent; border:none}
+
+@media (max-width:640px){
+	.session-detail-card{padding:12px}
+	.session-detail-card .two-cols{flex-direction:column}
+}
+
+

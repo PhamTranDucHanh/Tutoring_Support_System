@@ -22,7 +22,36 @@
     <!-- Phần thân trang -->
     <main class="main-content">
         <div class="container">
-            <h1>Trang để xem chi tiết các buổi học trong khóa học, xin nghỉ buổi nào đó</h1>
+            <h1 class="mb-4">Chi tiết buổi học</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Giảng viên</label>
+                        <input type="text" id="cd-lecturer" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Chủ đề</label>
+                        <input type="text" id="cd-topic" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Mô tả chi tiết</label>
+                        <textarea id="cd-desc" class="form-control" rows="4" readonly></textarea>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Hình thức</label>
+                            <input type="text" id="cd-format" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Phòng học / Link</label>
+                            <input type="text" id="cd-room" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button class="btn btn-primary" id="cd-exit">THOÁT</button>
+                </div>
+            </div>
         </div>
     </main>
 
