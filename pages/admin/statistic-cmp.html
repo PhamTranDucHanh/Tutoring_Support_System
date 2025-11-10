@@ -18,17 +18,279 @@
     <!-- Placeholder cho Header (ID đã được chuẩn hóa) -->
     <div id="app-header-placeholder"></div>
 
-    <main class="main-content">
-        <div class="container">
-            <h1 class="mt-4">Trang So sánh Thống kê</h1>
-            <p>Nội dung trang so sánh thống kê sẽ được hiển thị ở đây.</p>
+    <main
+      class="main-content right flex-grow-1 overflow-auto bg-light px-4 py-3"
+    >
+      <div class="d-flex flex-nowrap w-100">
+        <!-- Sidebar -->
+        <div class="left">
+          <aside class="sidebar">
+            <div class="sidebar-card p-3">
+              <h2 class="section-title text-center mb-4">
+                THỐNG KÊ VÀ BÁO CÁO
+              </h2>
+            </div>
+            <div class="menu-seperator mb-4">
+              <hr />
+            </div>
+            <div class="menu-group mb-4">
+              <div class="menu-item d-flex align-items-center p-3 rounded">
+                <i class="fa-solid fa-chevron-down me-3"></i>
+                <span>BÁO CÁO</span>
+              </div>
+              <div class="menu-item d-flex align-items-center p-3 rounded">
+                <i class="fa-solid fa-chevron-down me-3"></i>
+                <span>THỐNG KÊ</span>
+              </div>
+              <div
+                class="menu-item d-flex align-items-center p-3 rounded position-relative"
+              >
+                <i class="fa-solid fa-chevron-down me-3"></i>
+                <span>SO SÁNH</span>
+              </div>
+            </div>
+            <div class="menu-seperator mb-4">
+              <hr />
+            </div>
+            <div
+              class="menu-item d-flex align-items-center p-3 rounded position-relative"
+            >
+              <i class="fa-solid fa-right-from-bracket me-3"></i>
+              <span>ĐĂNG XUẤT</span>
+            </div>
+          </aside>
         </div>
+
+        <div class="right">
+          <div class="compare-tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-tab="search">
+                <i class="fas fa-search me-2"></i>Tìm kiếm
+              </button>
+              <button class="tab-btn" data-tab="upload">
+                <i class="fas fa-upload me-2"></i>Upload File
+              </button>
+              <button class="tab-btn" data-tab="result">
+                <i class="fas fa-chart-bar me-2"></i>Kết quả so sánh
+              </button>
+            </div>
+
+            <!-- Tab Tìm kiếm -->
+            <div class="tab-content active" id="search-tab">
+              <h5 class="mb-4">
+                <i class="fas fa-search text-primary me-2"></i>Tìm kiếm dữ liệu
+                so sánh
+              </h5>
+
+              <div class="search-section">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold"
+                      >Đối tượng thứ nhất</label
+                    >
+                    <select class="form-select" id="object1">
+                      <option value="">Chọn đối tượng...</option>
+                      <option value="TK_SinhVien2101">TK_SinhVien2101</option>
+                      <option value="TK_SinhVien2102">TK_SinhVien2102</option>
+                      <option value="TK_SinhVien2200">TK_SinhVien2200</option>
+                      <option value="TK_SinhVien2201">TK_SinhVien2201</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold"
+                      >Đối tượng thứ hai</label
+                    >
+                    <select class="form-select" id="object2">
+                      <option value="">Chọn đối tượng...</option>
+                      <option value="TK_SinhVien2101">TK_SinhVien2101</option>
+                      <option value="TK_SinhVien2102">TK_SinhVien2102</option>
+                      <option value="TK_SinhVien2200">TK_SinhVien2200</option>
+                      <option value="TK_SinhVien2201">TK_SinhVien2201</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold"
+                      >Khoảng thời gian</label
+                    >
+                    <select class="form-select">
+                      <option>Học kỳ 1 - 2024</option>
+                      <option>Học kỳ 2 - 2024</option>
+                      <option>Cả năm 2024</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold">Loại so sánh</label>
+                    <select class="form-select">
+                      <option>Theo năm học</option>
+                      <option>Theo học lực</option>
+                      <option>Theo môn học</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-end">
+                <button class="btn btn-secondary me-2">
+                  <i class="fas fa-redo me-2"></i>Đặt lại
+                </button>
+                <button class="compare-btn" onclick="performCompare()">
+                  <i class="fas fa-search me-2"></i>Tìm kiếm & So sánh
+                </button>
+              </div>
+            </div>
+
+            <!-- Tab Upload -->
+            <div class="tab-content" id="upload-tab">
+              <h5 class="mb-4">
+                <i class="fas fa-upload text-primary me-2"></i>Upload file dữ
+                liệu
+              </h5>
+
+              <div class="upload-area" id="uploadArea">
+                <i
+                  class="fas fa-cloud-upload-alt fa-3x mb-3"
+                  style="color: #3a89bf"
+                ></i>
+                <h6 style="color: #495057">
+                  Kéo thả file vào đây hoặc click để chọn
+                </h6>
+                <p class="text-muted mb-3">Hỗ trợ: Excel (.xlsx, .xls), CSV</p>
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept=".xlsx,.xls,.csv"
+                  multiple
+                  hidden
+                />
+                <button
+                  class="btn btn-outline-primary"
+                  onclick="document.getElementById('fileInput').click()"
+                  style="border-color: #3a89bf; color: #3a89bf"
+                >
+                  <i class="fas fa-folder-open me-2"></i>Chọn file
+                </button>
+              </div>
+
+              <div class="file-list" id="fileList"></div>
+
+              <div class="text-end mt-4">
+                <button
+                  class="compare-btn"
+                  onclick="uploadFiles()"
+                  id="uploadBtn"
+                  disabled
+                >
+                  <i class="fas fa-check me-2"></i>Xác nhận & So sánh
+                </button>
+              </div>
+            </div>
+
+            <!-- Tab Kết quả -->
+            <div class="tab-content" id="result-tab">
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+                <h5 class="mb-0">
+                  <i
+                    class="fas fa-chart-bar text-info me-2"
+                    style="color: #3a89bf"
+                  ></i
+                  >Kết quả so sánh
+                </h5>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-outline-secondary dropdown-toggle btn-sm"
+                    data-bs-toggle="dropdown"
+                  >
+                    <i class="fas fa-ellipsis-v"></i> Thao tác
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="fas fa-download me-2"></i>Xuất Excel</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="fas fa-file-pdf me-2"></i>Xuất PDF</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="fas fa-print me-2"></i>In báo cáo</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="result-table">
+                <table class="table table-hover mb-0">
+                  <thead class="table-header-custom">
+                    <tr>
+                      <th class="ps-4">Đối tượng</th>
+                      <th id="header1">TK_SinhVien2101</th>
+                      <th id="header2">TK_SinhVien2200</th>
+                    </tr>
+                  </thead>
+                  <tbody id="resultTableBody">
+                    <tr>
+                      <td class="ps-4">Năm 1</td>
+                      <td>125</td>
+                      <td>130</td>
+                    </tr>
+                    <tr>
+                      <td class="ps-4">Năm 2</td>
+                      <td>118</td>
+                      <td>125</td>
+                    </tr>
+                    <tr>
+                      <td class="ps-4">Năm 3</td>
+                      <td>110</td>
+                      <td>115</td>
+                    </tr>
+                    <tr>
+                      <td class="ps-4">Năm 4</td>
+                      <td>105</td>
+                      <td>108</td>
+                    </tr>
+                    <tr class="table-light">
+                      <td class="ps-4 fw-bold">Số lượng HSG</td>
+                      <td>
+                        <span class="badge badge-custom bg-success">45</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-custom bg-success">52</span>
+                      </td>
+                    </tr>
+                    <tr class="table-light">
+                      <td class="ps-4 fw-bold">Số lượng Rớt môn</td>
+                      <td>
+                        <span class="badge badge-custom bg-danger">12</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-custom bg-danger">8</span>
+                      </td>
+                    </tr>
+                    <tr class="table-light" style="background-color: white">
+                      <td class="ps-4 fw-bold">Kết luận</td>
+                      <td colspan="2" class="text-center fw-bold">
+                        TK_SinhVien2200 có hiệu suất tốt hơn
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <div id="app-footer-placeholder"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/scripts/main.js"></script>
-    <script src="/scripts/admin/statistic-cmp.js"></script>
-</body>
+    <script src="../../scripts/main.js"></script>
+    <script src="../../scripts/admin/statistic-cmp.js"></script>
+  </body>
 </html>
