@@ -1,5 +1,3 @@
-// JS for My Course page: open a session list modal when a course is clicked
-// Simplified my-course.js: keep existing behavior without creating new module files
 (function () {
   const sessionModalEl = document.getElementById('sessionModal');
   const sessionModalTitle = document.getElementById('sessionModalTitle');
