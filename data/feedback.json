@@ -1,0 +1,42 @@
+[
+  {
+    "id": "FBK001",
+    "sessionId": "a_003",
+    "studentId": "2310896",
+    "rating": 5,
+    "comment": "Buổi học rất dễ hiểu, thầy giải thích rõ ràng, ví dụ thực tế. Rất hài lòng!",
+    "createdAt": "2025-12-15T12:30:00.000Z"
+  },
+  {
+    "id": "FBK002",
+    "sessionId": "c_002",
+    "studentId": "2210896",
+    "rating": 4,
+    "comment": "Nội dung tốt, nhưng tốc độ hơi nhanh. Mong có thêm bài tập về nhà.",
+    "createdAt": "2025-12-04T21:45:00.000Z"
+  },
+  {
+    "id": "FBK003",
+    "sessionId": "a_006",
+    "studentId": "2310896",
+    "rating": 3,
+    "comment": "Bài tập hơi khó, cần thêm hướng dẫn chi tiết hơn.",
+    "createdAt": "2026-01-05T11:20:00.000Z"
+  },
+  {
+    "id": "FBK004",
+    "sessionId": "b_002",
+    "studentId": "2210896",
+    "rating": 5,
+    "comment": "Cô hướng dẫn thiết kế slide rất chi tiết, ví dụ thực tế từ sinh viên. Rất hữu ích!",
+    "createdAt": "2025-12-08T20:15:00.000Z"
+  },
+  {
+    "id": "FBK005",
+    "sessionId": "a_005",
+    "studentId": "2310896",
+    "rating": 5,
+    "comment": "Mẹo giải nhanh cực kỳ hiệu quả, tiết kiệm rất nhiều thời gian làm bài thi.",
+    "createdAt": "2025-12-29T11:05:00.000Z"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "EVAL001",
+    "studentId": "2310896",
+    "tutorId": "TUT001",
+    "sessionId": "a_003",
+    "content": "Em rất tích cực, đặt câu hỏi hay, nắm vững đạo hàm cơ bản. Cần luyện thêm bài tập ứng dụng.",
+    "createdAt": "2025-12-15T11:15:00.000Z"
+  },
+  {
+    "id": "EVAL002",
+    "studentId": "2210896",
+    "tutorId": "TUT003",
+    "sessionId": "c_002",
+    "content": "Sinh viên chăm chỉ, làm bài tập đầy đủ. Cần cải thiện kỹ năng.",
+    "createdAt": "2025-12-04T21:30:00.000Z"
+  },
+  {
+    "id": "EVAL003",
+    "studentId": "2310896",
+    "tutorId": "TUT001",
+    "sessionId": null,
+    "content": "Tổng kết: Tiến bộ rõ rệt về tư duy toán học. Điểm mạnh: giải nhanh. Điểm yếu: cần cẩn thận khi tính tích phân xác định. Khuyến khích tiếp tục khóa học nâng cao.",
+    "createdAt": "2026-01-10T10:00:00.000Z"
+  },
+  {
+    "id": "EVAL004",
+    "studentId": "2210896",
+    "tutorId": "TUT002",
+    "sessionId": "b_002",
+    "content": "Mỹ Hạnh có khả năng thiết kế slide sáng tạo, sử dụng màu sắc hợp lý. Cần tự tin hơn khi trình bày ý tưởng.",
+    "createdAt": "2025-12-08T20:05:00.000Z"
+  },
+  {
+    "id": "EVAL005",
+    "studentId": "2310896",
+    "tutorId": "TUT003",
+    "sessionId": "c_004",
+    "content": "Em đã vắng 3 buổi, không được thi cuối kỳ.",
+    "createdAt": "2025-12-11T21:05:00.000Z"
+  }
+]
