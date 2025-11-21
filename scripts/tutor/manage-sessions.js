@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const params = new URLSearchParams(window.location.search);
   const urlCourseId = params.get('courseId');
+  const addBtn = document.getElementById('addSessionBtn');
 
   function populateCourseSelect() {
     const courses = getCourses();
@@ -24,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const o = document.createElement('option'); o.value = c.id; o.textContent = c.title || c.id; courseSelect.appendChild(o);
     });
     if (urlCourseId) { courseSelect.value = urlCourseId; courseSelect.disabled = true; }
+    updateAddSessionLink();
+  }
+
+  function updateAddSessionLink(){
+    if (!addBtn) return;
+    const cid = courseSelect.value;
+    if (cid) addBtn.setAttribute('href', '/pages/tutor/create-session.html?courseId=' + encodeURIComponent(cid));
+    else addBtn.setAttribute('href', '/pages/tutor/create-session.html');
   }
 
   function formatSessionRow(session) {
@@ -141,7 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // events
-  courseSelect.addEventListener('change', () => renderSessions());
+  courseSelect.addEventListener('change', () => { renderSessions(); updateAddSessionLink(); });
+  if (addBtn) {
+    addBtn.addEventListener('click', (e) => {
+      const cid = courseSelect.value;
+      if (!cid) {
+        e.preventDefault();
+        alert('Vui lòng chọn một khóa học trước khi tạo buổi mới.');
+      }
+    });
+  }
   searchInput.addEventListener('input', () => renderSessions());
 
   // init

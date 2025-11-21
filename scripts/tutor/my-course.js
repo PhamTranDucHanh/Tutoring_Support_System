@@ -14,19 +14,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   list.innerHTML = '';
-  courses.forEach(c => {
+  // simple pastel palette for badges
+  const palette = ['#f7c6c7','#a8c8ff','#ffb5a7','#c7f0d6','#f3e9a9'];
+  courses.forEach((c, idx) => {
     const a = document.createElement('a');
-    a.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-start';
+    a.className = 'list-group-item list-group-item-action d-flex align-items-center course-item';
     a.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(c.id);
-    const left = document.createElement('div');
-    left.className = 'ms-2 me-auto';
+
+    // color badge
+    const badge = document.createElement('div');
+    badge.className = 'course-badge';
+    const color = palette[idx % palette.length];
+    badge.style.backgroundColor = color;
+
+    const content = document.createElement('div');
+    content.className = 'ms-3 me-auto';
     const h = document.createElement('div'); h.className = 'fw-bold'; h.textContent = c.title || ('Khóa ' + c.id);
     const p = document.createElement('div'); p.className = 'small text-muted'; p.textContent = c.description ? (c.description.slice(0,120) + (c.description.length>120? '...':'')) : '';
-    left.appendChild(h); left.appendChild(p);
+    content.appendChild(h); content.appendChild(p);
+
     const right = document.createElement('div'); right.className = 'text-end small';
-    const sessionsCount = (c.sessions && c.sessions.length) ? c.sessions.length : 0;
-    right.innerHTML = `<div>${sessionsCount} buổi/Tuần</div> <div>${c.durationMonths||''} tháng</div>`;
-    a.appendChild(left); a.appendChild(right);
+    const sessionsPerWeek = c.sessionsPerWeek || 0;
+    right.innerHTML = `
+      <div>${sessionsPerWeek} buổi/tuần</div>
+      <div>${c.durationMonths||''} tháng</div>`;
+
+    a.appendChild(badge);
+    a.appendChild(content);
+    a.appendChild(right);
     list.appendChild(a);
   });
 });
