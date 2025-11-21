@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh sách sinh viên - TutorConnect</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <style>
+    .student-card {
+      transition: all 0.2s;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .student-card:hover {
+      background: #f8f9fc;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="app-header-placeholder"></div>
+
+  <main class="main-content py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Chọn sinh viên để nhận xét</h2>
+      <div id="studentList" class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Danh sách sẽ được load bằng JS -->
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer-placeholder"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const response = await fetch('/data/stu.json');
+      const students = await response.json();
+
+      const container = document.getElementById('studentList');
+      
+      students.forEach(stu => {
+        const card = document.createElement('div');
+        card.className = 'student-card';
+        card.innerHTML = `
+          <h5 class="mb-1"><strong>${stu.fullName}</strong></h5>
+          <p class="text-muted mb-1">MSSV: ${stu.id} | Lớp: L01</p>
+          <small class="text-secondary">${stu.email}</small>
+        `;
+        card.onclick = () => {
+          // Chuyển sang trang nhận xét và truyền thông tin sinh viên qua query string
+          const params = new URLSearchParams({
+            id: stu.id,
+            name: stu.fullName,
+            class: 'L01'
+          });
+          window.location.href = `/pages/tutor/tutor-feedback.html?${params.toString()}`;
+        };
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

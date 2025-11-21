@@ -1,112 +1,131 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const editor = document.getElementById('commentEditor');
   const placeholderText = "Nhập nhận xét tại đây...";
   editor.setAttribute('data-placeholder', placeholderText);
 
-  // Khởi tạo editor rỗng
-  if (!editor.innerHTML.trim() || editor.innerHTML === placeholderText) {
-    editor.innerHTML = '';
+  // === ĐỌC THAM SỐ TỪ URL ===
+  const urlParams = new URLSearchParams(window.location.search);
+  const studentId = urlParams.get('id');
+  const studentName = urlParams.get('name');
+  const studentClass = urlParams.get('class') || 'L01';
+
+  if (studentId && studentName) {
+    document.getElementById('studentDisplay').textContent = 
+      `${studentName} _ ${studentId} _ ${studentClass}`;
+  } else {
+    document.getElementById('studentDisplay').textContent = 'Không tìm thấy sinh viên';
   }
 
-  // === XỬ LÝ PLACEHOLDER CHO CONTENTEDITABLE ===
+  // === LOAD NHẬN XÉT CŨ NẾU CÓ (từ evaluation.json) ===
+  let existingEvaluations = [];
+  try {
+    const res = await fetch('/data/evaluation.json');
+    if (res.ok) existingEvaluations = await res.json();
+  } catch(e) { console.log("Chưa có evaluation.json hoặc lỗi"); }
+
+  const existing = existingEvaluations.find(e => e.studentId === studentId);
+  if (existing) {
+    // Điền lại dữ liệu cũ
+    document.querySelector('input[placeholder="0"]').value = existing.absences || '';
+    document.querySelectorAll('.score-inputs input')[1].value = existing.quiz1 || '';
+    document.querySelectorAll('.score-inputs input')[2].value = existing.quiz2 || '';
+    document.querySelectorAll('.score-inputs input')[3].value = existing.quiz3 || '';
+    document.querySelectorAll('.score-inputs input')[4].value = existing.midterm || '';
+    editor.innerHTML = existing.comment || '';
+    if (editor.innerHTML) hidePlaceholder();
+  }
+
+  // === CÁC HÀM PLACEHOLDER (giữ nguyên như cũ) ===
   const showPlaceholder = () => {
     if (!editor.innerHTML.trim()) {
       editor.innerHTML = `<span style="color:#aaa;">${placeholderText}</span>`;
     }
   };
-
   const hidePlaceholder = () => {
-    if (editor.innerHTML === `<span style="color:#aaa;">${placeholderText}</span>` ||
-        editor.innerHTML.includes(placeholderText)) {
+    if (editor.innerHTML.includes(placeholderText)) {
       editor.innerHTML = '';
     }
   };
-
-  editor.addEventListener('focus', () => {
-    hidePlaceholder();
-  });
-
-  editor.addEventListener('blur', () => {
-    showPlaceholder();
-  });
-
-  // Giữ placeholder khi load
+  editor.addEventListener('focus', hidePlaceholder);
+  editor.addEventListener('blur', showPlaceholder);
   showPlaceholder();
 
-  // === THANH CÔNG CỤ ĐỊNH DẠNG ===
+  // === TOOLBAR (giữ nguyên) ===
   document.querySelectorAll('.toolbar button[data-command]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const command = btn.getAttribute('data-command');
-
       if (command === 'createLink') {
         const url = prompt('Nhập link:', 'https://');
-        if (url) {
-          document.execCommand('createLink', false, url);
-        }
-      } 
-      else if (command === 'insertImage') {
+        url && document.execCommand('createLink', false, url);
+      } else if (command === 'insertImage') {
         const url = prompt('Nhập URL hình ảnh:', 'https://');
-        if (url) {
-          document.execCommand('insertImage', false, url);
-        }
-      }
-      else {
+        url && document.execCommand('insertImage', false, url);
+      } else {
         document.execCommand(command, false, null);
       }
-
       editor.focus();
     });
   });
 
   // === NÚT XÓA ===
   document.querySelector('.btn-clear').addEventListener('click', () => {
-    if (confirm('Bạn có chắc muốn xóa toàn bộ nhận xét?')) {
+    if (confirm('Xóa toàn bộ nhận xét và điểm của sinh viên này?')) {
       editor.innerHTML = '';
       showPlaceholder();
-      
-      // Xóa điểm
       document.querySelectorAll('.score-inputs input').forEach(inp => inp.value = '');
-      
-      alert('Đã xóa toàn bộ!');
     }
   });
 
-  // === NÚT GỬI ===
-  document.querySelector('.btn-submit').addEventListener('click', () => {
+  // === NÚT GỬI → LƯU VÀO evaluation.json ===
+  document.querySelector('.btn-submit').addEventListener('click', async () => {
     hidePlaceholder();
-    const comment = editor.innerText.trim();
-    
-    if (!comment || comment === placeholderText) {
-      alert('Vui lòng nhập nhận xét trước khi gửi!');
+    const comment = editor.innerHTML.trim();
+    const plainText = editor.innerText.trim();
+
+    if (!plainText) {
+      alert('Vui lòng nhập nhận xét!');
       return;
     }
 
-    // Lấy điểm
-    const absences = document.querySelector('input[placeholder="0"]').value || '0';
-    const quiz1 = document.querySelectorAll('.score-inputs input')[1].value || '0';
-    const quiz2 = document.querySelectorAll('.score-inputs input')[2].value || '0';
-    const quiz3 = document.querySelectorAll('.score-inputs input')[3].value || '0';
-    const midterm = document.querySelectorAll('.score-inputs input')[4].value || '0';
-
-    const feedbackData = {
-      student: document.querySelector('.student-info strong').textContent.trim(),
-      absences: absences,
-      quiz1: quiz1,
-      quiz2: quiz2,
-      quiz3: quiz3,
-      midterm: midterm,
-      comment: editor.innerHTML  // giữ định dạng HTML
+    const data = {
+      studentId: studentId,
+      studentName: studentName,
+      class: studentClass,
+      absences: document.querySelector('input[placeholder="0"]').value || '0',
+      quiz1: document.querySelectorAll('.score-inputs input')[1].value || '0',
+      quiz2: document.querySelectorAll('.score-inputs input')[2].value || '0',
+      quiz3: document.querySelectorAll('.score-inputs input')[3].value || '0',
+      midterm: document.querySelectorAll('.score-inputs input')[4].value || '0',
+      comment: comment,                    // giữ HTML
+      commentPlainText: plainText,         // để tìm kiếm dễ hơn
+      submittedAt: new Date().toISOString(),
+      tutor: "Tên tutor hiện tại"          // bạn có thể lấy từ auth sau
     };
 
-    console.log('Đang gửi:', feedbackData);
-    alert(`Đã gửi thành công!\n\nĐiểm: ${absences} vắng, Q1:${quiz1}, Q2:${quiz2}, Q3:${quiz3}, Mid:${midterm}\nNhận xét: ${comment.substring(0, 50)}...`);
+    // Lưu vào file evaluation.json (chỉ hoạt động tốt với live server hỗ trợ fetch + write, hoặc dùng github + github pages + storage khác)
+    // Ở đây mình dùng cách "giả lập lưu" bằng download file (rất tiện cho đồ án)
 
-    // Gửi thật:
-    // fetch('/api/tutor/feedback', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(feedbackData)
-    // })
+    let evaluations = [];
+    try {
+      const res = await fetch('/data/evaluation.json');
+      if (res.ok) evaluations = await res.json();
+    } catch(e) {}
+
+    // Xóa nhận xét cũ của sinh viên này (nếu có)
+    evaluations = evaluations.filter(e => e.studentId !== studentId);
+    // Thêm mới
+    evaluations.push(data);
+
+    // Tạo file JSON để download (phù hợp đồ án, không cần backend)
+    const blob = new Blob([JSON.stringify(evaluations, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'evaluation.json';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    alert(`Đã lưu nhận xét cho ${studentName} thành công!\nFileight vừa tải file evaluation.json mới nhất.`);
   });
 });

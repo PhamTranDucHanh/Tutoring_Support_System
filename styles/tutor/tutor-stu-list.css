@@ -1,0 +1,52 @@
+/* .student-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.student-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  border-color: #3a8abf;
+}
+
+.student-card .avatar {
+  width: 80px;
+  height: 80px;
+  background: #3a8abf;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+.student-card h5 {
+  margin: 10px 0 8px;
+  color: #222;
+  font-weight: 600;
+}
+
+.student-card .mssv {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  margin: 8px 0;
+}
+
+.student-card small {
+  color: #666;
+  font-size: 13px;
+} */
