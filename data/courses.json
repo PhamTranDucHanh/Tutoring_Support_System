@@ -2,15 +2,37 @@
 	{
 		"id": "a_000",
 		"title": "Phương pháp học Giải tích 1",
+		"image": "/assets/images/calculus.png",
+		"info1": "Mô tả khoá học",
+    	"info2": "Đánh giá",
 		"description": "Môn Giải tích 1 bao gồm các kiến thức cơ bản về vi tích phân hàm 1 biến và phương trình vi phân, cùng các ứng dụng. Chương trình tập trung vào phương pháp giải toán thực tế và các công thức ứng dụng.",
 		"createdAt": "2025-11-10T09:00:00.000Z",
 		"durationMonths": 2,
 		"sessionsPerWeek": 1,
-		"maxStudents": 100,
-		"tutorId": "TUT001",
+		"maxStudents": 100, 
+		"level": "Đại học",
+    	"duration": "1 - 6 tháng",
+    	"flexibleSchedule": true,
+		"tutors": [
+			{
+				"id": "TUT001",
+				"name": "Lê Văn X",
+				"rating": 4.4,
+       		 	"reviews": 555,
+        		"registered": 1001
+			},
+			{
+				"id": "TUT002",
+				"name": "Phạm Thị Y",
+				"rating": 4.7,
+	   		 	"reviews": 320,
+				"registered": 800
+			}
+		],
 		"sessions": [
 				{
 				"id": "a_001",
+				"tutorId": "TUT002",
 				"topic": "Ôn tập đạo hàm cơ bản",
 				"description": "Ôn tập lại các dạng đạo hàm đã học ở lớp 12",
 				"date": "2025-12-01",
@@ -21,6 +43,7 @@
 				},
 				{
 				"id": "a_002",
+				"tutorId": "TUT002",
 				"topic": "Ứng dụng tích phân",
 				"description": "Bài tập ứng dụng tích phân trong kỹ thuật.",
 				"date": "2025-12-08",
@@ -31,6 +54,7 @@
 				},
 				{
 				"id": "a_003",
+				"tutorId": "TUT002",
 				"topic": "Bài tập đạo hàm nâng cao",
 				"description": "Luyện tập các bài toán đạo hàm kết hợp ứng dụng.",
 				"date": "2025-12-15",
@@ -41,6 +65,7 @@
 				},
 				{
 				"id": "a_004",
+				"tutorId": "TUT002",
 				"topic": "Ứng dụng tích phân (phần 2)",
 				"description": "Tiếp tục bài tập ứng dụng tích phân trong kỹ thuật.",
 				"date": "2025-12-22",
@@ -51,6 +76,7 @@
 				},
 				{
 				"id": "a_005",
+				"tutorId": "TUT002",
 				"topic": "Các kỹ thuật giải nhanh",
 				"description": "Phương pháp rút gọn và mẹo giải nhanh cho bài toán tích phân và đạo hàm.",
 				"date": "2025-12-29",
@@ -61,6 +87,7 @@
 				},
 				{
 				"id": "a_006",
+				"tutorId": "TUT001",
 				"topic": "Bài tập tổng hợp",
 				"description": "Tổng hợp và ôn luyện cho bài kiểm tra giữa kỳ.",
 				"date": "2026-01-05",
@@ -71,6 +98,7 @@
 				},
 				{
 				"id": "a_007",
+				"tutorId": "TUT001",
 				"topic": "Bài tập ôn cuối kỳ (phần 1)",
 				"description": "Ôn lại các kiến thức chính và làm bài tập mẫu.",
 				"date": "2026-01-12",
@@ -81,6 +109,7 @@
 				},
 				{
 				"id": "a_008",
+				"tutorId": "TUT001",
 				"topic": "Bài tập ôn cuối kỳ (phần 2)",
 				"description": "Hoàn tất ôn tập và hướng dẫn tự học tiếp theo.",
 				"date": "2026-01-19",
@@ -94,15 +123,37 @@
 	{
 		"id": "b_000",
 		"title": "Kỹ năng thuyết trình",
+		"image": "/assets/images/ky-nang1.png",
+    	"info1": "Mô tả khoá học",
+    	"info2": "Đánh giá",
 		"description": "Khóa học rèn luyện kỹ năng thuyết trình, trình bày slide, xử lý câu hỏi, và giao tiếp trước đám đông. Phù hợp cho sinh viên chuẩn bị báo cáo, thuyết trình trên lớp hoặc phỏng vấn.",
 		"createdAt": "2025-10-25T10:15:00.000Z",
 		"durationMonths": 1,
 		"sessionsPerWeek": 1,
 		"maxStudents": 25,
-		"tutorId": "TUT002",
+		"level": "Đại học",
+    	"duration": "2 - 4 tháng",
+    	"flexibleSchedule": true,
+		"tutors": [
+			{
+				"id": "TUT001",
+				"name": "Lê Văn X",
+				"rating": 4.4,
+       		 	"reviews": 555,
+        		"registered": 1001
+			},
+			{
+				"id": "TUT002",
+				"name": "Phạm Thị Y",
+				"rating": 4.7,
+	   		 	"reviews": 320,
+				"registered": 800
+			}
+		],
 			"sessions": [
 				{
 					"id": "b_001",
+					"tutorId": "TUT001",
 					"topic": "Kỹ thuật mở đầu và cấu trúc bài nói",
 					"description": "Cách mở đầu thu hút và cấu trúc bài trình bày.",
 					"date": "2025-12-01",
@@ -113,6 +164,7 @@
 					},
 					{
 					"id": "b_002",
+					"tutorId": "TUT001",
 					"topic": "Thuyết trình kỹ thuật: Slide & Demo",
 					"description": "Thiết kế slide hiệu quả và demo thực hành.",
 					"date": "2025-12-08",
@@ -123,6 +175,7 @@
 					},
 					{
 					"id": "b_003",
+					"tutorId": "TUT002",
 					"topic": "Thực hành trả lời câu hỏi",
 					"description": "Kỹ thuật xử lý câu hỏi hóc búa và phản xạ khi thuyết trình.",
 					"date": "2025-12-15",
@@ -133,6 +186,7 @@
 					},
 					{
 					"id": "b_004",
+					"tutorId": "TUT001",
 					"topic": "Tổng hợp & phản biện",
 					"description": "Bài tập thực hành trước nhóm và phản biện.",
 					"date": "2025-12-22",
@@ -146,15 +200,30 @@
 	{
 		"id": "c_000",
 		"title": "Lập trình Python cơ bản",
+		"image": "/assets/images/cnpm.png",
+    	"info1": "Mô tả khoá học",
+    	"info2": "Đánh giá",
 		"description": "Giới thiệu lập trình Python cho người mới bắt đầu: cú pháp, cấu trúc điều khiển, hàm, xử lý chuỗi, làm việc với file và giới thiệu thư viện phổ biến.",
 		"createdAt": "2025-09-05T09:00:00.000Z",
 		"durationMonths": 1,
 		"sessionsPerWeek": 2,
 		"maxStudents": 60,
-		"tutorId": "TUT003",
+		"level": "Đại học",
+    	"duration": "3 - 5 tháng",
+    	"flexibleSchedule": true,
+		"tutors": [
+			{
+				"id": "TUT003",
+				"name": "Nguyễn Văn Z",
+				"rating": 4.6,
+       		 	"reviews": 420,
+        		"registered": 900
+			}
+		],
 			"sessions": [
 				{
 					"id": "c_001",
+					"tutorId": "TUT003",
 					"topic": "Giới thiệu Python & môi trường phát triển",
 					"description": "Cài đặt Python, IDE, và viết chương trình đầu tiên.",
 					"date": "2025-12-01",
@@ -165,6 +234,7 @@
 					},
 					{
 					"id": "c_002",
+					"tutorId": "TUT003",
 					"topic": "Cấu trúc dữ liệu cơ bản và hàm",
 					"description": "Danh sách, tuple, dict, set và cách viết hàm.",
 					"date": "2025-12-04",
@@ -175,6 +245,7 @@
 					},
 					{
 					"id": "c_003",
+					"tutorId": "TUT003",
 					"topic": "Thực hành: Hàm và module",
 					"description": "Viết hàm, sử dụng module, tổ chức mã.",
 					"date": "2025-12-08",
@@ -185,6 +256,7 @@
 					},
 					{
 					"id": "c_004",
+					"tutorId": "TUT003",
 					"topic": "Thực hành: Xử lý chuỗi và file",
 					"description": "Bài tập xử lý chuỗi, đọc/ghi file.",
 					"date": "2025-12-11",

@@ -67,7 +67,7 @@
 
 .course-meta-card {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   gap: 40px;                     /* khoảng cách giữa các mục */
   background-color: #ffffff;
