@@ -1,29 +1,3 @@
-/*document.addEventListener("DOMContentLoaded", function() {
-    const tutorInfo = document.getElementById("tutorInfo");
-    const tutorModal = new bootstrap.Modal(document.getElementById('tutorModal'));
-    const tutorList = document.getElementById("tutorList");
-
-    // Mở modal khi click vào tutor
-    tutorInfo.addEventListener("click", function() {
-        tutorModal.show();
-    });
-
-    // Chọn tutor từ danh sách
-    tutorList.addEventListener("click", function(e) {
-        if (e.target && e.target.classList.contains("tutor-item")) {
-            let selectedTutor = e.target.textContent;
-            if (selectedTutor === "Ngẫu nhiên") {
-                // Random tutor
-                const tutors = ["Phạm Trần Đức Hạnh", "Nguyễn Văn A", "Lê Thị B"];
-                selectedTutor = tutors[Math.floor(Math.random() * tutors.length)];
-            }
-            // Cập nhật tutor trên giao diện
-            tutorInfo.querySelector("span").innerHTML = `<strong>Tutor:</strong> ${selectedTutor}`;
-            tutorModal.hide();
-        }
-    });
-});
-*/
 // scripts/student/fill-form.js
 document.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -48,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Cập nhật title và desc
             if (courseTitleEl) courseTitleEl.textContent = course.title;
-            if (courseDescEl) courseDescEl.innerHTML = course.desc;
+            if (courseDescEl) courseDescEl.innerHTML = course.description;
 
             // Cập nhật tổng đăng ký
            
@@ -62,8 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (registeredEl) {
                 registeredEl.innerHTML = `<p><b>${selectedTutor.registered || 0}</b> sinh viên đã đăng ký khóa học này.</p>`;
             }
-
-            
 
             // Hiển thị tutor mặc định (đầu tiên)
             
@@ -83,10 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <p><b>Cấp độ ${course.level}</b></p>
                     </div>
                     <div class="course-meta-item">
-                        <p><b>${course.duration}</b></p>
-                    </div>
-                    <div class="course-meta-item">
-                        <p><b>Lịch trình linh hoạt</b></p>
+                        <p><b>Lịch trình linh hoạt <br> ${course.duration}</b></p>
                     </div>
                 `;
             }
@@ -154,8 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Đã xảy ra lỗi khi tải dữ liệu khóa học.");
         });
 });
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
     const registerForm = document.getElementById("registerForm");
