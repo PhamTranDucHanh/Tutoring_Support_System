@@ -1,9 +1,33 @@
-[
-  {
+{
+  "user": {
     "id": "COO001",
     "username": "admin",
     "password": "999",
     "fullName": "Quản Trị Viên",
     "email": "admin@tutorconnect.com"
-  }
-]
+  },
+
+  "reports": [
+    {
+      "code": "ST25674",
+      "name": "TK_SinhVien_2025",
+      "updated": "2025-11-20T10:30:22",
+      "type": "Thống kê",
+      "description": "Thống kê sinh viên nhập học 2025"
+    },
+    {
+      "code": "FN11234",
+      "name": "BC_DoanhThu_Q4",
+      "updated": "2025-11-21T08:15:00",
+      "type": "Tài chính",
+      "description": "Báo cáo doanh thu quý 4/2025"
+    },
+    {
+      "code": "CP99887",
+      "name": "SoSanh_2024_2025",
+      "updated": "2025-11-19T14:20:30",
+      "type": "Thống kê",
+      "description": "So sánh chỉ tiêu 2024 và 2025"
+    }
+  ]
+}
