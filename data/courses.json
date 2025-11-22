@@ -30,8 +30,9 @@
 			}
 		],
 		"sessions": [
-				{
+			{
 				"id": "a_001",
+				"tutorId": "TUT002",
 				"tutorId": "TUT002",
 				"topic": "Ôn tập đạo hàm cơ bản",
 				"description": "Ôn tập lại các dạng đạo hàm đã học ở lớp 12",
@@ -40,9 +41,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_002",
+				"tutorId": "TUT002",
 				"tutorId": "TUT002",
 				"topic": "Ứng dụng tích phân",
 				"description": "Bài tập ứng dụng tích phân trong kỹ thuật.",
@@ -51,9 +53,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_003",
+				"tutorId": "TUT002",
 				"tutorId": "TUT002",
 				"topic": "Bài tập đạo hàm nâng cao",
 				"description": "Luyện tập các bài toán đạo hàm kết hợp ứng dụng.",
@@ -62,9 +65,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_004",
+				"tutorId": "TUT002",
 				"tutorId": "TUT002",
 				"topic": "Ứng dụng tích phân (phần 2)",
 				"description": "Tiếp tục bài tập ứng dụng tích phân trong kỹ thuật.",
@@ -73,9 +77,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_005",
+				"tutorId": "TUT002",
 				"tutorId": "TUT002",
 				"topic": "Các kỹ thuật giải nhanh",
 				"description": "Phương pháp rút gọn và mẹo giải nhanh cho bài toán tích phân và đạo hàm.",
@@ -84,9 +89,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_006",
+				"tutorId": "TUT001",
 				"tutorId": "TUT001",
 				"topic": "Bài tập tổng hợp",
 				"description": "Tổng hợp và ôn luyện cho bài kiểm tra giữa kỳ.",
@@ -95,9 +101,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_007",
+				"tutorId": "TUT001",
 				"tutorId": "TUT001",
 				"topic": "Bài tập ôn cuối kỳ (phần 1)",
 				"description": "Ôn lại các kiến thức chính và làm bài tập mẫu.",
@@ -106,9 +113,10 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				},
-				{
+			},
+			{
 				"id": "a_008",
+				"tutorId": "TUT001",
 				"tutorId": "TUT001",
 				"topic": "Bài tập ôn cuối kỳ (phần 2)",
 				"description": "Hoàn tất ôn tập và hướng dẫn tự học tiếp theo.",
@@ -117,7 +125,7 @@
 				"end": "11:00",
 				"mode": "Offline",
 				"location": "H6-610"
-				}
+			}
 		]
 	},
 	{
@@ -268,4 +276,3 @@
 				]
 	}
 ]
-
