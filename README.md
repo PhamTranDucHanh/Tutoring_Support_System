@@ -1,40 +1,48 @@
-## DEADLINE 8H TỐI THỨ 2 NGÀY 10/11/2025
+## DEADLINE 8H TỐI THỨ 5 NGÀY 27/11/2025
 
 ## Our workflow
-Clone repo về -> tạo và rẽ sang nhánh mới (git checkout -b tennhanhmoi) -> hiện thực trong các file liên quan đến chức năng của mình -> commit và push nhanh cá nhân lên
-repo này (git push -u origin tennhanhmoi) -> cả nhóm cùng họp để merge code theo từng giai đoạn, chạy demo và giải thích cho nhau các chức năng ở mức cơ bản.
+- (đứng ở nhánh main: git checkout main) git pull origin main 
+- git checkout -b nhánh_mới_hoàn_toàn (hoặc git checkout nhánh_cá_nhân_cũ nếu muốn dùng lại tên nhánh cũ)
+- "làm, thay đổi và sửa code thoải mái" xong thì commit
+- git push origin nhánh_mới_hoàn_toàn (hoặc git checkout nhánh_cá_nhân_cũ nếu muốn dùng lại tên nhánh cũ)
+- "đợi đến ngày deadline rồi cả nhóm cùng merge lại"
 
-## Cụ thể về hoàn thiện cấu trúc data (hard coded)
-- Huấn, Gia Huy, Lê Huy thống nhất và hoàn thiện cách tổ chức dữ liệu của các khóa và các buổi học trong /data. (chắc vẫn nên là các file json)
-- Dũng, Hưng thống nhất và hoàn thiện cách tổ chức dữ liệu cho kết quả học của sinh viên (do tutor đánh giá) + feedback dành cho tutor (do svien đánh giá) + số liệu về số học sinh, sinh viên, số khóa học... trong /data.
-- Hạnh hoàn thiện cách tổ chức dữ liệu của các file tài liệu tham khảo (library) trong /data.
+## Tải và host server bằng Node.js
+- Tải Node.js về máy. https://nodejs.org/en/download   --> install đầy đủ như bình thường
+- Trong terminal chạy lệnh: npm install  --> để tải các đầy đủ các dependency đã được quy định trong package.json
+- Sau đó chạy lệnh: node server.js   --> để host server node.js ~ chạy file server.js trong môi trường của Node.js
+- Mở trình duyệt và truy cập : http://localhost:5500
+
+## Luôn sử dụng 2 API đọc/ghi file JSON trong data/
+1. Đọc file JSON (GET)
+   - Endpoint: /api/data/:filename
+   - Phương thức: GET
+   - Ý nghĩa: Đọc nội dung file JSON bất kỳ trong thư mục data.
+   - Kết quả trả về: Nội dung file JSON (kiểu mảng hoặc object).
+2. Ghi/ghi đè file JSON (POST)
+    - Endpoint: /api/data/:filename
+    - Phương thức: POST
+    - Ý nghĩa: Ghi đè nội dung file JSON bất kỳ trong thư mục data/ bằng dữ liệu gửi lên.
+    - Lưu ý: Khi ghi, toàn bộ nội dung file sẽ bị thay thế bằng dữ liệu mới. Đảm bảo dữ liệu gửi lên là JSON hợp lệ.
 
 ## Cụ thể về việc implementation
 - Huấn:
-  - Hoàn thiện các trang html: /pages/tutor/~~my-course.html, create-course.html, create-session.html, manange-sessions.html.
-  - Hoàn thiện file CSS tương ứng cho các trang html trên: /styles/tutor/~~my-course.css, create-course.css, create-session.css, manange-sessions.css  (cho nó ra các trang tương đối giống với trên figma)
-  - Hoàn thiện các file Javascript tương ứng để xử lý logic và dữ liệu:  /scripts/tutor/~~my-course.js, create-course.js, create-session.js, manange-sessions.js .
+  - Hoàn thiện nốt logic phần manage-session
+  - Hoàn thiện thêm UI trang ứng với chức năng của mình và fix bug.
 - Gia Huy:
-   - Hoàn thiện các trang html: /pages/student/~~ register-course.html, fill-form.html
-   - Hoàn thiện file CSS tương ứng cho các trang html trên: /styles/student/~~register-course.css, fill-form.css  (cho nó ra các trang tương đối giống với trên figma)
-   - Hoàn thiện các file Javascript tương ứng để xử lý logic và dữ liệu:  /scripts/student/~~register-course.js, fill-form.js .
+  - Sửa trang fill-form lại (lược bớt)
+  - Hoàn thiện thêm UI trang ứng với chức năng của mình và fix bug.
 - Lê Huy:
-   - Hoàn thiện các trang html: /pages/student/~~my-course.html, course-detail.html.
-   - Hoàn thiện file CSS tương ứng cho các trang html trên: /styles/student/~~my-course.css, course-detail.css  (cho nó ra các trang tương đối giống với trên figma)
-   - Hoàn thiện các file Javascript tương ứng để xử lý logic và dữ liệu:  /scripts/student/~~my-course.js, course-detail.js .
+  - Bỏ chức năng hủy buổi học.
+  - Hoàn thiện thêm UI trang ứng với chức năng của mình và fix bug.
 - Dũng:
-   - Hoàn thiện các trang html: /pages/student/student-feedback.html, /pages/tutor/tutor-feedback.html.
-   - Hoàn thiện file CSS tương ứng cho các trang html trên:  /styles/student/student-feedback.css, /styles/tutor/tutor-feedback.css. (cho nó ra các trang tương đối giống với trên figma)
-   - Hoàn thiện các file Javascript tương ứng để xử lý logic và dữ liệu: /scripts/student/student-feedback.js, /scripts/tutor/tutor-feedback.js.
+  - Hoàn thiện thêm UI trang ứng với chức năng của mình và fix bug.
 - Hưng:
-   - Hoàn thiện các trang html: /pages/admin/~~dashboard.html, report-analyze.html, statistic-main.html, statistic-cmp.html.
-   - Hoàn thiện file CSS tương ứng cho các trang html trên: /styles/admin/~~dashboard.css, report-analyze.css, statistic-main.css, statistic-cmp.css. (cho nó ra các trang tương đối giống với trên figma)
-   - Hoàn thiện các file Javascript tương ứng để xử lý logic và dữ liệu: /styles/admin/~~dashboard.js, report-analyze.js, statistic-main.js, statistic-cmp.js.
+   - Sử dụng dữ liệu từ 3 file : stu-feedback.json, tutor-evaluate.json, sys-stat, để hiển thị dữ liệu một cách trực quan và đẹp nhất.
+   - Hoàn thiện thêm UI trang ứng với chức năng của mình và fix bug.
 - Hạnh:
-   - Hoàn thiện trang: /pages/~library.html, login.html,  /pages/student/calendar.html,  /pages/student/calendar.html.
-   - Hoàn thiện file CSS tương ứng cho các trang html trên: /styles/~library.css, login.css, /styles/student/calendar.css,  /pages/student/calendar.css. (cho nó ra các trang tương đối giống với trên figma)
-   - Hoàn thiện các file Javascript tương ứng để xử lý logic và dữ liệu: /scripts/~library.css, login.js, /scripts/student/calendar.js,  /scripts/student/calendar.js.
-   - Hoàn thiện hơn footer và header, toggle bar các kiểu.
+   - Thêm lịch cho tutor và student, hoàn thiện chức năng thông báo, nhắc hẹn
+   - Hoàn thiện thêm UI trang ứng với chức năng của mình và fix bug.
 
 
 ---
@@ -43,3 +51,5 @@ repo này (git push -u origin tennhanhmoi) -> cả nhóm cùng họp để merge
 ## Note 2: Giữ định dạng footer và header được injected vào các trang.
 ---
 ## Note 3: Tài khoản mật khẩu của các nick được ghi sẵn ở trong /data/, có tài khoản và mật khẩu để đăng nhập vô.
+---
+## Note 4: Luôn tương tác với các file json qua 2 API đọc và ghi ở trên, chỉ nên thêm các thuộc tính vào đối tượng json, KHÔNG: xóa, đổi tên, làm trùng lặp logic với các thuộc tính hiện có của các đối tượng trong các file json trong thư mục data/.
