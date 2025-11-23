@@ -5,7 +5,21 @@
     "password": "111",
     "fullName": "Lê Văn X",
     "email": "thayx@example.com",
-    "bio": "Có 5 năm kinh nghiệm dạy kèm cho sinh viên năm nhất."
+    "bio": "Có 5 năm kinh nghiệm dạy kèm cho sinh viên năm nhất.",
+    "courses": [
+      {
+        "courseId": "a_000",
+        "openedAt": "2025-11-10T09:00:00.000Z"
+      },
+      {
+        "courseId": "b_000",
+        "openedAt": "2025-10-25T10:15:00.000Z"
+      },
+      {
+        "courseId": "d_000",
+        "openedAt": "2025-11-22T16:57:02.303Z"
+      }
+    ]
   },
   {
     "id": "TUT002",
@@ -13,7 +27,10 @@
     "password": "222",
     "fullName": "Phạm Thị Y",
     "email": "coy@example.com",
-    "bio": "Chuyên gia tâm lý học, kỹ năng giao tiếp."
+    "bio": "Chuyên gia tâm lý học, kỹ năng giao tiếp.",
+    "courses": [
+      
+    ]
   },
   {
     "id": "TUT003",
@@ -21,6 +38,12 @@
     "password": "333",
     "fullName": "Trần Văn Z",
     "email": "thayz@example.com",
-    "bio": "Giáo viên dạy lập trình Python với 3 năm kinh nghiệm."
+    "bio": "Giáo viên dạy lập trình Python với 3 năm kinh nghiệm.",
+    "courses": [
+      {
+        "courseId": "c_000",
+        "openedAt": "2025-09-05T09:00:00.000Z"
+      }
+    ]
   }
 ]

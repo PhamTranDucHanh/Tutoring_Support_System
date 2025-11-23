@@ -1,0 +1,20 @@
+[
+  {
+    "id": "stat_1763914172319",
+    "updatedAt": "2025-11-23T16:09:32.319Z",
+    "updatedBy": "COO001",
+    "numCourses": 5,
+    "numStudents": 2,
+    "numSessions": 18,
+    "numTutors": 3
+  },
+  {
+    "id": "stat_1763915278240",
+    "updatedAt": "2025-11-23T16:27:58.240Z",
+    "updatedBy": "COO001",
+    "numCourses": 6,
+    "numStudents": 2,
+    "numSessions": 19,
+    "numTutors": 3
+  }
+]

@@ -8,10 +8,24 @@
 body {
   background-color: #f0f2f5;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   color: #333;
+}
+
+/* --- Center Content --- */
+.center-content {
+  max-width: 1300px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(58,137,191,0.08);
+  padding: 32px 24px;
+}
+@media (max-width: 992px) {
+  .center-content {
+    max-width: 100%;
+    padding: 16px 8px;
+  }
 }
 
 /* --- Buttons --- */
@@ -21,7 +35,7 @@ body {
   color: #ffffff;
   border-radius: 10px;
   font-weight: 600;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  transition: background-color 0.2s, border-color 0.2s;
   padding: 0rem 1rem;
   font-size: 0.95rem;
 }
@@ -38,7 +52,7 @@ body {
   color: white;
   font-weight: 600;
   border-radius: 10px;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   box-shadow: 0 4px 8px rgba(58, 137, 191, 0.3);
 }
 
@@ -48,166 +62,27 @@ body {
   box-shadow: 0 6px 12px rgba(58, 137, 191, 0.4);
 }
 
-.btn-action {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  margin: 0 4px;
-  border: none;
-  transition: all 0.2s;
-}
-
-.btn-edit {
-  background: #d4edda;
-  color: #28a745;
-}
-
-.btn-delete {
-  background: #f8d7da;
-  color: #dc3545;
-}
-
-.btn-edit:hover {
-  background: #c3e6cb;
-}
-
-.btn-delete:hover {
-  background: #f5c6cb;
-}
-
-/* --- Sidebar --- */
-.left {
-  width: 300px;
-  height: calc(100vh - 120px);
-  flex-shrink: 0;
-  margin-top: 0 !important;
-}
-
-.sidebar {
-  position: flex;
-  width: 300px;
-  background: #fff;
-  padding: 1.5rem;
-  border-left: 1px solid #e0e0e0;
-  border-radius: 10px;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
-}
-
-.sidebar-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  padding: 1rem;
-}
-
-.section-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #1e1e1e;
-  text-align: center;
-}
-
-.menu-seperator hr {
-  border: none;
-  border-top: 1px solid #757575;
-  margin: 0 10px;
-}
-
-.menu-group {
-  margin-top: 2rem;
-}
-
-.menu-item {
-  margin: 0.75rem 0;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #1e1e1e;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.menu-item:hover,
-.menu-item.active {
-  background: #e0f7fa;
-  color: #1976d2;
-}
-
-.menu-item.logout {
-  color: #d32f2f !important;
-}
-
-.group-info-footer {
-  margin-top: 3rem;
-  text-align: center;
-  color: #fff;
-}
-
-.group-name,
-.group-project {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-/* --- Main Content --- */
-.main-content {
-  flex: 1;
-  padding-top: 2rem;
-  background: #f0f2f5;
-  min-height: 100vh;
-}
-
-.main-content>.d-flex {
-  height: calc(100vh - 120px);
-  gap: 1.5rem;
-  padding: 0 1.5rem;
-}
-
-.right {
-  flex-grow: 1;
-  min-width: 0;
-  background: transparent;
-  padding: 0;
-}
-
 /* --- Search Bar --- */
 .search-container {
-  width: 485px;
+  width: 320px;
   height: 42px;
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   padding: 0 1rem;
   margin-bottom: 1.5rem;
 }
 
-.search-icon {
-  width: 15px;
-  height: 16px;
-  background: #b3b3b3;
-}
-
 .search-input {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 300;
   color: #000;
-}
-
-.search-clear {
-  width: 12px;
-  height: 12px;
-  background: #b3b3b3;
-  border-radius: 50%;
-  cursor: pointer;
+  background: transparent;
 }
 
 /* --- Card & Table --- */
@@ -231,13 +106,6 @@ body {
 
 .table tbody tr:hover {
   background: #f8f9fa;
-}
-
-/* --- Form Elements --- */
-.form-control,
-.form-select {
-  border-radius: 8px;
-  font-size: 0.95rem;
 }
 
 /* --- Badge --- */
@@ -274,7 +142,7 @@ body {
   border: 1px solid #dee2e6;
   padding: 0.35rem 0.65rem;
   border-radius: 6px !important;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
 .pagination .page-item.active .page-link {

@@ -59,50 +59,45 @@ document.addEventListener('DOMContentLoaded', () => {
     else messageEl.style.color = '';
   }
 
-  // --- 3) Storage helpers (localStorage) ---
-  function loadCourses() {
+  // --- 3) Helpers lấy/gửi dữ liệu qua API ---
+  async function loadCoursesAPI() {
     try {
-      const raw = localStorage.getItem('courses');
-      if (!raw) return [];
-      const arr = JSON.parse(raw);
+      const resp = await fetch('/api/data/courses.json');
+      const arr = await resp.json();
       return Array.isArray(arr) ? arr : [];
     } catch (e) {
       return [];
     }
   }
 
-  function saveCourses(courses) {
+  async function saveCoursesAPI(courses) {
     try {
-      localStorage.setItem('courses', JSON.stringify(courses));
-      return true;
+      const resp = await fetch('/api/data/courses.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(courses)
+      });
+      return resp.ok;
     } catch (e) {
       return false;
     }
   }
 
   // --- ID generation helpers (deterministic letter-based ids) ---
-  // course ids: a_000, b_000, c_000, ...
-  function nextAvailableCourseLetter(existingCourses) {
+  async function generateCourseId() {
+    const courses = await loadCoursesAPI();
     const used = new Set();
-    (existingCourses || []).forEach(c => {
+    (courses || []).forEach(c => {
       if (typeof c.id === 'string') {
         const m = c.id.match(/^([a-z])_\d{3}$/i);
         if (m) used.add(m[1].toLowerCase());
       }
     });
-    // find first letter a..z not used
     for (let code = 97; code <= 122; code++) {
       const ch = String.fromCharCode(code);
-      if (!used.has(ch)) return ch;
+      if (!used.has(ch)) return `${ch}_000`;
     }
-    // fallback: use 'z' if all used (very unlikely for demo)
-    return 'z';
-  }
-
-  function generateCourseId() {
-    const courses = loadCourses();
-    const letter = nextAvailableCourseLetter(courses);
-    return `${letter}_000`;
+    return 'z_000';
   }
 
   // Nếu có backend, bạn có thể thay block saveCourseToServer bằng fetch POST.
@@ -174,45 +169,81 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-  // Tạo object course mới (id determinisitc dạng letter_000)
-  const courseId = generateCourseId();
-    // Lấy tutor info đã login (login.js lưu 'loggedInUser'); fallback 'currentUser'
-    const currentUser = (function () {
+    (async () => {
+      // Tạo object course mới (id determinisitc dạng letter_000)
+      const courseId = await generateCourseId();
+      const createdAt = new Date().toISOString();
+      // Lấy tutor info đã login (login.js lưu 'loggedInUser'); fallback 'currentUser'
+      const currentUser = (function () {
+        try {
+          const raw = localStorage.getItem('loggedInUser') || localStorage.getItem('currentUser') || 'null';
+          return JSON.parse(raw);
+        } catch (e) { return null; }
+      })();
+      const tutorId = currentUser && currentUser.id ? currentUser.id : null;
+
+      // Chuẩn hóa tutors array cho course mới
+      const tutorsArr = tutorId ? [{ id: tutorId, name: currentUser.fullName || '', rating: 0, reviews: 0, registered: 0 }] : [];
+
+
+      // Thêm 2 trường: số lượng sinh viên đang học (numCurrentStudents), số lượng buổi học đang có (numCurrentSessions)
+      const newCourse = {
+        id: courseId,
+        title: values.title,
+        description: values.description,
+        durationMonths: values.duration,
+        sessionsPerWeek: values.sessionsPerWeek,
+        maxStudents: values.maxStudents,
+        createdAt,
+        tutors: tutorsArr,
+        sessions: [],
+        numCurrentStudents: 0, // mặc định khi tạo mới
+        numCurrentSessions: 0  // mặc định khi tạo mới
+      };
+
+      // Lưu vào courses.json qua API
+      const list = await loadCoursesAPI();
+      list.push(newCourse);
+      const saved = await saveCoursesAPI(list);
+
+      if (!saved) {
+        showMessage('Lưu khóa học không thành công. Kiểm tra server hoặc thử lại.', 'error');
+        return;
+      }
+
+      // --- Cập nhật trường courses của tutor trong tutor.json ---
       try {
-        const raw = localStorage.getItem('loggedInUser') || localStorage.getItem('currentUser') || 'null';
-        return JSON.parse(raw);
-      } catch (e) { return null; }
+        // Đọc tutor.json qua API
+        const respTutor = await fetch('/api/data/tutor.json');
+        const tutors = await respTutor.json();
+        // Tìm đúng tutor
+        const tutorIdx = tutors.findIndex(t => t.id === tutorId);
+        if (tutorIdx !== -1) {
+          const tutor = tutors[tutorIdx];
+          if (!Array.isArray(tutor.courses)) tutor.courses = [];
+          // Kiểm tra trùng courseId
+          const exists = tutor.courses.some(c => c.courseId === courseId);
+          if (!exists) {
+            tutor.courses.push({ courseId, openedAt: createdAt });
+            tutors[tutorIdx] = tutor;
+            // Ghi lại tutor.json qua API
+            await fetch('/api/data/tutor.json', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(tutors)
+            });
+          }
+        }
+      } catch (err) {
+        // Nếu lỗi vẫn tiếp tục, chỉ log ra console
+        console.error('Không thể cập nhật trường courses cho tutor:', err);
+      }
+
+      showMessage('Tạo khóa học thành công.', 'success');
+      setTimeout(() => {
+        window.location.href = `/pages/tutor/create-session.html?courseId=${encodeURIComponent(courseId)}`;
+      }, 700);
     })();
-    const tutorId = currentUser && currentUser.id ? currentUser.id : null;
-
-    const newCourse = {
-      id: courseId,
-      title: values.title,
-      description: values.description,
-      durationMonths: values.duration,
-      sessionsPerWeek: values.sessionsPerWeek,
-      maxStudents: values.maxStudents,
-      tutorId: tutorId,
-      createdAt: new Date().toISOString(),
-      sessions: []
-    };
-
-    // Lưu vào localStorage (hoặc gửi lên server nếu có)
-    const list = loadCourses();
-    list.push(newCourse);
-    const saved = saveCourses(list);
-
-    if (!saved) {
-      showMessage('Lưu khóa học không thành công. Kiểm tra storage hoặc thử lại.', 'error');
-      return;
-    }
-
-    showMessage('Tạo khóa học thành công.', 'success');
-
-    // Redirect sang tạo buổi cho khóa vừa tạo (kèm courseId)
-    setTimeout(() => {
-      window.location.href = `/pages/tutor/create-session.html?courseId=${encodeURIComponent(courseId)}`;
-    }, 700);
   });
 
   // --- 6) UX: clear lỗi khi user bắt đầu sửa field ---

@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Thêm vùng hiển thị thông báo gửi thành công
+    let feedbackMsg = document.getElementById('feedback-message');
+    if (!feedbackMsg) {
+      feedbackMsg = document.createElement('div');
+      feedbackMsg.id = 'feedback-message';
+      feedbackMsg.style = 'margin-top:16px;text-align:center;color:#0BB965;font-weight:500;';
+      document.querySelector('.tutor-feedback-container').appendChild(feedbackMsg);
+    }
   const editor = document.getElementById('commentEditor');
   const placeholderText = "Nhập nhận xét tại đây...";
   editor.setAttribute('data-placeholder', placeholderText);
@@ -77,55 +85,67 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // === NÚT GỬI → LƯU VÀO evaluation.json ===
+  // === NÚT GỬI → LƯU VÀO tutor-evaluate.json qua API ===
   document.querySelector('.btn-submit').addEventListener('click', async () => {
     hidePlaceholder();
-    const comment = editor.innerHTML.trim();
+    // Lấy nội dung comment, loại bỏ đoạn comment thừa (nếu có)
+    let comment = editor.innerHTML.trim();
+    // Nếu comment chỉ là placeholder thì bỏ qua
+    if (!comment || comment === `<span style="color:#aaa;">${placeholderText}</span>`) comment = '';
     const plainText = editor.innerText.trim();
 
     if (!plainText) {
-      alert('Vui lòng nhập nhận xét!');
+      feedbackMsg.style.color = '#d00';
+      feedbackMsg.textContent = 'Vui lòng nhập nhận xét!';
       return;
     }
 
-    const data = {
+    // Lấy thông tin tutor hiện tại
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+    const tutorId = loggedInUser.username || '';
+
+    // Tạo đối tượng evaluation
+    const evaluation = {
+      id: `te_${Date.now()}_${tutorId}_${studentId}`,
+      tutorId: tutorId,
       studentId: studentId,
-      studentName: studentName,
-      class: studentClass,
       absences: document.querySelector('input[placeholder="0"]').value || '0',
       quiz1: document.querySelectorAll('.score-inputs input')[1].value || '0',
       quiz2: document.querySelectorAll('.score-inputs input')[2].value || '0',
       quiz3: document.querySelectorAll('.score-inputs input')[3].value || '0',
       midterm: document.querySelectorAll('.score-inputs input')[4].value || '0',
-      comment: comment,                    // giữ HTML
-      commentPlainText: plainText,         // để tìm kiếm dễ hơn
-      submittedAt: new Date().toISOString(),
-      tutor: "Tên tutor hiện tại"          // bạn có thể lấy từ auth sau
+      comment: comment
     };
 
-    // Lưu vào file evaluation.json (chỉ hoạt động tốt với live server hỗ trợ fetch + write, hoặc dùng github + github pages + storage khác)
-    // Ở đây mình dùng cách "giả lập lưu" bằng download file (rất tiện cho đồ án)
-
+    // Đọc file hiện tại
     let evaluations = [];
     try {
-      const res = await fetch('/data/evaluation.json');
+      const res = await fetch('/api/data/tutor-evaluate.json');
       if (res.ok) evaluations = await res.json();
     } catch(e) {}
 
-    // Xóa nhận xét cũ của sinh viên này (nếu có)
-    evaluations = evaluations.filter(e => e.studentId !== studentId);
+    // Xóa nhận xét cũ của tutor với sinh viên này (nếu có)
+    evaluations = evaluations.filter(e => !(e.tutorId === tutorId && e.studentId === studentId));
     // Thêm mới
-    evaluations.push(data);
+    evaluations.push(evaluation);
 
-    // Tạo file JSON để download (phù hợp đồ án, không cần backend)
-    const blob = new Blob([JSON.stringify(evaluations, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'evaluation.json';
-    a.click();
-    URL.revokeObjectURL(url);
-
-    alert(`Đã lưu nhận xét cho ${studentName} thành công!\nFileight vừa tải file evaluation.json mới nhất.`);
+    // Ghi lại qua API
+    try {
+      const resp = await fetch('/api/data/tutor-evaluate.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(evaluations)
+      });
+      if (resp.ok) {
+        feedbackMsg.style.color = '#0BB965';
+        feedbackMsg.textContent = `Đã gửi nhận xét thành công!`;
+      } else {
+        feedbackMsg.style.color = '#d00';
+        feedbackMsg.textContent = 'Lỗi khi lưu nhận xét!';
+      }
+    } catch(e) {
+      feedbackMsg.style.color = '#d00';
+      feedbackMsg.textContent = 'Lỗi khi lưu nhận xét!';
+    }
   });
 });

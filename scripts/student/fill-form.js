@@ -129,47 +129,115 @@ document.addEventListener("DOMContentLoaded", function() {
     const modal = new bootstrap.Modal(document.getElementById("registerModal"));
     const modalBody = document.getElementById("registerModalBody");
 
-    registerForm.addEventListener("submit", function(e) {
-        e.preventDefault(); // Ngăn submit mặc định
-
+    registerForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
-        const studentYear = document.getElementById("course").value.trim(); // Đây là khóa sinh viên
-
-        // Regex cơ bản kiểm tra ký tự: chỉ chữ và khoảng trắng cho họ tên
+        const studentYear = document.getElementById("course").value.trim();
         const nameRegex = /^[a-zA-ZÀ-ỹ\s]+$/;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
         let errorMessages = [];
-
-        if (!name || !nameRegex.test(name)) {
-            errorMessages.push("Họ và tên không hợp lệ (chỉ chứa chữ và khoảng trắng).");
-        }
-        if (!email || !emailRegex.test(email)) {
-            errorMessages.push("Email không hợp lệ.");
-        }
-        if (!studentYear) {
-            errorMessages.push("Vui lòng nhập khoá sinh viên (ví dụ K23).");
-        }
-
+        if (!name || !nameRegex.test(name)) errorMessages.push("Họ và tên không hợp lệ (chỉ chứa chữ và khoảng trắng).");
+        if (!email || !emailRegex.test(email)) errorMessages.push("Email không hợp lệ.");
+        if (!studentYear) errorMessages.push("Vui lòng nhập khoá sinh viên (ví dụ K23).");
         if (errorMessages.length > 0) {
             modalBody.innerHTML = errorMessages.join("<br>");
             modal.show();
-        } else {
-            // Đăng ký thành công
-            const tutorName = document.querySelector(".tutor-info span").textContent.replace("Tutor: ", "").trim();
-            const courseTitleElement = document.querySelector(".course-title");
-            const courseTitle = courseTitleElement ? courseTitleElement.textContent.trim() : "Khoá học này";
-
-            modalBody.innerHTML = `<b>Đăng ký thành công!</b><br>Bạn đã đăng ký khoá học "<b>${courseTitle}</b>" thành công với <b>${tutorName}</b>.`;
-            modal.show();
-
-            // Khi click OK sẽ chuyển về trang đăng ký môn học
-            const modalOkBtn = document.getElementById("modalOkBtn");
-            modalOkBtn.onclick = function() {
-                window.location.href = "register-course.html";
-            };
+            return;
         }
+
+        // Lấy thông tin student hiện tại từ localStorage
+        const loggedInUser = (() => { try { return JSON.parse(localStorage.getItem('loggedInUser')); } catch(e){ return null; } })();
+        if (!loggedInUser || !loggedInUser.username) {
+            modalBody.innerHTML = "Không tìm thấy thông tin sinh viên đăng nhập.";
+            modal.show();
+            return;
+        }
+
+        // Đọc stu.json qua API
+        let students = [];
+        try {
+            const resp = await fetch('/api/data/stu.json');
+            students = await resp.json();
+        } catch (err) {
+            modalBody.innerHTML = "Không thể đọc dữ liệu sinh viên.";
+            modal.show();
+            return;
+        }
+
+        // Tìm student hiện tại
+        const studentIdx = students.findIndex(s => s.username === loggedInUser.username);
+        if (studentIdx === -1) {
+            modalBody.innerHTML = "Không tìm thấy sinh viên trong hệ thống.";
+            modal.show();
+            return;
+        }
+        const student = students[studentIdx];
+        // Kiểm tra đã đăng ký chưa
+        const courseId = new URLSearchParams(window.location.search).get('id');
+        if (!courseId) {
+            modalBody.innerHTML = "Không xác định được khóa học.";
+            modal.show();
+            return;
+        }
+        const alreadyRegistered = Array.isArray(student.registeredCourses) && student.registeredCourses.some(rc => rc.courseId === courseId);
+        if (alreadyRegistered) {
+            modalBody.innerHTML = "Bạn đã đăng ký khóa học này trước đó.";
+            modal.show();
+            return;
+        }
+        // Thêm khóa học mới vào registeredCourses
+        if (!Array.isArray(student.registeredCourses)) student.registeredCourses = [];
+        student.registeredCourses.push({ courseId, registeredAt: new Date().toISOString() });
+        students[studentIdx] = student;
+
+        // Ghi lại stu.json qua API
+        try {
+            const resp = await fetch('/api/data/stu.json', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(students)
+            });
+            if (!resp.ok) throw new Error('Ghi dữ liệu thất bại');
+        } catch (err) {
+            modalBody.innerHTML = "Không thể ghi dữ liệu đăng ký. Vui lòng thử lại.";
+            modal.show();
+            return;
+        }
+
+        // Tăng số lượng sinh viên đang học cho khóa học
+        try {
+            const respCourses = await fetch('/api/data/courses.json');
+            let courses = await respCourses.json();
+            if (!Array.isArray(courses)) courses = [];
+            const courseIdx = courses.findIndex(c => c.id === courseId);
+            if (courseIdx !== -1) {
+                if (typeof courses[courseIdx].numCurrentStudents === 'number') {
+                    courses[courseIdx].numCurrentStudents += 1;
+                } else {
+                    courses[courseIdx].numCurrentStudents = 1;
+                }
+                await fetch('/api/data/courses.json', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(courses)
+                });
+            }
+        } catch (err) {
+            console.error('Không thể cập nhật số lượng sinh viên cho khóa học:', err);
+        }
+
+        // Đăng ký thành công
+        const tutorName = document.querySelector(".tutor-info span").textContent.replace("Tutor: ", "").trim();
+        const courseTitleElement = document.querySelector(".course-title");
+        const courseTitle = courseTitleElement ? courseTitleElement.textContent.trim() : "Khoá học này";
+        modalBody.innerHTML = `<b>Đăng ký thành công!</b><br>Bạn đã đăng ký khoá học "<b>${courseTitle}</b>" thành công với <b>${tutorName}</b>.`;
+        modal.show();
+        // Khi click OK sẽ chuyển về trang đăng ký môn học
+        const modalOkBtn = document.getElementById("modalOkBtn");
+        modalOkBtn.onclick = function() {
+            window.location.href = "register-course.html";
+        };
     });
 });
 

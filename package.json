@@ -1,0 +1,25 @@
+{
+  "name": "tutoring_support_system",
+  "version": "1.0.0",
+  "description": "Clone repo về -> tạo và rẽ sang nhánh mới (git checkout -b tennhanhmoi) -> hiện thực trong các file liên quan đến chức năng của mình -> commit và push nhanh cá nhân lên\r repo này (git push -u origin tennhanhmoi) -> cả nhóm cùng họp để merge code theo từng giai đoạn, chạy demo và giải thích cho nhau các chức năng ở mức cơ bản.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhamTranDucHanh/Tutoring_Support_System.git"
+  },
+  "keywords": [],
+  "author": "Phạm Trần Đức Hạnh",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PhamTranDucHanh/Tutoring_Support_System/issues"
+  },
+  "homepage": "https://github.com/PhamTranDucHanh/Tutoring_Support_System#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

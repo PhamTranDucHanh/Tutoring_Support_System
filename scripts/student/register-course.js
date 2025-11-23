@@ -4,19 +4,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let coursesData = [];
 
-    // Load courses.json
-    fetch("/data/courses.json")
+    // Load danh sách khóa học từ API (chuẩn REST)
+    fetch("/api/data/courses.json")
         .then(res => res.json())
         .then(data => {
-            coursesData = data;
+            coursesData = Array.isArray(data) ? data : [];
             renderCourses(coursesData);
         })
-        .catch(err => console.error("Không thể tải courses.json:", err));
+        .catch(err => {
+            coursesContainer.innerHTML = '<div class="alert alert-danger">Không thể tải danh sách khóa học.</div>';
+            console.error("Không thể tải courses.json:", err);
+        });
 
-    // Render courses lên giao diện
+    // Render danh sách khóa học lên giao diện
     function renderCourses(courses) {
-        coursesContainer.innerHTML = ""; // Xoá nội dung cũ
-
+        coursesContainer.innerHTML = "";
+        if (!courses.length) {
+            coursesContainer.innerHTML = '<div class="alert alert-info">Chưa có khóa học nào trong hệ thống.</div>';
+            return;
+        }
         courses.forEach(course => {
             const card = document.createElement("a");
             card.classList.add("course-card");
@@ -24,8 +30,8 @@ document.addEventListener("DOMContentLoaded", function() {
             card.innerHTML = `
                 <img src="${course.image}" alt="${course.title}" />
                 <div class="course-title">${course.title}</div>
-                <div class="course-info">${course.info1}</div>
-                <div class="course-info">${course.info2}</div>
+                <div class="course-info">${course.info1 || ''}</div>
+                <div class="course-info">${course.info2 || ''}</div>
             `;
             coursesContainer.appendChild(card);
         });

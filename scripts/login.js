@@ -2,33 +2,25 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Lấy vai trò từ URL (?role=student/tutor/coordinator)
     const urlParams = new URLSearchParams(window.location.search);
-    const role = urlParams.get('role');
+    const selectedRole = urlParams.get('role');
+
+    // Đặt tiêu đề trang và tiêu đề lớn theo vai trò
+    let roleLabel = '';
+    if (selectedRole === 'student') roleLabel = 'Sinh viên';
+    else if (selectedRole === 'tutor') roleLabel = 'Tutor';
+    else if (selectedRole === 'coordinator') roleLabel = 'Coordinator';
+    else roleLabel = '';
+
     const loginTitle = document.getElementById('login-title');
-
-    // --- PHẦN 1: XÁC ĐỊNH FILE DATA VÀ TRANG ĐÍCH DỰA TRÊN VAI TRÒ ---
-    let dataFile = '';
-    let redirectUrl = '';
-    let roleText = '';
-
-    if (role === 'student') {
-        dataFile = '/data/stu.json';
-        redirectUrl = '/pages/student/stu-home.html';
-        roleText = 'Sinh Viên';
-    } else if (role === 'tutor') {
-        dataFile = '/data/tutor.json';
-        redirectUrl = '/pages/tutor/tutor-home.html';
-        roleText = 'Tutor';
-    } else if (role === 'coordinator') {
-        dataFile = '/data/admin.json';
-        redirectUrl = '/pages/admin/dashboard.html';
-        roleText = 'Coordinator';
+    loginTitle.textContent = roleLabel ? `Đăng Nhập - ${roleLabel}` : 'Đăng Nhập';
+    // Đặt tiêu đề tab trình duyệt
+    if (roleLabel) {
+        document.title = `Đăng Nhập - ${roleLabel} - TutorConnect`;
     } else {
-        window.location.href = '/index.html';
-        return;
+        document.title = 'Đăng Nhập - TutorConnect';
     }
-
-    loginTitle.textContent = `Đăng Nhập - ${roleText}`;
 
     // --- PHẦN 2: XỬ LÝ FORM ĐĂNG NHẬP ---
     const loginForm = document.getElementById('login-form-element');
@@ -38,47 +30,74 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const errorMessageDiv = document.getElementById('error-message');
 
-    loginForm.addEventListener('submit', function(event) {
+    loginForm.addEventListener('submit', async function(event) {
         event.preventDefault();
 
-        // Lấy giá trị từ các biến đã được khai báo ở trên
-        const username = usernameInput.value;
-        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        console.log('Đang kiểm tra đăng nhập:', { username, password });
 
-        // Xóa trạng thái lỗi cũ trước mỗi lần thử đăng nhập
         usernameInput.classList.remove('is-invalid');
         passwordInput.classList.remove('is-invalid');
         errorMessageDiv.innerHTML = '';
 
-        fetch(dataFile)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Không thể tải file dữ liệu.');
-                }
-                return response.json();
-            })
-            .then(users => {
-                const foundUser = users.find(user => user.username === username && user.password === password);
+        // Lấy vai trò từ URL (?role=student/tutor/coordinator)
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedRole = urlParams.get('role');
 
-                if (foundUser) {
-                    // Đăng nhập thành công, không cần alert
-                    localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
-                    localStorage.setItem('userRole', role);
-                    window.location.href = redirectUrl;
-                } else {
-                    // Đăng nhập thất bại: Thay thế alert()
-                    // 1. Thêm class is-invalid để làm đỏ viền input
-                    usernameInput.classList.add('is-invalid');
-                    passwordInput.classList.add('is-invalid');
+        // Xác định file, role, và trang chuyển hướng tương ứng
+        let source = null;
+        if (selectedRole === 'student') {
+            source = { file: 'stu.json', role: 'student', redirect: '/pages/student/stu-home.html' };
+        } else if (selectedRole === 'tutor') {
+            source = { file: 'tutor.json', role: 'tutor', redirect: '/pages/tutor/tutor-home.html' };
+        } else if (selectedRole === 'coordinator') {
+            source = { file: 'admin.json', role: 'coordinator', redirect: '/pages/admin/dashboard.html' };
+        }
 
-                    // 2. Hiển thị thông báo lỗi
-                    errorMessageDiv.innerHTML = '<p class="error-text">Tài khoản hoặc mật khẩu không chính xác!</p>';
+        let foundUser = null;
+        let extraData = null;
+
+        if (!source) {
+            errorMessageDiv.innerHTML = '<p class="error-text">Vai trò không hợp lệ!</p>';
+            return;
+        }
+
+        try {
+            const response = await fetch(window.location.origin + '/api/data/' + source.file);
+            if (!response.ok) throw new Error('Không thể đọc dữ liệu người dùng');
+            const data = await response.json();
+            if (source.role === 'coordinator') {
+                // admin.json: { user: {...}, reports: [...] }
+                if (data.user && data.user.username === username && data.user.password === password) {
+                    foundUser = data.user;
+                    extraData = data.reports || null;
                 }
-            })
-            .catch(error => {
-                console.error('Đã xảy ra lỗi:', error);
-                // Hiển thị lỗi hệ thống trên UI
-                errorMessageDiv.innerHTML = '<p class="error-text">Đã có lỗi xảy ra. Vui lòng thử lại.</p>';
-            });
+            } else {
+                // tutor.json, stu.json: array
+                const arr = Array.isArray(data) ? data : [];
+                const user = arr.find(u => u.username === username && u.password === password);
+                if (user) {
+                    foundUser = user;
+                }
+            }
+        } catch (err) {
+            errorMessageDiv.innerHTML = '<p class="error-text">Lỗi đọc dữ liệu người dùng!</p>';
+            return;
+        }
+
+        if (foundUser) {
+            localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
+            localStorage.setItem('userRole', source.role);
+            localStorage.setItem('currentUser', foundUser.username);
+            if (source.role === 'coordinator' && extraData) {
+                localStorage.setItem('adminReports', JSON.stringify(extraData));
+            }
+            window.location.href = source.redirect;
+        } else {
+            usernameInput.classList.add('is-invalid');
+            passwordInput.classList.add('is-invalid');
+            errorMessageDiv.innerHTML = '<p class="error-text">Tài khoản hoặc mật khẩu không chính xác hoặc không đúng vai trò!</p>';
+        }
     });
 });

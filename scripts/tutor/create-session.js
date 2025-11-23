@@ -53,19 +53,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function getCourses() {
+  // --- API helpers ---
+  async function getCoursesAPI() {
     try {
-      return JSON.parse(localStorage.getItem('courses') || '[]');
+      const resp = await fetch('/api/data/courses.json');
+      const arr = await resp.json();
+      return Array.isArray(arr) ? arr : [];
     } catch (e) { return []; }
   }
-  function saveCourses(c) { localStorage.setItem('courses', JSON.stringify(c)); }
+  async function saveCoursesAPI(courses) {
+    try {
+      const resp = await fetch('/api/data/courses.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(courses)
+      });
+      return resp.ok;
+    } catch (e) { return false; }
+  }
 
   // --- ID generator for sessions following scheme: <letter>_001, <letter>_002, ...
   function generateSessionIdForCourse(courseId) {
     // courseId expected like 'a_000' -> letter = 'a'
     const m = (courseId || '').match(/^([a-zA-Z])_\d{3}$/);
     const letter = m ? m[1].toLowerCase() : 'x';
-    const courses = getCourses();
+    // Đọc từ API (đồng bộ, chỉ dùng cho id, không ghi)
+    // Lưu ý: hàm này chỉ dùng khi submit, không cần tối ưu hiệu năng
+    // Sử dụng biến coursesGlobal nếu đã có
+    const courses = window.coursesGlobal || [];
     const course = courses.find(c => c.id === courseId);
     let maxSeq = 0;
     if (course && Array.isArray(course.sessions)) {
@@ -86,18 +101,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const urlCourseId = params.get('courseId');
 
   function populateCourses() {
-    const courses = getCourses();
-    courseSelect.innerHTML = '<option value="">-- Chọn khóa học --</option>';
-    courses.forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c.id;
-      opt.textContent = c.title || ('Khóa ' + c.id);
-      courseSelect.appendChild(opt);
+    // Đọc từ API, lưu vào biến toàn cục để dùng cho id
+    getCoursesAPI().then(courses => {
+      window.coursesGlobal = courses;
+      courseSelect.innerHTML = '<option value="">-- Chọn khóa học --</option>';
+      courses.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = c.title || ('Khóa ' + c.id);
+        courseSelect.appendChild(opt);
+      });
+      if (urlCourseId) {
+        courseSelect.value = urlCourseId;
+        courseSelect.disabled = true;
+      }
     });
-    if (urlCourseId) {
-      courseSelect.value = urlCourseId;
-      courseSelect.disabled = true;
-    }
   }
 
   populateCourses();
@@ -149,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', (ev) => {
     ev.preventDefault();
-    // reset message and color
     sessionMsg.textContent = '';
     sessionMsg.style.color = '';
     const courseId = courseSelect.value;
@@ -158,39 +175,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const mode = document.getElementById('sessionMode').value;
     const location = document.getElementById('sessionLocation').value.trim();
 
-  if (!courseId) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng chọn khóa học.'; return; }
-  if (!topic) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng nhập chủ đề.'; return; }
-  if (!location) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng nhập phòng học.'; return; }
-  if (schedules.length === 0) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng chọn ít nhất một lịch cho buổi học.'; return; }
+    if (!courseId) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng chọn khóa học.'; return; }
+    if (!topic) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng nhập chủ đề.'; return; }
+    if (!location) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng nhập phòng học.'; return; }
+    if (schedules.length === 0) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng chọn ít nhất một lịch cho buổi học.'; return; }
 
-    // build session object (one session may contain multiple date-time entries; we will create one session entry per schedule)
-    const courses = getCourses();
-    const idx = courses.findIndex(c => c.id === courseId);
-  if (idx === -1) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Không tìm thấy khóa học.'; return; }
+    (async () => {
+      // Đọc courses từ biến toàn cục đã khởi tạo
+      const courses = window.coursesGlobal || await getCoursesAPI();
+      const idx = courses.findIndex(c => c.id === courseId);
+      if (idx === -1) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Không tìm thấy khóa học.'; return; }
 
-    // create sessions for each chosen schedule (use deterministic ids per course)
-    schedules.forEach(s => {
-      const sessionId = generateSessionIdForCourse(courseId);
-      const session = {
-        id: sessionId,
-        topic,
-        description,
-        date: s.date,
-        start: s.start,
-        end: s.end,
-        mode,
-        location
-      };
-      courses[idx].sessions = courses[idx].sessions || [];
-      courses[idx].sessions.push(session);
-    });
+      // Tạo session cho từng lịch đã chọn
+      schedules.forEach(s => {
+        const sessionId = generateSessionIdForCourse(courseId);
+        const session = {
+          id: sessionId,
+          topic,
+          description,
+          date: s.date,
+          start: s.start,
+          end: s.end,
+          mode,
+          location
+        };
+        courses[idx].sessions = courses[idx].sessions || [];
+        courses[idx].sessions.push(session);
+      });
 
-    saveCourses(courses);
-    sessionMsg.style.color = 'green';
-    sessionMsg.textContent = 'Tạo buổi học thành công.';
-    // redirect to manage-sessions for this course
-    setTimeout(() => {
-      window.location.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(courseId);
-    }, 900);
+      // Tăng trường số lượng buổi học cho khóa học
+      courses[idx].numCurrentSessions = Array.isArray(courses[idx].sessions) ? courses[idx].sessions.length : 0;
+
+      // Ghi lại courses.json qua API
+      const saved = await saveCoursesAPI(courses);
+      if (!saved) {
+        sessionMsg.style.color = 'red';
+        sessionMsg.textContent = 'Không thể lưu buổi học. Vui lòng thử lại.';
+        return;
+      }
+      sessionMsg.style.color = 'green';
+      sessionMsg.textContent = 'Tạo buổi học thành công.';
+      setTimeout(() => {
+        window.location.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(courseId);
+      }, 900);
+    })();
   });
 });

@@ -19,9 +19,23 @@
             <div class="feedback-container">
                 <!-- Tiêu đề môn học -->
                 <div class="feedback-header">
-                    <strong>PHƯƠNG PHÁP (AB1234)_TÊN GIẢNG VIÊN_LỚP</strong>
+                    <strong>Gửi phản hồi cho buổi học</strong>
                 </div>
-                
+                <!-- Chọn khóa học và session -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-2">
+                        <label for="courseSelect" class="form-label">Chọn khóa học</label>
+                        <select id="courseSelect" class="form-select">
+                            <option value="">-- Chọn khóa học --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="sessionSelect" class="form-label">Chọn buổi học</label>
+                        <select id="sessionSelect" class="form-select" disabled>
+                            <option value="">-- Chọn buổi học --</option>
+                        </select>
+                    </div>
+                </div>
                 <!-- Thanh công cụ -->
                 <div class="toolbar">
                     <button data-command="undo"><i class="fa-solid fa-undo"></i></button>
@@ -63,6 +77,7 @@
                         <button class="submit">Gửi phản hồi</button>
                     </div>
                 </div>
+                <div id="feedback-message" class="mt-3 text-center" style="color: #d00;"></div>
             </div>
         </div>
     </main>

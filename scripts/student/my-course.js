@@ -219,25 +219,93 @@
   // detail exit handled in course-detail page
 
   async function init() {
-    dataCache = await loadData();
-    // If returned from detail page, auto-open the saved course list
-    const backCourseId = sessionStorage.getItem('returnToCourseId');
-    const backCourseTitle = sessionStorage.getItem('returnToCourseTitle');
+    // Lấy user hiện tại từ localStorage (object đầy đủ)
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!loggedInUser || !loggedInUser.username) {
+      console.error('Không tìm thấy thông tin user đăng nhập');
+      return;
+    }
+    // Đọc stu.json qua API
+    const respStu = await fetch('/api/data/stu.json', { cache: 'no-store' });
+    if (!respStu.ok) {
+      console.error('Không đọc được stu.json');
+      return;
+    }
+    const students = await respStu.json();
+    const student = students.find(s => s.username === loggedInUser.username);
+    if (!student) {
+      console.error('Không tìm thấy sinh viên với username:', loggedInUser.username);
+      return;
+    }
+    if (!student.registeredCourses) {
+      console.error('Sinh viên không có trường registeredCourses');
+      return;
+    }
+    // Đọc courses.json qua API
+    const respCourse = await fetch('/api/data/courses.json', { cache: 'no-store' });
+    if (!respCourse.ok) {
+      console.error('Không đọc được courses.json');
+      return;
+    }
+    const courses = await respCourse.json();
+    // Map courseId sang object course (chỉ lấy các course có id hợp lệ)
+    const courseMap = {};
+    courses.forEach(c => {
+      if (c && c.id) courseMap[c.id] = c;
+    });
+    // Hiển thị danh sách các khóa học đã đăng ký
+    const listGroup = document.querySelector('.list-group');
+    if (listGroup) {
+      listGroup.innerHTML = '';
+      if (!student.registeredCourses || student.registeredCourses.length === 0) {
+        listGroup.innerHTML = '<div class="list-group-item text-muted">Bạn chưa đăng ký khóa học nào.</div>';
+      } else {
+        let foundCourse = false;
+        student.registeredCourses.forEach(rc => {
+          if (!rc || !rc.courseId) return;
+          const course = courseMap[rc.courseId];
+          if (!course) {
+            console.warn('Không tìm thấy khóa học với id:', rc.courseId);
+            return;
+          }
+          foundCourse = true;
+          const tutorNames = (course.tutors || []).map(t => t.name).join(', ');
+          const item = document.createElement('a');
+          item.href = '#';
+          item.className = 'list-group-item list-group-item-action course-item';
+          item.dataset.courseId = course.id;
+          item.innerHTML = `
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">${course.title}</h5>
+              <small>Gia sư: ${tutorNames}</small>
+            </div>
+            <p class="mb-1">${course.description}</p>
+            <small>Đăng ký: ${new Date(rc.registeredAt).toLocaleString()} · Lịch học: ${course.sessionsPerWeek || '?'} buổi/tuần · Thời gian: ${course.durationMonths || '?'} tháng</small>
+          `;
+          listGroup.appendChild(item);
+        });
+        if (!foundCourse) {
+          listGroup.innerHTML = '<div class="list-group-item text-danger">Không tìm thấy dữ liệu khóa học nào phù hợp!</div>';
+        }
+      }
+    }
+    // Gán sự kiện cho các item như cũ
     document.querySelectorAll('.course-item').forEach(item => {
       item.addEventListener('click', e => {
         e.preventDefault();
         const id = item.getAttribute('data-course-id');
         const titleEl = item.querySelector('h5');
-        const title = titleEl ? titleEl.textContent : (dataCache[id] && dataCache[id].title) || 'Danh sách buổi học';
-        const sessions = (dataCache[id] && dataCache[id].sessions) || [];
+        const title = titleEl ? titleEl.textContent : (courseMap[id] && courseMap[id].title) || 'Danh sách buổi học';
+        const sessions = (courseMap[id] && courseMap[id].sessions) || [];
         openList(title, sessions, id);
       });
     });
-
+    // Nếu trở về từ trang chi tiết, tự động mở lại danh sách buổi học
+    const backCourseId = sessionStorage.getItem('returnToCourseId');
+    const backCourseTitle = sessionStorage.getItem('returnToCourseTitle');
     if (backCourseId) {
-      const sessions = (dataCache[backCourseId] && dataCache[backCourseId].sessions) || [];
-      openList(backCourseTitle || (dataCache[backCourseId] && dataCache[backCourseId].title) || 'Danh sách buổi học', sessions, backCourseId);
-      // clear the flag so refresh doesn't auto-open again
+      const sessions = (courseMap[backCourseId] && courseMap[backCourseId].sessions) || [];
+      openList(backCourseTitle || (courseMap[backCourseId] && courseMap[backCourseId].title) || 'Danh sách buổi học', sessions, backCourseId);
       sessionStorage.removeItem('returnToCourseId');
       sessionStorage.removeItem('returnToCourseTitle');
     }

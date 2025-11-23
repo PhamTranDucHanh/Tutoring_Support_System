@@ -4,13 +4,33 @@
     "username": "duchanh",
     "password": "1303",
     "fullName": "Phạm Trần Đức Hạnh",
-    "email": "hanh.phamhanh@hcmut.edu.vn"
+    "email": "hanh.phamhanh@hcmut.edu.vn",
+    "registeredCourses": [
+      {
+        "courseId": "d_000",
+        "registeredAt": "2025-11-23T17:22:54.097Z"
+      },
+      {
+        "courseId": "c_000",
+        "registeredAt": "2025-11-23T17:24:22.105Z"
+      }
+    ]
   },
   {
     "id": "2210896",
     "username": "myhanh",
     "password": "2005",
     "fullName": "Trần Thị Mỹ Hạnh",
-    "email": "mhanh@hcmut.edu.vn"
+    "email": "mhanh@hcmut.edu.vn",
+    "registeredCourses": [
+      {
+        "courseId": "a_000",
+        "registeredAt": "2025-11-23T17:25:21.921Z"
+      },
+      {
+        "courseId": "b_000",
+        "registeredAt": "2025-11-23T17:25:59.490Z"
+      }
+    ]
   }
 ]
