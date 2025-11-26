@@ -50,6 +50,18 @@
   color: #0066cc;
 }
 
+.toolbar button.active {
+  background: #e3f2fd !important;
+  color: #1976d2 !important;
+  box-shadow: 0 0 0 2px #bbdefb inset;
+}
+
+/* Hover cho sao khi chưa chọn */
+.stars i.hovered {
+  color: #f1c40f !important;
+  transform: scale(1.15);
+}
+
 /* Ô nhập phản hồi */
 .editor {
   min-height: 300px;
@@ -66,19 +78,30 @@
 }
 
 /* Placeholder */
-.editor::before {
+.editor.empty::before {
   content: attr(data-placeholder);
-  color: #aaa;
   position: absolute;
   left: 18px;
   top: 18px;
+  color: #aaa;
   pointer-events: none;
   font-size: 15px;
 }
 
-.editor:not(:empty)::before,
-.editor:focus::before {
-  display: none;
+.editor.empty {
+  color: transparent;
+}
+
+.editor.empty * {
+  color: transparent !important;
+}
+
+/* Nút active đẹp */
+.toolbar button.active {
+  background: #e3f2fd !important;
+  color: #1976d2 !important;
+  box-shadow: 0 0 0 3px #bbdefb inset;
+  border-radius: 8px;
 }
 
 /* Hành động */
