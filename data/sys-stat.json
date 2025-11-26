@@ -16,5 +16,14 @@
     "numStudents": 2,
     "numSessions": 19,
     "numTutors": 3
+  },
+  {
+    "id": "stat_1764167262811",
+    "updatedAt": "2025-11-26T14:27:42.811Z",
+    "updatedBy": "COO001",
+    "numCourses": 4,
+    "numStudents": 2,
+    "numSessions": 18,
+    "numTutors": 3
   }
 ]
