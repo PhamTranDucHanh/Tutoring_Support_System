@@ -9,83 +9,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // modal elements
   const chooseModal = new bootstrap.Modal(document.getElementById('chooseScheduleModal'));
-  const chooseModalEl = document.getElementById('chooseScheduleModal');
   const scheduleDate = document.getElementById('scheduleDate');
   const startTime = document.getElementById('startTime');
   const endTime = document.getElementById('endTime');
   const addScheduleBtn = document.getElementById('addScheduleBtn');
 
-  // -- Persist last-used start/end times so the modal can prefill them next time
-  // We store per-course if possible, otherwise fall back to a global key.
-  function _lsKey(courseId, part) {
-    if (courseId) return `lastTime_${courseId}_${part}`;
-    return `lastTime_global_${part}`;
-  }
-
-  function saveLastTimes(start, end) {
-    const courseId = courseSelect && courseSelect.value ? courseSelect.value : '';
+  // Lấy tutor hiện tại từ localStorage (ưu tiên loggedInUser)
+  const currentUser = (() => {
     try {
-      localStorage.setItem(_lsKey(courseId, 'start'), start);
-      localStorage.setItem(_lsKey(courseId, 'end'), end);
-    } catch (e) {
-      // ignore storage errors
+      const raw = localStorage.getItem('loggedInUser') || localStorage.getItem('currentUser') || 'null';
+      return JSON.parse(raw);
+    } catch (e) { return null; }
+  })();
+  const currentTutorId = currentUser && (currentUser.id || currentUser.username)
+    ? (currentUser.id || currentUser.username)
+    : null;
+
+  // Chuẩn hóa ngày về định dạng dd-mm-yyyy để hiển thị nhất quán
+  function toDDMMYYYYDash(value) {
+    if (!value) return '';
+    // yyyy-mm-dd -> dd-mm-yyyy
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      const [yyyy, mm, dd] = value.split('-');
+      return `${dd}-${mm}-${yyyy}`;
     }
+    // dd/mm/yyyy -> dd-mm-yyyy
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+      const [dd, mm, yyyy] = value.split('/');
+      return `${dd}-${mm}-${yyyy}`;
+    }
+    // dd-mm-yyyy -> giữ nguyên
+    if (/^\d{2}-\d{2}-\d{4}$/.test(value)) return value;
+    // Fallback Date parse
+    const d = new Date(value);
+    if (!isNaN(d.getTime())) {
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${dd}-${mm}-${yyyy}`;
+    }
+    return value;
   }
 
-  function getLastTimes() {
-    const courseId = courseSelect && courseSelect.value ? courseSelect.value : '';
-    // try per-course first
-    let s = localStorage.getItem(_lsKey(courseId, 'start')) || '';
-    let e = localStorage.getItem(_lsKey(courseId, 'end')) || '';
-    // if per-course not set, fall back to global
-    if (!s) s = localStorage.getItem(_lsKey('', 'start')) || '';
-    if (!e) e = localStorage.getItem(_lsKey('', 'end')) || '';
-    return { start: s, end: e };
-  }
-
-  // When the modal is shown, prefill start/end with last-used values (or leave as-is if none)
-  if (chooseModalEl) {
-    chooseModalEl.addEventListener('show.bs.modal', () => {
-      const last = getLastTimes();
-      // only set if there's a stored value; this preserves any value already typed
-      if (last.start) startTime.value = last.start;
-      if (last.end) endTime.value = last.end;
-    });
-  }
-
-  // --- API helpers ---
+  // Đọc/lưu courses qua API để đồng bộ với các trang khác
   async function getCoursesAPI() {
     try {
-      const resp = await fetch('/api/data/courses.json');
+      const resp = await fetch('/api/data/courses.json', { cache: 'no-store' });
       const arr = await resp.json();
       return Array.isArray(arr) ? arr : [];
     } catch (e) { return []; }
   }
-  async function saveCoursesAPI(courses) {
+  async function saveCoursesAPI(courses){
     try {
       const resp = await fetch('/api/data/courses.json', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(courses)
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(courses)
       });
       return resp.ok;
     } catch (e) { return false; }
   }
 
   // --- ID generator for sessions following scheme: <letter>_001, <letter>_002, ...
-  function generateSessionIdForCourse(courseId) {
+  function generateSessionIdForCourse(courseId, coursesArr) {
     // courseId expected like 'a_000' -> letter = 'a'
     const m = (courseId || '').match(/^([a-zA-Z])_\d{3}$/);
     const letter = m ? m[1].toLowerCase() : 'x';
-    // Đọc từ API (đồng bộ, chỉ dùng cho id, không ghi)
-    // Lưu ý: hàm này chỉ dùng khi submit, không cần tối ưu hiệu năng
-    // Sử dụng biến coursesGlobal nếu đã có
-    const courses = window.coursesGlobal || [];
+    const courses = coursesArr || window.coursesGlobal || [];
     const course = courses.find(c => c.id === courseId);
     let maxSeq = 0;
     if (course && Array.isArray(course.sessions)) {
       course.sessions.forEach(s => {
-        const ms = (s.id || '').match(new RegExp('^' + letter + '_(\\d{3})$'));
+        const ms = (s.id || '').match(new RegExp('^' + letter + '_(\d{3})$'));
         if (ms) {
           const n = parseInt(ms[1], 10);
           if (!isNaN(n) && n > maxSeq) maxSeq = n;
@@ -100,24 +93,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const urlCourseId = params.get('courseId');
 
-  function populateCourses() {
-    // Đọc từ API, lưu vào biến toàn cục để dùng cho id
-    getCoursesAPI().then(courses => {
-      window.coursesGlobal = courses;
-      courseSelect.innerHTML = '<option value="">-- Chọn khóa học --</option>';
-      courses.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.id;
-        opt.textContent = c.title || ('Khóa ' + c.id);
-        courseSelect.appendChild(opt);
-      });
-      if (urlCourseId) {
-        courseSelect.value = urlCourseId;
-        courseSelect.disabled = true;
-      }
+  async function populateCourses() {
+    const courses = await getCoursesAPI();
+    // Lọc chỉ các khóa học mà tutor hiện tại là người tạo
+    const myCourses = courses.filter(c => Array.isArray(c.tutors) && c.tutors.some(t => t.id === currentTutorId));
+    window.coursesGlobal = myCourses;
+    courseSelect.innerHTML = '<option value="">-- Chọn khóa học --</option>';
+    myCourses.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.title || ('Khóa ' + c.id);
+      courseSelect.appendChild(opt);
     });
+    if (urlCourseId) {
+      courseSelect.value = urlCourseId;
+      courseSelect.disabled = true;
+    }
   }
 
+  // gọi async populate
   populateCourses();
 
   // schedules array for current new session
@@ -149,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnChoose.addEventListener('click', () => chooseModal.show());
 
   addScheduleBtn.addEventListener('click', () => {
-    const date = scheduleDate.value;
+    let date = scheduleDate.value;
     const start = startTime.value;
     const end = endTime.value;
     if (!date || !start || !end) {
@@ -158,66 +152,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // simple validation: start < end
     if (start >= end) { alert('Thời gian bắt đầu phải trước thời gian kết thúc.'); return; }
+
+    // Hiển thị dạng dd-mm-yyyy trong badge
+    date = toDDMMYYYYDash(date);
     schedules.push({ date, start, end });
-    // persist last-used times so next time the modal opens we can prefill
-    try { saveLastTimes(start, end); } catch (e) { /* ignore */ }
     renderSchedules();
     chooseModal.hide();
   });
 
-  form.addEventListener('submit', (ev) => {
+  form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     sessionMsg.textContent = '';
-    sessionMsg.style.color = '';
     const courseId = courseSelect.value;
     const topic = document.getElementById('sessionTopic').value.trim();
     const description = document.getElementById('sessionDescription').value.trim();
     const mode = document.getElementById('sessionMode').value;
     const location = document.getElementById('sessionLocation').value.trim();
 
-    if (!courseId) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng chọn khóa học.'; return; }
-    if (!topic) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng nhập chủ đề.'; return; }
-    if (!location) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng nhập phòng học.'; return; }
-    if (schedules.length === 0) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Vui lòng chọn ít nhất một lịch cho buổi học.'; return; }
+    if (!courseId) { sessionMsg.textContent = 'Vui lòng chọn khóa học.'; return; }
+    if (!topic) { sessionMsg.textContent = 'Vui lòng nhập chủ đề.'; return; }
+    if (schedules.length === 0) { sessionMsg.textContent = 'Vui lòng chọn ít nhất một lịch cho buổi học.'; return; }
 
-    (async () => {
-      // Đọc courses từ biến toàn cục đã khởi tạo
-      const courses = window.coursesGlobal || await getCoursesAPI();
-      const idx = courses.findIndex(c => c.id === courseId);
-      if (idx === -1) { sessionMsg.style.color = 'red'; sessionMsg.textContent = 'Không tìm thấy khóa học.'; return; }
+    // build session object (one session may contain multiple date-time entries; we will create one session entry per schedule)
+    const courses = window.coursesGlobal || await getCoursesAPI();
+    const idx = courses.findIndex(c => c.id === courseId);
+    if (idx === -1) { sessionMsg.textContent = 'Không tìm thấy khóa học.'; return; }
 
-      // Tạo session cho từng lịch đã chọn
-      schedules.forEach(s => {
-        const sessionId = generateSessionIdForCourse(courseId);
-        const session = {
-          id: sessionId,
-          topic,
-          description,
-          date: s.date,
-          start: s.start,
-          end: s.end,
-          mode,
-          location
-        };
-        courses[idx].sessions = courses[idx].sessions || [];
+    // create sessions for each chosen schedule (use deterministic ids per course)
+    schedules.forEach(s => {
+      const sessionId = generateSessionIdForCourse(courseId, courses);
+      // Nếu không lấy được từ loggedInUser, fallback course.tutors[0].id (nếu có)
+      const fallbackTutorId = (courses[idx] && Array.isArray(courses[idx].tutors) && courses[idx].tutors[0])
+        ? courses[idx].tutors[0].id : null;
+      const tutorId = currentTutorId || fallbackTutorId || null;
+      const session = {
+        id: sessionId,
+        tutorId,
+        topic,
+        description,
+        date: s.date,
+        start: s.start,
+        end: s.end,
+        mode,
+        location
+      };
+      if (!Array.isArray(courses[idx].sessions)) courses[idx].sessions = [];
+      // Kiểm tra trùng lặp theo id hoặc chủ đề/ngày/giờ
+      const isDuplicate = courses[idx].sessions.some(sess =>
+        sess.id === session.id ||
+        (sess.topic === session.topic && sess.date === session.date && sess.start === session.start && sess.end === session.end)
+      );
+      if (!isDuplicate) {
         courses[idx].sessions.push(session);
-      });
-
-      // Tăng trường số lượng buổi học cho khóa học
-      courses[idx].numCurrentSessions = Array.isArray(courses[idx].sessions) ? courses[idx].sessions.length : 0;
-
-      // Ghi lại courses.json qua API
-      const saved = await saveCoursesAPI(courses);
-      if (!saved) {
-        sessionMsg.style.color = 'red';
-        sessionMsg.textContent = 'Không thể lưu buổi học. Vui lòng thử lại.';
-        return;
       }
-      sessionMsg.style.color = 'green';
-      sessionMsg.textContent = 'Tạo buổi học thành công.';
-      setTimeout(() => {
-        window.location.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(courseId);
-      }, 900);
-    })();
+    });
+
+  // Lưu lại qua API để các trang khác nhận được
+    await saveCoursesAPI(courses);
+    sessionMsg.style.color = 'green';
+    sessionMsg.textContent = 'Tạo buổi học thành công.';
+    // redirect to manage-sessions for this course
+    setTimeout(() => {
+      window.location.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(courseId);
+    }, 900);
   });
 });

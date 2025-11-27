@@ -1,7 +1,7 @@
 // scripts/tutor/create-course.js
 // Xử lý tạo khóa học mới cho tutor
 // Yêu cầu:
-// - Form có các field: title, description, durationMonths, sessionsPerWeek, maxStudents, price, tags
+// - Form có các field: title, description, durationMonths, sessionsPerWeek, maxStudents
 // - Dùng const/let, template strings
 // - Validate từng field, show lỗi gần field
 // - Lưu course vào localStorage (key = 'courses')
@@ -51,12 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showMessage(text, type = 'info') {
-    // type: 'info' | 'success' | 'error'
-    if (!messageEl) return;
-    messageEl.textContent = text;
-    if (type === 'error') messageEl.style.color = '#d9534f';
-    else if (type === 'success') messageEl.style.color = 'var(--ts-primary, #2B8DB6)';
-    else messageEl.style.color = '';
+  // type: 'info' | 'success' | 'error'
+  if (!messageEl) return;
+  messageEl.textContent = text;
+  messageEl.classList.remove('form-message--error', 'form-message--success', 'form-message--info');
+  if (type === 'error') messageEl.classList.add('form-message--error');
+  else if (type === 'success') messageEl.classList.add('form-message--success');
+  else messageEl.classList.add('form-message--info');
   }
 
   // --- 3) Helpers lấy/gửi dữ liệu qua API ---
@@ -99,8 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return 'z_000';
   }
-
-  // Nếu có backend, bạn có thể thay block saveCourseToServer bằng fetch POST.
+  
   // function postCourseToServer(course) { return fetch('/api/courses', {method:'POST', ...}) }
 
   // --- 4) Validation (đơn giản, dễ hiểu) ---
@@ -159,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errors.duration) showFieldError(inputs.duration, errors.duration);
       if (errors.sessionsPerWeek) showFieldError(inputs.sessionsPerWeek, errors.sessionsPerWeek);
       if (errors.maxStudents) showFieldError(inputs.maxStudents, errors.maxStudents);
-      if (errors.price) showFieldError(inputs.price, errors.price);
 
       // focus vào field đầu có lỗi
       const firstField = Object.keys(errors)[0];
@@ -185,16 +184,45 @@ document.addEventListener('DOMContentLoaded', () => {
       // Chuẩn hóa tutors array cho course mới
       const tutorsArr = tutorId ? [{ id: tutorId, name: currentUser.fullName || '', rating: 0, reviews: 0, registered: 0 }] : [];
 
+      // Các trường bổ sung cứng hoặc tính toán
+      const info1 = 'Mô tả khoá học';
+      const info2 = 'Đánh giá';
+      const level = 'Đại học';
+      const flexibleSchedule = true;
+      const duration = `${values.sessionsPerWeek} - ${values.sessionsPerWeek + 1} tháng`;
+      // Chọn hình ảnh mẫu theo số thứ tự id (a, b, c, d...)
+      const imagePalette = [
+        '/assets/images/calculus.png',
+        '/assets/images/ky-nang1.png',
+        '/assets/images/cnpm.png',
+        '/assets/images/pattern1.png',
+        '/assets/images/pattern2.png',
+        '/assets/images/pattern3.png',
+        '/assets/images/pattern4.png',
+        '/assets/images/pattern5.png',
+      ];
+      let image = imagePalette[0];
+      const m = courseId.match(/^([a-z])_/);
+      if (m) {
+        const idx = m[1].charCodeAt(0) - 97;
+        image = imagePalette[idx % imagePalette.length];
+      }
 
       // Thêm 2 trường: số lượng sinh viên đang học (numCurrentStudents), số lượng buổi học đang có (numCurrentSessions)
       const newCourse = {
         id: courseId,
         title: values.title,
+        image,
+        info1,
+        info2,
         description: values.description,
+        createdAt,
         durationMonths: values.duration,
         sessionsPerWeek: values.sessionsPerWeek,
         maxStudents: values.maxStudents,
-        createdAt,
+        level,
+        duration,
+        flexibleSchedule,
         tutors: tutorsArr,
         sessions: [],
         numCurrentStudents: 0, // mặc định khi tạo mới

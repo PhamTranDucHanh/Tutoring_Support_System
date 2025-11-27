@@ -10,6 +10,14 @@
   --ts-muted: #666;
 }
 
+.create-session-title {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  color: var(--ts-text);
+  font-size: 1.6rem;
+}
 
 .form-label {
   display: block;

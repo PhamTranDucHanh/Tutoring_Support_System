@@ -25,13 +25,71 @@
         <div class="container">
             <h1 class="mb-4">Các khóa học của tôi</h1>
 
-            <div id="coursesList" class="list-group mb-4"></div>
+            <div id="coursesList" class="list-group mb-2"></div>
+            <div id="myCourseMessage" class="mb-4" role="status" aria-live="polite"></div>
 
             <div class="text-end">
                 <a href="/pages/tutor/create-course.html" class="btn btn-outline-primary">Tạo khóa học mới</a>
             </div>
+
+            <!-- Modal cập nhật khóa học -->
+            <div class="modal fade" id="editCourseModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Cập nhật khóa học</h5>
+                            <button type="button" class="btn-close" id="closeEditCourseModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="editCourseId">
+                            <div class="mb-3">
+                                <label class="form-label">Tên khóa học</label>
+                                <input id="editCourseTitle" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea id="editCourseDescription" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="row g-2 mb-2">
+                                <div class="col-4">
+                                    <label class="form-label">Số buổi/tuần</label>
+                                    <input id="editSessionsPerWeek" type="number" min="1" class="form-control">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Số tháng</label>
+                                    <input id="editDurationMonths" type="number" min="1" class="form-control">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Số lượng sinh viên</label>
+                                    <input id="editNumStudents" type="number" min="0" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="cancelEditCourseBtn" data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" id="saveEditCourseBtn" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
     </main>
+
+    <!-- Modal xác nhận xóa khóa học -->
+    <div class="modal fade" id="confirmDeleteCourseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="mb-0 fw-bold">Bạn muốn xóa khóa học này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="confirmDeleteYes" class="btn btn-danger">Xóa</button>
+                    <button type="button" id="confirmDeleteNo" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Placeholder cho Footer chung -->
     <div id="app-footer-placeholder"></div>

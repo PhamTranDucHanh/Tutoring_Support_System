@@ -1,0 +1,7 @@
+.manage-sessions-title{
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  color: var(--ts-text);
+  font-size: 2.4rem;
+}
