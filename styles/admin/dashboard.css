@@ -12,30 +12,37 @@ body {
   color: #333;
 }
 
-/* --- Center Content --- */
-.center-content {
-  max-width: 1300px;
-  margin: 40px auto 0 auto;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(58,137,191,0.08);
-  padding: 32px 24px;
+.main-content {
+  padding: 1.5rem;
 }
+
+.center-content {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto 1.5rem auto;
+}
+
 @media (max-width: 992px) {
   .center-content {
     max-width: 100%;
-    padding: 16px 8px;
+    padding: 0;
+  }
+
+  .main-content {
+    padding: 1rem;
   }
 }
 
 /* --- Buttons --- */
 .btn-custom {
-  background-color: #3A8ABF;
-  border-color: #3A8ABF;
+  background-color: #3a8abf;
+  border-color: #3a8abf;
   color: #ffffff;
   border-radius: 10px;
   font-weight: 600;
-  transition: background-color 0.2s, border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
   padding: 0rem 1rem;
   font-size: 0.95rem;
 }
@@ -47,42 +54,36 @@ body {
 }
 
 .btn-primary-custom {
-  background: linear-gradient(135deg, #3A89BF, #2C73A0);
+  background: linear-gradient(135deg, #3a89bf, #2c73a0);
   border: none;
   color: white;
   font-weight: 600;
   border-radius: 10px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(58, 137, 191, 0.3);
 }
 
 .btn-primary-custom:hover {
-  background: linear-gradient(135deg, #2C73A0, #1e5b85);
+  background: linear-gradient(135deg, #2c73a0, #1e5b85);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(58, 137, 191, 0.4);
 }
 
 /* --- Search Bar --- */
-.search-container {
-  width: 320px;
-  height: 42px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  margin-bottom: 1.5rem;
-}
 
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 1.15rem;
-  font-weight: 300;
-  color: #000;
-  background: transparent;
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group .btn {
+    border-radius: 8px !important;
+  }
+
+  .search-container {
+    width: 100%;
+  }
 }
 
 /* --- Card & Table --- */
@@ -122,7 +123,8 @@ body {
   color: #1976d2;
 }
 
-.badge.finance {
+/* compare badge style (used when treating Tài chính as So sánh) */
+.badge.compare {
   background: #e8f5e9;
   color: #388e3c;
 }
@@ -138,7 +140,7 @@ body {
 }
 
 .pagination .page-link {
-  color: #3A8ABF;
+  color: #3a8abf;
   border: 1px solid #dee2e6;
   padding: 0.35rem 0.65rem;
   border-radius: 6px !important;
@@ -146,18 +148,91 @@ body {
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #3A8ABF;
-  border-color: #3A8ABF;
+  background-color: #3a8abf;
+  border-color: #3a8abf;
   color: white;
 }
 
 .pagination .page-link:hover {
   background-color: #e3f2fd;
-  border-color: #3A8ABF;
+  border-color: #3a8abf;
   color: #2c73a0;
 }
 
 .pagination .page-item.disabled .page-link {
   color: #6c757d;
   opacity: 0.5;
+}
+
+/* ================== DASHBOARD - TOP FILTER BAR (giống report-analyze 100%) ================== */
+.top-filter-bar {
+  padding: 1.5rem 0;
+}
+
+.top-filter-bar .input-group {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 48px;
+}
+
+.top-filter-bar .input-group .form-control {
+  border: 1px solid #ced4da;
+  font-size: 1.05rem;
+  height: 100%;
+}
+
+.top-filter-bar .input-group-text,
+.top-filter-bar .btn-outline-secondary {
+  background: #fff;
+  border: 1px solid #ced4da;
+}
+
+.top-filter-bar .btn-outline-secondary {
+  border-left: none;
+}
+
+/* Khoảng cách giữa search và nút = 12px (cực sát, đẹp) */
+.top-filter-bar .d-flex.gap-3 {
+  gap: 12px !important;
+}
+
+/* Mobile: xuống dòng đẹp, vẫn sát */
+@media (max-width: 576px) {
+  .top-filter-bar .d-flex {
+    gap: 12px !important;
+  }
+
+  .top-filter-bar .input-group {
+    height: 44px;
+  }
+}
+
+/* Fix nút Cập nhật bị đẩy xuống + làm đẹp giống report-analyze */
+@media (min-width: 577px) {
+  .mb-4 > .d-flex {
+    flex-wrap: nowrap !important;
+    /* bắt buộc không xuống dòng */
+  }
+}
+
+/* Đảm bảo chiều cao bằng nhau */
+.mb-4 .input-group,
+.mb-4 .btn-primary-custom {
+  height: 48px;
+}
+
+/* Khoảng cách sát đẹp */
+.mb-4 .d-flex.gap-3 {
+  gap: 14px !important;
+}
+
+/* --- View Details Modal --- */
+#reportViewModal .modal-header {
+  background: linear-gradient(135deg, #3a89bf, #2c73a0);
+  color: white;
+}
+
+#reportViewModal .modal-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
 }

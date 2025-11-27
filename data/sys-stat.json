@@ -1,6 +1,8 @@
 [
   {
     "id": "stat_1763914172319",
+    "type" : "Thống kê",
+    "name": "Thống kê hệ thống 1",
     "updatedAt": "2025-11-23T16:09:32.319Z",
     "updatedBy": "COO001",
     "numCourses": 5,
@@ -10,11 +12,58 @@
   },
   {
     "id": "stat_1763915278240",
+    "type" : "Thống kê",
+    "name": "Thống kê hệ thống 2",
     "updatedAt": "2025-11-23T16:27:58.240Z",
     "updatedBy": "COO001",
     "numCourses": 6,
     "numStudents": 2,
     "numSessions": 19,
     "numTutors": 3
+  },
+  {
+    "id": "stat_1763969075314",
+    "type" : "Thống kê",
+    "name": "Thống kê hệ thống 3",
+    "updatedAt": "2025-11-24T07:24:35.314Z",
+    "updatedBy": "COO001",
+    "numCourses": 4,
+    "numStudents": 2,
+    "numSessions": 18,
+    "numTutors": 3
+  },
+   {
+    "id": "stat_1763969075314",
+    "type" : "Thống kê",
+    "name": "Thống kê hệ thống 3",
+    "updatedAt": "2025-11-24T07:24:35.314Z",
+    "updatedBy": "COO001",
+    "numCourses": 4,
+    "numStudents": 2,
+    "numSessions": 18,
+    "numTutors": 3
+  },
+   {
+    "id": "stat_1763969075314",
+    "type" : "Thống kê",
+    "name": "Thống kê hệ thống 3",
+    "updatedAt": "2025-11-24T07:24:35.314Z",
+    "updatedBy": "COO001",
+    "numCourses": 4,
+    "numStudents": 2,
+    "numSessions": 18,
+    "numTutors": 3
+  },
+   {
+    "id": "stat_1763969075314",
+    "type" : "Thống kê",
+    "name": "Thống kê hệ thống 3",
+    "updatedAt": "2025-11-24T07:24:35.314Z",
+    "updatedBy": "COO001",
+    "numCourses": 4,
+    "numStudents": 2,
+    "numSessions": 18,
+    "numTutors": 3
   }
+
 ]

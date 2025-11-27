@@ -1,0 +1,170 @@
+[
+  {
+    "id": "CMP_111841186",
+    "type": "So sánh",
+    "name": "So sánh Sinh viên vs Gia sư",
+    "description": "So sánh ",
+    "updatedAt": "2025-11-26T07:43:35.163Z",
+    "updatedBy": "COO001",
+    "content": [
+      {
+        "Sinh viên": {
+          "total": 2,
+          "totalRegistered": 4,
+          "totalFeedback": 1
+        }
+      },
+      {
+        "Gia sư": {
+          "total": 3,
+          "totalCourses": 4,
+          "totalEvals": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "CMP_315091630",
+    "type": "So sánh",
+    "name": "So sánh Gia sư vs Sinh viên",
+    "description": "",
+    "updatedAt": "2025-11-26T07:47:30.946Z",
+    "updatedBy": "COO001",
+    "content": [
+      {
+        "Gia sư": {
+          "total": 3,
+          "totalCourses": 4,
+          "totalEvals": 1
+        }
+      },
+      {
+        "Sinh viên": {
+          "total": 2,
+          "totalRegistered": 4,
+          "totalFeedback": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "CMP_106138365",
+    "type": "So sánh",
+    "name": "So sánh Sinh viên vs Gia sư",
+    "description": "",
+    "updatedAt": "2025-11-26T08:04:43.467Z",
+    "updatedBy": "COO001",
+    "content": [
+      {
+        "Sinh viên": {
+          "total": 2,
+          "totalRegistered": 4,
+          "totalFeedback": 1
+        }
+      },
+      {
+        "Gia sư": {
+          "total": 3,
+          "totalCourses": 4,
+          "totalEvals": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "CMP_647775279",
+    "type": "So sánh",
+    "name": "So sánh Phản hồi vs Gia sư",
+    "description": "So sánh mới một ",
+    "updatedAt": "2025-11-26T15:36:20.963Z",
+    "updatedBy": "COO001",
+    "content": [
+      {
+        "Phản hồi": {
+          "total": 1,
+          "rows": [
+            {
+              "id": "f_1763918899395_2310896_d_002",
+              "rating": 3,
+              "courseId": "d_000",
+              "content": "sinh viên đã phản hồi, khóa học hữu ích."
+            }
+          ]
+        }
+      },
+      {
+        "Gia sư": {
+          "total": 3,
+          "totalCourses": 4,
+          "totalEvals": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "CMP_477999352",
+    "type": "So sánh",
+    "name": "So sánh Tài liệu vs Đánh giá",
+    "description": "So sánh mới 2",
+    "updatedAt": "2025-11-26T15:36:56.995Z",
+    "updatedBy": "COO001",
+    "content": [
+      {
+        "Tài liệu": {
+          "total": 9,
+          "types": 6,
+          "subjects": 3
+        }
+      },
+      {
+        "Đánh giá": {
+          "total": 1,
+          "rows": [
+            {
+              "id": "te_1763912171138_thay_x_2210896",
+              "tutorId": "thay_x",
+              "studentId": "2210896",
+              "comment": "Học sinh ngoan 123, ...!! nhận xét"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "CMP_253913476",
+    "type": "So sánh",
+    "name": "So sánh Thống kê học sinh hiện tại vs Thống kê hệ thống tổng quan",
+    "description": "So sánh mới nữa",
+    "updatedAt": "2025-11-26T15:38:32.744Z",
+    "updatedBy": "COO001",
+    "content": [
+      {
+        "Thống kê học sinh hiện tại": {
+          "name": "Thống kê học sinh hiện tại",
+          "type": "Thống kê",
+          "updatedAt": "14:42:43 25/11/2025",
+          "numCourses": "-",
+          "numStudents": "-",
+          "numTutors": "-",
+          "numSessions": "-",
+          "avgSessionsPerCourse": "-",
+          "avgStudentsPerCourse": "-"
+        }
+      },
+      {
+        "Thống kê hệ thống tổng quan": {
+          "name": "Thống kê hệ thống tổng quan",
+          "type": "Thống kê",
+          "updatedAt": "09:28:22 25/11/2025",
+          "numCourses": "-",
+          "numStudents": "-",
+          "numTutors": "-",
+          "numSessions": "-",
+          "avgSessionsPerCourse": "-",
+          "avgStudentsPerCourse": "-"
+        }
+      }
+    ]
+  }
+]
