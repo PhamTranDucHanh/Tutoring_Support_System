@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điền thông tin - TutorConnect</title>
-    
-    <!-- Xác thực người dùng -->
-    <script src="/scripts/auth-guard.js"></script>
-    <!-- Các link CSS chung -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/styles/main.css">
-    <!-- CSS riêng cho trang này -->
-    <link rel="stylesheet" href="/styles/student/fill-form.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Điền thông tin - TutorConnect</title>
+
+  <!-- Xác thực người dùng -->
+  <script src="/scripts/auth-guard.js"></script>
+  <!-- Các link CSS chung -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <!-- CSS riêng cho trang này -->
+  <link rel="stylesheet" href="/styles/student/fill-form.css">
 </head>
+
 <body>
 
-    <!-- Placeholder cho Header chung -->
-    <div id="app-header-placeholder"></div>
+  <!-- Placeholder cho Header chung -->
+  <div id="app-header-placeholder"></div>
 
-    <!-- Phần thân trang -->
+  <!-- Phần thân trang -->
   <main class="container-fluid fill-form-page">
     <div class="row">
-        <!-- <div class="logo-bk">
+      <!-- <div class="logo-bk">
             <img src="/assets/images/hcmut_logo.png" alt="Logo Trường">
         </div> -->
-        
+
       <!-- Bên trái: Thông tin khóa học -->
       <div class="col-lg-8 col-md-7 course-info">
         <!--
@@ -64,8 +66,8 @@
                 <p> <b>Lịch trình linh hoạt</b> </p>
             </div>
         </div>-->
-        
-    <!-- Các nội dung khóa học sẽ được render bởi JS -->
+
+        <!-- Các nội dung khóa học sẽ được render bởi JS -->
         <h1 class="mb-4 course-title"></h1>
         <div id="course-desc-container"></div>
         <div class="tutor-info" id="tutorInfo" style="cursor:pointer;">
@@ -73,8 +75,8 @@
         </div>
         <div class="course-desc" id="registered"></div>
         <div class="course-meta-card" id="course-meta-container"></div>
-        
-        
+
+
 
       </div>
 
@@ -82,69 +84,94 @@
       <div class="col-lg-4 col-md-5 form-section">
         <h2>Đăng ký tham gia khoá học</h2>
         <form id="registerForm">
-          <div class="mb-3">
-            <label for="name" class="form-label">Họ và tên</label>
-            <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên" required>
+          <div class="form-check">
+            <input class="form-check-input term" type="checkbox" id="t1">
+            <label class="form-check-label" for="t1">
+              Tôi đồng ý học đúng giờ và báo trước khi muốn đổi lịch.
+            </label>
           </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email cá nhân</label>
-            <input type="email" class="form-control" id="email" placeholder="Nhập địa chỉ email" required>
+
+          <div class="form-check">
+            <input class="form-check-input term" type="checkbox" id="t2">
+            <label class="form-check-label" for="t2">
+              Tôi sẽ chủ động trao đổi khi có khó khăn trong bài học.
+            </label>
           </div>
-          <div class="mb-3">
-            <label for="course" class="form-label">Khoá</label>
-            <input type="text" class="form-control" id="course" placeholder="Nhập khoá học">
+
+          <div class="form-check">
+            <input class="form-check-input term" type="checkbox" id="t3">
+            <label class="form-check-label" for="t3">
+              Tôi sẽ hợp tác đầy đủ với tutor trong suốt khóa học.
+            </label>
           </div>
-          <button type="submit" class="btn">Gửi</button>
+
+          <div class="form-check">
+            <input class="form-check-input term" type="checkbox" id="t4">
+            <label class="form-check-label" for="t4">
+              Tôi không chia sẻ tài liệu hoặc nội dung học cho người khác.
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input term" type="checkbox" id="t5">
+            <label class="form-check-label" for="t5">
+              Tôi đồng ý với các chính sách về quyền riêng tư và lưu trữ dữ liệu.
+            </label>
+          </div>
+
+          <!-- Nút gửi đăng ký (ban đầu nên disable) -->
+          <button type="submit" class="btn mt-3" id="submitBtn" disabled>Gửi</button>
         </form>
       </div>
     </div>
   </main>
 
 
-    <!-- Placeholder cho Footer chung -->
-    <div id="app-footer-placeholder"></div>
+  <!-- Placeholder cho Footer chung -->
+  <div id="app-footer-placeholder"></div>
 
-   <!-- Tutor Selection Modal -->
-    <div class="modal fade" id="tutorModal" tabindex="-1" aria-labelledby="tutorModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="tutorModalLabel">Chọn Tutor</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>Chọn một tutor hoặc để hệ thống ghép ngẫu nhiên:</p>
-            <ul class="list-group" id="tutorList">
-              <!-- JS sẽ render danh sách tutor từ JSON -->
-            </ul>
-          </div>
+  <!-- Tutor Selection Modal -->
+  <div class="modal fade" id="tutorModal" tabindex="-1" aria-labelledby="tutorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tutorModalLabel">Chọn Tutor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Chọn một tutor hoặc để hệ thống ghép ngẫu nhiên:</p>
+          <ul class="list-group" id="tutorList">
+            <!-- JS sẽ render danh sách tutor từ JSON -->
+          </ul>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Success/Error Modal -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="registerModalLabel">Thông báo</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="registerModalBody">
-            <!-- Nội dung thông báo sẽ được cập nhật bằng JS -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="modalOkBtn" data-bs-dismiss="modal">OK</button>
-          </div>
+  <!-- Success/Error Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Thông báo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="registerModalBody">
+          <!-- Nội dung thông báo sẽ được cập nhật bằng JS -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="modalOkBtn" data-bs-dismiss="modal">OK</button>
         </div>
       </div>
     </div>
+  </div>
 
 
 
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/scripts/main.js"></script>
-    <script src="/scripts/student/fill-form.js"></script>
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/scripts/main.js"></script>
+  <script src="/scripts/student/fill-form.js"></script>
 </body>
+
 </html>
