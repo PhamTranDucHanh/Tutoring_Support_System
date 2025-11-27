@@ -1,5 +1,5 @@
 // scripts/student/fill-form.js
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const courseId = urlParams.get('id');
 
@@ -25,20 +25,20 @@ document.addEventListener("DOMContentLoaded", function() {
             if (courseDescEl) courseDescEl.innerHTML = course.description;
 
             // Cập nhật tổng đăng ký
-           
+
             //const totalRegistered = course.tutors.reduce((sum, t) => sum + (t.registered || 0), 0);
-                
+
             const tutorModal = new bootstrap.Modal(document.getElementById('tutorModal'));
             const tutorListEl = document.getElementById("tutorList");
 
             let selectedTutor = course.tutors[0];
-               // Hiển thị tổng đăng ký ngay dưới tutor
+            // Hiển thị tổng đăng ký ngay dưới tutor
             if (registeredEl) {
                 registeredEl.innerHTML = `<p><b>${selectedTutor.registered || 0}</b> sinh viên đã đăng ký khóa học này.</p>`;
             }
 
             // Hiển thị tutor mặc định (đầu tiên)
-            
+
             if (tutorInfoEl) {
                 tutorInfoEl.innerHTML = `
                     <span><strong>Tutor:</strong> ${selectedTutor.name}</span>
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Chọn tutor từ danh sách
             if (tutorListEl) {
-                tutorListEl.addEventListener("click", function(e) {
+                tutorListEl.addEventListener("click", function (e) {
                     if (e.target && e.target.classList.contains("tutor-item")) {
                         let name = e.target.textContent;
                         if (name === "Ngẫu nhiên") {
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                         if (registeredEl) {
                             registeredEl.innerHTML = `<p><b>${selectedTutor.registered || 0}</b> sinh viên đã đăng ký với tutor này.</p>`;
-                        }      
+                        }
 
                         tutorModal.hide();
                     }
@@ -124,30 +124,44 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("registerForm");
     const modal = new bootstrap.Modal(document.getElementById("registerModal"));
     const modalBody = document.getElementById("registerModalBody");
+    const submitBtn = document.getElementById("submitBtn");
+    const terms = document.querySelectorAll(".term");
 
-    registerForm.addEventListener("submit", async function(e) {
+    // Bật/tắt nút submit khi tick checkbox
+    terms.forEach(t => {
+        t.addEventListener("change", function () {
+            const allChecked = Array.from(terms).every(t => t.checked);
+            submitBtn.disabled = !allChecked;
+        });
+    });
+
+    registerForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const studentYear = document.getElementById("course").value.trim();
-        const nameRegex = /^[a-zA-ZÀ-ỹ\s]+$/;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        let errorMessages = [];
-        if (!name || !nameRegex.test(name)) errorMessages.push("Họ và tên không hợp lệ (chỉ chứa chữ và khoảng trắng).");
-        if (!email || !emailRegex.test(email)) errorMessages.push("Email không hợp lệ.");
-        if (!studentYear) errorMessages.push("Vui lòng nhập khoá sinh viên (ví dụ K23).");
-        if (errorMessages.length > 0) {
-            modalBody.innerHTML = errorMessages.join("<br>");
+        // Kiểm tra các cam kết đã được đồng ý
+        // const terms = document.querySelectorAll(".term");
+        // let allChecked = true;
+        // terms.forEach(t => { if (!t.checked) allChecked = false; });
+
+        // if (!allChecked) {
+        //     modalBody.innerHTML = "Bạn cần đồng ý tất cả các cam kết để đăng ký khóa học.";
+        //     modal.show();
+        //     return;
+        // }
+        // Kiểm tra các cam kết khi submit (phòng trường hợp bypass)
+        const allChecked = Array.from(terms).every(t => t.checked);
+        if (!allChecked) {
+            modalBody.innerHTML = "Bạn cần đồng ý tất cả các cam kết để đăng ký khóa học.";
             modal.show();
             return;
         }
+        // submitBtn.disabled = true;
 
         // Lấy thông tin student hiện tại từ localStorage
-        const loggedInUser = (() => { try { return JSON.parse(localStorage.getItem('loggedInUser')); } catch(e){ return null; } })();
+        const loggedInUser = (() => { try { return JSON.parse(localStorage.getItem('loggedInUser')); } catch (e) { return null; } })();
         if (!loggedInUser || !loggedInUser.username) {
             modalBody.innerHTML = "Không tìm thấy thông tin sinh viên đăng nhập.";
             modal.show();
@@ -235,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function() {
         modal.show();
         // Khi click OK sẽ chuyển về trang đăng ký môn học
         const modalOkBtn = document.getElementById("modalOkBtn");
-        modalOkBtn.onclick = function() {
+        modalOkBtn.onclick = function () {
             window.location.href = "register-course.html";
         };
     });
