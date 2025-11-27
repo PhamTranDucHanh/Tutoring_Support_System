@@ -1,60 +1,42 @@
-// student-feedback.js – PHIÊN BẢN HOÀN HẢO NHƯ TUTOR, MƯỢT 100%
+// student-feedback.js - PHIÊN BẢN KẾT HỢP LOGIC API VÀ HIỆU ỨNG TOOLBAR
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Biến giao diện ---
+  const courseSelect = document.getElementById('courseSelect');
+  const sessionSelect = document.getElementById('sessionSelect');
   const editor = document.querySelector('.editor');
   const toolbarBtns = document.querySelectorAll('.toolbar button[data-command]');
   const stars = document.querySelectorAll('.stars i');
   const ratingText = document.querySelector('.rating span');
+  const feedbackMsg = document.getElementById('feedback-message');
   let currentRating = 0;
 
-  // === 1. PLACEHOLDER SIÊU MƯỢT – CLICK LÀ MẤT NGAY, HIỆN CON TRỎ NHÁY ===
+  // === 1. PLACEHOLDER VÀ EDITOR (GIỮ NGUYÊN BẢN GỐC MƯỢT MÀ) ===
   editor.dataset.placeholder = "Sinh viên đưa ra phản hồi tại đây";
-  editor.innerHTML = ''; // rỗng hoàn toàn
+  editor.innerHTML = ''; // Luôn bắt đầu rỗng
 
   const togglePlaceholder = () => {
-    const isEmpty = editor.innerHTML === '' || 
-                    editor.innerHTML === '<br>' || 
-                    editor.innerHTML === '<div><br></div>';
+    const isEmpty = editor.innerHTML.trim() === '' || editor.innerHTML === '<br>' || editor.innerHTML === '<div><br></div>';
     editor.classList.toggle('empty', isEmpty);
   };
 
-  // Click/focus → mất placeholder ngay, hiện con trỏ
   editor.addEventListener('focus', () => {
-    editor.classList.remove('empty');
-    // Đảm bảo con trỏ hiện ngay lập tức
-    if (isEmpty) editor.innerHTML = '';
+    if (editor.classList.contains('empty')) {
+      editor.classList.remove('empty');
+    }
   });
-
-  // Khi bỏ focus → kiểm tra có nội dung không
   editor.addEventListener('blur', togglePlaceholder);
-
-  // Khi gõ, paste, xóa → cập nhật trạng thái
   editor.addEventListener('input', togglePlaceholder);
-  editor.addEventListener('keyup', togglePlaceholder);
-  editor.addEventListener('paste', () => setTimeout(togglePlaceholder, 0));
+  togglePlaceholder(); // Khởi tạo
 
-  // Khởi động lần đầu
-  togglePlaceholder();
-
-  // === 2. TOOLBAR – SÁNG ĐÚNG, KHÔNG KẸT, TẮT/BẬT CHUẨN ===
+  // === 2. TOOLBAR – SÁNG ĐÚNG, KHÔNG KẸT, TẮT/BẬT CHUẨN (GIỮ NGUYÊN BẢN GỐC) ===
   const updateActiveButtons = () => {
     toolbarBtns.forEach(btn => btn.classList.remove('active'));
-
-    const commands = ['bold', 'italic', 'underline', 'strikeThrough',
-                      'justifyLeft', 'justifyCenter', 'justifyRight',
-                      'insertUnorderedList', 'insertOrderedList'];
-
+    const commands = ['bold', 'italic', 'underline', 'strikeThrough', 'justifyLeft', 'justifyCenter', 'justifyRight', 'insertUnorderedList', 'insertOrderedList'];
     commands.forEach(cmd => {
       const btn = [...toolbarBtns].find(b => b.dataset.command === cmd);
-      if (!btn) return;
-      try {
-        if (document.queryCommandState(cmd)) {
-          btn.classList.add('active');
-          // Xử lý nhóm căn lề: chỉ 1 cái được bật
-          if (cmd === 'justifyCenter' || cmd === 'justifyRight') {
-            [...toolbarBtns].find(b => b.dataset.command === 'justifyLeft')?.classList.remove('active');
-          }
-        }
-      } catch (e) {}
+      if (btn && document.queryCommandState(cmd)) {
+        btn.classList.add('active');
+      }
     });
   };
 
@@ -62,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       const cmd = btn.dataset.command;
       editor.focus();
-
       if (cmd === 'createLink') {
         const url = prompt('Nhập link:', 'https://');
         if (url) document.execCommand(cmd, false, url);
@@ -72,21 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         document.execCommand(cmd, false, null);
       }
-
       setTimeout(updateActiveButtons, 50);
     });
   });
 
-  // Cập nhật toolbar khi thao tác
-  editor.addEventListener('keyup', () => setTimeout(updateActiveButtons, 10));
-  editor.addEventListener('mouseup', () => setTimeout(updateActiveButtons, 10));
-  editor.addEventListener('focus', () => setTimeout(updateActiveButtons, 100));
+  const debouncedUpdate = () => setTimeout(updateActiveButtons, 10);
+  editor.addEventListener('keyup', debouncedUpdate);
+  editor.addEventListener('mouseup', debouncedUpdate);
+  editor.addEventListener('focus', debouncedUpdate);
   document.addEventListener('selectionchange', () => {
-    if (document.activeElement === editor) setTimeout(updateActiveButtons, 10);
+    if (document.activeElement === editor) debouncedUpdate();
   });
-
-  // Khởi tạo: căn lề trái, tắt hết định dạng
-  setTimeout(() => {
+  setTimeout(() => { // Khởi tạo căn lề trái
     document.execCommand('justifyLeft', false, null);
     updateActiveButtons();
   }, 100);
@@ -103,25 +81,136 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // === 4. NÚT XÓA ===
-  document.querySelector('.clear').addEventListener('click', () => {
+  // === 4. HÀM RESET FORM VÀ NÚT XÓA ===
+  function resetForm() {
     editor.innerHTML = '';
     togglePlaceholder();
     currentRating = 0;
     updateStars();
+    courseSelect.value = '';
+    sessionSelect.innerHTML = '<option value="">-- Chọn buổi học --</option>';
+    sessionSelect.disabled = true;
     setTimeout(() => {
       document.execCommand('justifyLeft', false, null);
       updateActiveButtons();
     }, 50);
+  }
+
+  document.querySelector('.clear').addEventListener('click', () => {
+    feedbackMsg.textContent = ''; // Chỉ nút xóa mới xóa message
+    resetForm();
   });
 
-  // === 5. NÚT GỬI ===
-  document.querySelector('.submit').addEventListener('click', () => {
-    const text = editor.innerText.trim();
-    if (!text || editor.classList.contains('empty')) {
-      alert('Vui lòng nhập phản hồi trước khi gửi!');
-      return;
+  // === 5. LOGIC API VÀ FORM (TỪ CODE MỚI) ===
+
+  // --- API functions ---
+  async function getCoursesAPI() {
+    try {
+      const resp = await fetch('/api/data/courses.json');
+      const arr = await resp.json();
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+  async function getFeedbackAPI() {
+    try {
+      const resp = await fetch('/api/data/stu-feedback.json');
+      const arr = await resp.json();
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+  async function saveFeedbackAPI(feedbackArr) {
+    try {
+      const resp = await fetch('/api/data/stu-feedback.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(feedbackArr, null, 2) // Thêm null, 2 để format JSON
+      });
+      return resp.ok;
+    } catch (e) { return false; }
+  }
+
+  // --- Load khóa học và xử lý chọn lựa ---
+  let coursesGlobal = [];
+  courseSelect.addEventListener('change', function() {
+    const courseId = courseSelect.value;
+    sessionSelect.innerHTML = '<option value="">-- Chọn buổi học --</option>';
+    sessionSelect.disabled = true;
+    if (!courseId) return;
+
+    const course = coursesGlobal.find(c => c.id === courseId);
+    if (course && Array.isArray(course.sessions)) {
+      course.sessions.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = `${s.topic} (${s.date})`;
+        sessionSelect.appendChild(opt);
+      });
+      sessionSelect.disabled = false;
     }
-    alert(`Đã gửi thành công!\n\nNội dung: "${text}"\nĐánh giá: ${currentRating}/5`);
+  });
+
+  // --- Khởi tạo giao diện ---
+  (async function init() {
+    coursesGlobal = await getCoursesAPI();
+    courseSelect.innerHTML = '<option value="">-- Chọn khóa học --</option>';
+    coursesGlobal.forEach(c => {
+      const courseName = c.name || c.courseName || c.title || 'Không tên';
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = `${courseName} (${c.id})`;
+      courseSelect.appendChild(opt);
+    });
+  })();
+
+  // === 6. NÚT GỬI PHẢN HỒI (TỪ CODE MỚI) ===
+  document.querySelector('.submit').addEventListener('click', async () => {
+    feedbackMsg.textContent = '';
+    const text = editor.innerText.trim(); // Dùng innerText để lấy text thuần
+    const courseId = courseSelect.value;
+    const sessionId = sessionSelect.value;
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+    const studentId = loggedInUser.id || loggedInUser.username || '';
+
+    // --- Validation ---
+    if (!courseId) {
+      feedbackMsg.textContent = 'Vui lòng chọn khóa học!'; return;
+    }
+    if (!sessionId) {
+      feedbackMsg.textContent = 'Vui lòng chọn buổi học!'; return;
+    }
+    if (!text || editor.classList.contains('empty')) {
+      feedbackMsg.textContent = 'Vui lòng nhập phản hồi trước khi gửi!'; return;
+    }
+    if (currentRating === 0) {
+      feedbackMsg.textContent = 'Vui lòng chọn số sao đánh giá!'; return;
+    }
+    if (!studentId) {
+      feedbackMsg.textContent = 'Lỗi: Không xác định được sinh viên!'; return;
+    }
+
+    // --- Tạo và gửi feedback ---
+    const feedbackId = `f_${Date.now()}_${studentId}_${sessionId}`;
+    const feedbackObj = {
+      id: feedbackId,
+      studentId: String(studentId), // Đảm bảo là string
+      courseId: courseId,
+      sessionId: sessionId,
+      rating: currentRating,
+      content: text,
+      timestamp: new Date().toISOString() // Thêm timestamp cho tiện theo dõi
+    };
+
+    let feedbackArr = await getFeedbackAPI();
+    feedbackArr.push(feedbackObj);
+    const ok = await saveFeedbackAPI(feedbackArr);
+
+    if (ok) {
+      feedbackMsg.style.color = '#0BB965';
+      feedbackMsg.textContent = 'Gửi phản hồi thành công!';
+      resetForm(); // Gọi hàm reset mới
+    } else {
+      feedbackMsg.style.color = '#d00';
+      feedbackMsg.textContent = 'Lỗi: Không thể gửi phản hồi. Vui lòng thử lại.';
+    }
   });
 });

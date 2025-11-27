@@ -19,7 +19,17 @@
             <div class="feedback-container">
                 <!-- Tiêu đề môn học -->
                 <div class="feedback-header">
-                    <strong>PHƯƠNG PHÁP (AB1234)_TÊN GIẢNG VIÊN_LỚP</strong>
+                    <strong>PHẢN HỒI BUỔI HỌC</strong>
+                </div>
+
+                <!-- Lựa chọn Khóa học & Buổi học -->
+                <div class="course-selection">
+                    <select id="courseSelect" class="form-select">
+                        <option value="">-- Đang tải khóa học... --</option>
+                    </select>
+                    <select id="sessionSelect" class="form-select" disabled>
+                        <option value="">-- Chọn buổi học --</option>
+                    </select>
                 </div>
                 
                 <!-- Thanh công cụ -->
@@ -43,7 +53,10 @@
 
                 <!-- Ô nhập phản hồi -->
                 <div class="editor" contenteditable="true" data-placeholder="Sinh viên đưa ra phản hồi tại đây"></div>
-
+                
+                <!-- Thông báo phản hồi -->
+                <div id="feedback-message"></div>
+                
                 <!-- Đánh giá & Nút -->
                 <div class="actions">
                     <div class="rating">

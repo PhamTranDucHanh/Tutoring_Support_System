@@ -9,5 +9,16 @@
     "quiz3": "8",
     "midterm": "8",
     "comment": "Em cần làm bài cẩn thận hơn"
+  },
+  {
+    "id": "te_1764263786582_thay_x_2310896",
+    "tutorId": "thay_x",
+    "studentId": "2310896",
+    "absences": "1",
+    "quiz1": "1",
+    "quiz2": "1",
+    "quiz3": "1",
+    "midterm": "10",
+    "comment": "Kiểm tra lại chức năng sau khi merge"
   }
 ]

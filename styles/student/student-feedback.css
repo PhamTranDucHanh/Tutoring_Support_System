@@ -177,3 +177,19 @@ button.submit {
 button.submit:hover {
   background: #0056b3;
 }
+
+/* Lựa chọn khóa học & buổi học */
+.course-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Vùng thông báo */
+#feedback-message {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 16px;
+  min-height: 24px; /* Để không bị nhảy layout khi text xuất hiện */
+}
