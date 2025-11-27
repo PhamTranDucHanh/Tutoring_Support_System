@@ -7,8 +7,12 @@
     "email": "hanh.phamhanh@hcmut.edu.vn",
     "registeredCourses": [
       {
-        "courseId": "d_000",
+        "courseId": "a_000",
         "registeredAt": "2025-11-23T17:22:54.097Z"
+      },
+      {
+        "courseId": "b_000",
+        "registeredAt": "2025-11-23T17:23:30.000Z"
       },
       {
         "courseId": "c_000",

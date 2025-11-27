@@ -99,21 +99,10 @@
         "end": "11:00",
         "mode": "Offline",
         "location": "H6-610"
-      },
-      {
-        "id": "a_008",
-        "tutorId": "TUT001",
-        "topic": "Bài tập ôn cuối kỳ (phần 2)",
-        "description": "Hoàn tất ôn tập và hướng dẫn tự học tiếp theo.",
-        "date": "2026-01-19",
-        "start": "09:00",
-        "end": "11:00",
-        "mode": "Offline",
-        "location": "H6-610"
       }
     ],
     "numCurrentStudents": 1,
-    "numCurrentSessions": 8
+    "numCurrentSessions": 7
   },
   {
     "id": "b_000",
@@ -131,8 +120,8 @@
     "flexibleSchedule": true,
     "tutors": [
       {
-        "id": "TUT001",
-        "name": "Lê Văn X",
+        "id": "TUT002",
+        "name": "Phạm Thị Y",
         "rating": 4.4,
         "reviews": 555,
         "registered": 1001
@@ -258,47 +247,5 @@
     ],
     "numCurrentStudents": 1,
     "numCurrentSessions": 4
-  },
-  {
-    "id": "d_000",
-    "title": "Khóa học tạo để demo 123",
-    "description": "Khóa học tạo để demo 123, chỉ để demo thôi",
-    "durationMonths": 2,
-    "sessionsPerWeek": 2,
-    "maxStudents": 60,
-    "createdAt": "2025-11-23T17:03:29.552Z",
-    "tutors": [
-      {
-        "id": "TUT001",
-        "name": "Lê Văn X",
-        "rating": 0,
-        "reviews": 0,
-        "registered": 0
-      }
-    ],
-    "sessions": [
-      {
-        "id": "d_001",
-        "topic": "session đầu tiên được tạo",
-        "description": "session đầu tiên được tạo 12323446",
-        "date": "0025-12-12",
-        "start": "02:23",
-        "end": "03:23",
-        "mode": "Offline",
-        "location": "H6-610"
-      },
-      {
-        "id": "d_002",
-        "topic": "session đầu tiên được tạo ở áasass",
-        "description": "session đầu tiên được tạo ở áasass hehehe",
-        "date": "2026-12-12",
-        "start": "02:23",
-        "end": "03:23",
-        "mode": "Offline",
-        "location": "H6-610"
-      }
-    ],
-    "numCurrentStudents": 1,
-    "numCurrentSessions": 2
   }
 ]

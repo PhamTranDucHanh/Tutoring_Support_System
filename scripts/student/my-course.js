@@ -19,7 +19,7 @@
 
   async function loadTutors() {
     try {
-      const resp = await fetch('/data/tutor.json', { cache: 'no-store' });
+      const resp = await fetch('/api/data/tutor.json', { cache: 'no-store' });
       if (!resp.ok) throw new Error('no tutor data');
       const json = await resp.json();
       // Convert array to map keyed by id
@@ -38,7 +38,7 @@
 
   async function loadData() {
     try {
-      const resp = await fetch('/data/courses.json', { cache: 'no-store' });
+      const resp = await fetch('/api/data/courses.json', { cache: 'no-store' });
       if (!resp.ok) throw new Error('no data');
       const json = await resp.json();
       if (!json || json.length === 0) throw new Error('empty');
@@ -134,8 +134,8 @@
 
     const btnCancel = document.createElement('button');
     btnCancel.className = 'btn btn-outline-danger btn-sm';
-    btnCancel.textContent = 'Hủy';
-    btnCancel.addEventListener('click', () => openConfirm(session));
+    btnCancel.textContent = 'Xin vắng';
+    btnCancel.addEventListener('click', () => openAbsenceRequest(session));
 
     actions.appendChild(btnDetail); actions.appendChild(btnCancel); tdActions.appendChild(actions);
     tr.appendChild(tdDate); tr.appendChild(tdTopic); tr.appendChild(tdTime); tr.appendChild(tdActions);
@@ -172,6 +172,28 @@
     window.location.href = '/pages/student/course-detail.html';
   }
 
+  function openAbsenceRequest(session) {
+    // Navigate to absence request page with session data
+    const sessionWithContext = {
+      ...session,
+      courseId: currentCourseId,
+      courseTitle: currentCourseTitle,
+      tutorName: (dataCache && currentCourseId && dataCache[currentCourseId]) 
+        ? dataCache[currentCourseId].tutorName 
+        : getTutorName(session.tutorId)
+    };
+    
+    // Store session data for absence request page
+    sessionStorage.setItem('absenceRequestSession', JSON.stringify(sessionWithContext));
+    
+    // Store return context for navigation back
+    if (currentCourseId) sessionStorage.setItem('returnToCourseId', currentCourseId);
+    if (currentCourseTitle) sessionStorage.setItem('returnToCourseTitle', currentCourseTitle);
+    
+    // Navigate to absence request page
+    window.location.href = '/pages/student/absence-request.html';
+  }
+
   function openConfirm(session) {
     // Simplified after removing inline detail modal: just ensure list modal is shown, then show confirm
     pendingDeleteSession = session;
@@ -187,14 +209,42 @@
   }
 
   if (confirmYes) {
-    confirmYes.addEventListener('click', () => {
+    confirmYes.addEventListener('click', async () => {
       confirmModal && confirmModal.hide();
-      const handler = () => {
+      const handler = async () => {
         confirmModalEl.removeEventListener('hidden.bs.modal', handler);
         if (pendingDeleteSession && dataCache && currentCourseId) {
+          // Remove session from local cache
           const arr = dataCache[currentCourseId].sessions || [];
           const idx = arr.indexOf(pendingDeleteSession);
-          if (idx >= 0) arr.splice(idx, 1);
+          if (idx >= 0) {
+            arr.splice(idx, 1);
+            
+            // Save changes to courses.json using API
+            try {
+              // Convert dataCache back to array format for courses.json
+              const coursesArray = Object.values(dataCache);
+              const response = await fetch('/api/data/courses.json', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(coursesArray)
+              });
+              
+              if (!response.ok) {
+                console.error('Lỗi khi lưu courses.json:', response.statusText);
+                alert('Có lỗi khi lưu thay đổi. Vui lòng thử lại.');
+                return;
+              }
+              
+              console.log('Đã xóa session thành công và lưu vào courses.json');
+            } catch (error) {
+              console.error('Lỗi khi gọi API lưu courses.json:', error);
+              alert('Có lỗi khi lưu thay đổi. Vui lòng thử lại.');
+              return;
+            }
+          }
         }
         refreshAfterDelete();
         pendingDeleteSession = null;
@@ -248,11 +298,22 @@
       return;
     }
     const courses = await respCourse.json();
+    
+    // Load tutors first to get names for detail display
+    if (!tutorsCache) tutorsCache = await loadTutors();
+    
     // Map courseId sang object course (chỉ lấy các course có id hợp lệ)
     const courseMap = {};
     courses.forEach(c => {
-      if (c && c.id) courseMap[c.id] = c;
+      if (c && c.id) {
+        // Add tutor name from tutorsCache
+        c.tutorName = (tutorsCache[c.tutorId] && tutorsCache[c.tutorId].fullName) || c.tutorId;
+        courseMap[c.id] = c;
+      }
     });
+    
+    // Set dataCache for openDetail function
+    dataCache = courseMap;
     // Hiển thị danh sách các khóa học đã đăng ký
     const listGroup = document.querySelector('.list-group');
     if (listGroup) {
