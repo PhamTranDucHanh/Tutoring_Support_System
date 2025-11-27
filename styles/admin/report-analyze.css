@@ -1,6 +1,6 @@
 /* --- CSS Variables --- */
 :root {
-  --primary: #3A89BF;
+  --primary: #3a89bf;
   --success: #28a745;
   --danger: #dc3545;
   --border: #dee2e6;
@@ -81,7 +81,7 @@ body {
   min-height: 100vh;
 }
 
-.main-content>.d-flex {
+.main-content > .d-flex {
   height: calc(100vh - 120px);
   gap: 1.5rem;
   padding: 0 1.5rem;
@@ -141,7 +141,7 @@ body {
 
 /* --- Buttons --- */
 .btn-primary-custom {
-  background: linear-gradient(135deg, #3A89BF, #2C73A0);
+  background: linear-gradient(135deg, #3a89bf, #2c73a0);
   border: none;
   color: white;
   font-weight: 600;
@@ -151,7 +151,7 @@ body {
 }
 
 .btn-primary-custom:hover {
-  background: linear-gradient(135deg, #2C73A0, #1e5b85);
+  background: linear-gradient(135deg, #2c73a0, #1e5b85);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(58, 137, 191, 0.4);
 }
@@ -251,7 +251,13 @@ body {
   color: #1976d2;
 }
 
-.badge.finance {
+.badge.other {
+  background: #e8f5e9;
+  color: #c91f1f;
+}
+
+/* compare badge style (used for 'So sánh' and mapped 'Tài chính') */
+.badge.compare {
   background: #e8f5e9;
   color: #388e3c;
 }
@@ -299,4 +305,58 @@ body {
   .search-container {
     width: 100%;
   }
+}
+
+/* Confirm button styles (admin report modal) */
+#btnConfirm {
+  color: #fff;
+  /* white text by default */
+  background-color: #2c73a0;
+  /* match modal/footer background */
+  border: none;
+  font-weight: 700;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    transform 0.08s ease;
+}
+
+/* When pressed, change text color to black for high contrast */
+
+#btnConfirm:active,
+#btnConfirm:focus {
+  color: #000 !important;
+
+  background-color: #2c73a0;
+
+  transform: translateY(1px);
+}
+
+/* --- Custom Styles for Search and Filter --- */
+
+/* Apply border-radius to the search bar */
+
+.input-group {
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+/* Style for dim placeholder in select */
+
+.form-select:invalid,
+.form-select option[value=''] {
+  color: #6c757d; /* Muted color for placeholder */
+}
+
+/* Style for selected option */
+
+.form-select {
+  color: #212529; /* Default dark color */
+}
+
+/* Ensure options in dropdown are always dark */
+
+.form-select option {
+  color: #212529;
 }

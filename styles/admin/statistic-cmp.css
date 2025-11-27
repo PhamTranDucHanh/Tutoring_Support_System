@@ -1,556 +1,163 @@
-/* ========================================
-   styles/main.css
-   Style chung cho toàn bộ website
-   ======================================== */
-
-/* --- CSS Variables --- */
-:root {
-  --primary: #3A89BF;
-  --success: #28a745;
-  --danger: #dc3545;
-  --border: #dee2e6;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --radius: 12px;
+/* General styles for the statistics comparison page */
+.center-panel {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: auto;
 }
 
-/* --- Global Reset --- */
-* {
-  box-sizing: border-box;
+.compare-tabs .tab-buttons {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 1.5rem;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
-  background: #f8f9fa;
-  color: #333;
-  height: 100%;
-}
-
-/* --- Layout --- */
-.d-flex.h-100 {
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem 1.5rem;
-  padding-bottom: 100px;
-  background: #f0f2f5;
-  min-height: calc(100vh - 60px);
-  overflow: hidden;
-}
-
-/* --- Sidebar --- */
-.left {
-  width: 300px;
-  flex-shrink: 0;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  margin: 0 1rem;
-  height: calc(100vh - 4rem);
-  overflow-y: auto;
-  position: sticky;
-  top: 2rem;
-}
-
-.sidebar {
-  padding: 1.5rem;
-  height: 100%;
-}
-
-.section-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #1e1e1e;
+.compare-tabs .tab-btn {
+  padding: 0.6rem 0.75rem;
+  flex: 1 1 0;
   text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.menu-seperator hr {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 1.5rem 0;
-}
-
-.menu-group {
-  margin-top: 1.5rem;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #1e1e1e;
-  transition: all 0.2s ease;
   cursor: pointer;
-}
-
-.menu-item:hover,
-.menu-item.active {
-  background: #e0f7fa;
-  color: #1976d2;
-}
-
-.menu-icon {
-  width: 20px;
-  height: 20px;
-  background: #1976d2;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.menu-icon i {
-  color: white;
-  font-size: 0.8rem;
-}
-
-/* --- Right Content --- */
-.right {
-  flex: 1;
-  min-width: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1rem 1.5rem;
-  padding-bottom: 150px;
-  background: #f8f9fa;
-  max-height: calc(100vh - 60px);
-}
-
-/* --- Card --- */
-.card {
+  background: none;
   border: none;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  height: 100%;
-}
-
-.card-body {
-  padding-bottom: 50px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* --- Search Bar --- */
-.search-container {
-  width: 100%;
-  max-width: 485px;
-  height: 42px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  color: #000;
-  margin-left: 0.75rem;
-}
-
-.search-clear {
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border: none;
-  color: #999;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-clear:hover {
-  color: #333;
-}
-
-/* --- Buttons --- */
-.btn {
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-primary-custom {
-  background: linear-gradient(135deg, var(--primary), #2C73A0);
-  border: none;
-  color: white;
   font-weight: 600;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(58, 137, 191, 0.3);
-}
-
-.btn-primary-custom:hover {
-  background: linear-gradient(135deg, #2C73A0, #1e5b85);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(58, 137, 191, 0.4);
-}
-
-.btn-action {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  margin: 0 4px;
-  border: none;
-  transition: all 0.2s;
-}
-
-.btn-edit {
-  background: #d4edda;
-  color: var(--success);
-}
-
-.btn-delete {
-  background: #f8d7da;
-  color: var(--danger);
-}
-
-.btn-edit:hover {
-  background: #c3e6cb;
-}
-
-.btn-delete:hover {
-  background: #f5c6cb;
-}
-
-.btn-success {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  border: none;
-}
-
-.btn-success:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-}
-
-.btn-danger {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  border: none;
-}
-
-.btn-danger:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
-}
-
-.btn-outline-secondary {
-  color: #6c757d;
-  border-color: var(--border);
-  background: white;
-}
-
-.btn-outline-secondary:hover {
-  background: #e9ecef;
-  color: #495057;
-}
-
-.btn-group-custom {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100%;
-  padding-top: 28px;
-}
-
-/* --- Form Elements --- */
-.form-row {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  transition: all 0.3s ease;
-}
-
-.form-row:hover {
-  background: #e9ecef;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
-
-.form-label {
-  font-weight: 600;
-  color: #495057;
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-.form-control,
-.form-select {
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 15px;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus,
-.form-select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 0.2rem rgba(58, 137, 191, 0.15);
-}
-
-.input-group .btn {
-  border: 2px solid var(--border);
-  border-left: none;
-}
-
-/* --- Footer --- */
-#app-footer-placeholder {
-  position: relative;
-  z-index: 1;
-  margin-top: auto;
-}
-
-#footer {
-  position: sticky;
-  bottom: 0;
-  background: white;
-  z-index: 10;
-}
-
-/* --- Chart --- */
-#mainChart {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* --- Utility Classes --- */
-.pt-4 {
-  padding-top: 1.5rem !important;
-}
-
-.mb-5 {
-  margin-bottom: 2rem !important;
-}
-
-/* --- Responsive --- */
-@media (max-width: 992px) {
-  .d-flex.h-100 {
-    flex-direction: column;
-  }
-
-  .left {
-    width: 100%;
-    height: auto;
-    margin: 0;
-    position: static;
-    border-radius: 0;
-  }
-
-  .main-content {
-    padding: 1rem;
-  }
-
-  .right {
-    padding: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .search-container {
-    max-width: 100%;
-  }
-
-  .btn-group-custom {
-    padding-top: 15px;
-    justify-content: stretch;
-  }
-
-  .btn-group-custom .btn {
-    flex: 1;
-  }
-
-  .right {
-    padding-bottom: 200px;
-  }
-}
-
-/* ========================================
-   styles/admin/statistic-cmp.css
-   Style cho trang so sánh thống kê
-   ======================================== */
-
-/* --- Tabs Container --- */
-.compare-tabs {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.tab-buttons {
-  display: flex;
-  border-bottom: 2px solid #e9ecef;
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 15px 20px;
-  border: none;
-  background: white;
-  cursor: pointer;
-  font-weight: 500;
   color: #6c757d;
   transition: all 0.3s ease;
-  position: relative;
+  border-bottom: 3px solid transparent;
 }
 
-.tab-btn:hover {
-  background: #f8f9fa;
-  color: #495057;
+.compare-tabs .tab-btn.active,
+.compare-tabs .tab-btn:hover {
+  color: #3a89bf;
+  border-bottom-color: #3a89bf;
 }
 
-.tab-btn.active {
-  color: #3A89BF;
-  background: #f8f9fc;
-}
-
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #3A89BF;
-}
-
-.tab-content {
-  padding: 30px;
+.compare-tabs .tab-content {
   display: none;
 }
 
-.tab-content.active {
+.compare-tabs .tab-content.active {
   display: block;
+  animation: fadeIn 0.5s;
 }
 
-/* --- Search Section --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .search-section {
-  background: #f8f9fc;
-  padding: 25px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-/* --- Upload Area --- */
-.upload-area {
-  border: 2px dashed #cbd5e0;
-  border-radius: 12px;
-  padding: 40px;
-  text-align: center;
-  background: #f8f9fc;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.upload-area:hover {
-  border-color: #3A89BF;
-  background: #e6f2f9;
-}
-
-.upload-area.dragover {
-  border-color: #3A89BF;
-  background: #d1e7f5;
-  transform: scale(1.02);
-}
-
-/* --- File List --- */
-.file-list {
-  margin-top: 20px;
-}
-
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 15px;
-  background: white;
+  background-color: #ffffff;
+  padding: 1.5rem;
   border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e9ecef;
 }
 
-.file-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* header inside result tab should have no horizontal padding and distribute items evenly */
+.compare-tabs .tab-content .result-header {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100%;
 }
 
-.file-icon {
-  width: 40px;
-  height: 40px;
-  background: #3A89BF;
-  color: white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Improve disabled select appearance so it's clear until compare type is chosen */
+.form-select[disabled] {
+  background-color: #f1f3f5;
+  color: #6c757d;
+  cursor: not-allowed;
 }
 
-/* --- Compare Button --- */
 .compare-btn {
-  background: linear-gradient(135deg, #3A89BF 0%, #2c6a94 100%);
-  border: none;
-  padding: 12px 40px;
-  border-radius: 8px;
+  background-color: #3a89bf;
   color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.compare-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(58, 137, 191, 0.4);
+.compare-btn:hover:not(:disabled) {
+  background-color: #3a89bf;
 }
 
 .compare-btn:disabled {
-  opacity: 0.5;
+  background-color: #a0c8e0;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* --- Result Table --- */
-.result-table {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.table-header-custom {
-  background: linear-gradient(135deg, #3A89BF 0%, #2c6a94 100%);
-  color: white;
+/* Style for placeholder text in select elements */
+.form-select.placeholder-shown {
+  color: #6c757d;
 }
 
-.badge-custom {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
+.form-select option {
+  color: #212529;
+  /* Default text color for options */
+}
+
+/* Reduce large bottom space and pull the panel content up on this page */
+/* Target only this layout (main-content + center-panel) so other pages stay unaffected */
+.main-content.center-panel {
+  padding-bottom: 1rem !important;
+  /* shrink the big 100px bottom padding defined globally */
+  padding-top: 1rem !important;
+  /* tighten top a bit to match */
+  min-height: auto !important;
+  /* avoid forcing full viewport height */
+}
+
+/* make compare-tabs use natural height and remove extra vertical whitespace */
+.compare-tabs {
+  padding-bottom: 0.5rem;
+}
+
+/* the search-section and buttons area should sit closer together */
+.compare-tabs .search-section {
+  margin-bottom: 0.75rem;
+}
+
+.compare-tabs .text-end {
+  margin-top: 0.75rem;
+}
+
+/* --- Custom Styles for Filters --- */
+
+/* Apply border-radius to select elements */
+
+.form-select {
+  border-radius: 10px;
+}
+
+/* Style for dim placeholder in select */
+
+.form-select:invalid,
+.form-select option[value=''] {
+  color: #6c757d; /* Muted color for placeholder */
+}
+
+/* Style for selected option */
+
+.form-select {
+  color: #212529; /* Default dark color */
+}
+
+/* Ensure options in dropdown are always dark */
+
+.form-select option {
+  color: #212529;
 }

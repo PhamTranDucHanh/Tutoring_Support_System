@@ -1,0 +1,47 @@
+[
+  {
+    "id": "stat_1763914172319",
+    "type": "Thống kê",
+    "name": "Thống kê hệ thống tổng quan",
+    "description": "Báo cáo tổng quan về hệ thống",
+    "updatedAt": "2025-11-25T02:28:22.202Z",
+    "updatedBy": "COO001",
+    "content": "Báo cáo thống kê tổng quan về hệ thống hiện tại\n Tổng số học sinh: 2\n Tổng số giáo viên: 2\n Tổng số khóa học: 4\n Tổng số buổi học: 18"
+  },
+  {
+    "id": "STAT_1763915278240",
+    "type": "Thống kê",
+    "name": "Thống kê học sinh hiện tại",
+    "description": "Báo cáo chi tiết về học sinh hiện tại",
+    "updatedAt": "2025-11-25T07:42:43.336Z",
+    "updatedBy": "COO001",
+    "content": "Báo cáo thống kê về học sinh hiện tại\n Tổng số học sinh: 2\n -) duchanh:\n +) Số khóa học đăng kí: 2\n -) myhanh:\n +) Số khóa học đăng kí: 2"
+  },
+  {
+    "id": "TTS_1763969075314",
+    "type": "Thống kê",
+    "name": "Thống kê các chỉ số trung bình của khóa học",
+    "description": "Báo cáo các chỉ số trung bình của khóa học",
+    "updatedAt": "2025-11-25T07:42:32.984Z",
+    "updatedBy": "COO001",
+    "content": "Báo cáo trung bình của khóa học\n -) Trung bình mỗi buổi học/khóa: 4.5 buổi \n -) Trung bình số lượng sinh viên/khóa: 1 sinh viên\n -) Trung bình số lượng giảng viên 1 khóa học: 1 giáo viên"
+  },
+  {
+    "id": "stat_13434914172319",
+    "type": "Thống kê",
+    "name": "Thống kê hệ thống DEMO",
+    "description": "Báo cáo tổng quan về DEMO",
+    "updatedAt": "2025-11-27T09:27:48.532Z",
+    "updatedBy": "COO001",
+    "content": "DEMO HEHEHE\nHeheheh"
+  },
+  {
+    "id": "README_13434914172319",
+    "type": "Note",
+    "name": "I give up",
+    "description": "Chú ý khi merge",
+    "updatedAt": "HEHE",
+    "updatedBy": "Me",
+    "content": "Có thể xóa bớt cái sys-stat.json vì báo cáo lấy từ stats-reports.json và cmp-reports.json\n Xóa các file prettier và package-lock.json vì các file này chỉ hỗ trợ clean code và bỏ các biến thừa \n Có thể cập nhật thêm các data khác thống kê trong statistic-cmp.js và statistic-main.js ở các hàm render\n Xóa cái báo cáo note này khi merge "
+  }
+]
