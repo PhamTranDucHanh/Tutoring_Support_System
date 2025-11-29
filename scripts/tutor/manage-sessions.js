@@ -132,19 +132,32 @@ document.addEventListener('DOMContentLoaded', () => {
       seenCombo.add(combo);
       return true;
     });
-    // Sắp xếp theo ngày tăng dần
-    function toISO(dateStr) {
-      if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
-        const [dd, mm, yyyy] = dateStr.split('-');
-        return `${yyyy}-${mm}-${dd}`;
+    // Sắp xếp theo ngày tăng dần (parse chắc chắn các định dạng phổ biến)
+    function toEpochMillis(dateStr) {
+      if (!dateStr) return 0;
+      // dd-mm-yyyy
+      let m = dateStr.match(/^([0-3]?\d)-([0-1]?\d)-(\d{4})$/);
+      if (m) {
+        const dd = parseInt(m[1], 10), mm = parseInt(m[2], 10), yyyy = parseInt(m[3], 10);
+        return Date.UTC(yyyy, mm - 1, dd);
       }
-      if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
-        const [dd, mm, yyyy] = dateStr.split('/');
-        return `${yyyy}-${mm}-${dd}`;
+      // dd/mm/yyyy
+      m = dateStr.match(/^([0-3]?\d)\/([0-1]?\d)\/(\d{4})$/);
+      if (m) {
+        const dd = parseInt(m[1], 10), mm = parseInt(m[2], 10), yyyy = parseInt(m[3], 10);
+        return Date.UTC(yyyy, mm - 1, dd);
       }
-      return dateStr;
+      // yyyy-mm-dd (ISO-like)
+      m = dateStr.match(/^(\d{4})-([0-1]?\d)-([0-3]?\d)$/);
+      if (m) {
+        const yyyy = parseInt(m[1], 10), mm = parseInt(m[2], 10), dd = parseInt(m[3], 10);
+        return Date.UTC(yyyy, mm - 1, dd);
+      }
+      // Fallback: Date.parse (có thể phụ thuộc môi trường)
+      const t = Date.parse(dateStr);
+      return isNaN(t) ? 0 : t;
     }
-    filteredSessions.sort((a, b) => new Date(toISO(a.date)) - new Date(toISO(b.date)));
+    filteredSessions.sort((a, b) => toEpochMillis(a.date) - toEpochMillis(b.date));
     displaySessionResults(filteredSessions);
   }
 
