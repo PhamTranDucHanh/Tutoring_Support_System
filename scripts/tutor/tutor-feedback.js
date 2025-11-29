@@ -7,38 +7,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!feedbackMsg) {
     feedbackMsg = document.createElement('div');
     feedbackMsg.id = 'feedback-message';
-    feedbackMsg.style = 'margin-top:16px;text-align:center;font-weight:500;';
-    document.querySelector('.tutor-feedback-container').appendChild(feedbackMsg);
+    feedbackMsg.style = 'margin-bottom: 16px; text-align:center; font-weight:500; color: #d00;';
+    // Chèn vào trước action-buttons
+    const actionButtons = document.querySelector('.action-buttons');
+    actionButtons.parentNode.insertBefore(feedbackMsg, actionButtons);
   }
 
-  // === ĐỌC THÔNG TIN SINH VIÊN TỪ URL ===
+  // THAY ĐỔI: Khởi tạo modal
+  const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+  // === ĐỌC THÔNG TIN SINH VIÊN TỪ URL (GIỮ NGUYÊN) ===
   const urlParams = new URLSearchParams(window.location.search);
   const studentId = urlParams.get('id');
   const studentName = urlParams.get('name');
   const studentClass = urlParams.get('class') || 'L01';
+  const courseId = urlParams.get('courseId');
 
   document.getElementById('studentDisplay').textContent =
     studentId && studentName ? `${studentName} _ ${studentId} _ ${studentClass}` : 'Không tìm thấy sinh viên';
 
-  // === LOAD NHẬN XÉT CŨ ===
-  let existingEvaluations = [];
-  try {
-    const res = await fetch('/data/evaluation.json');
-    if (res.ok) existingEvaluations = await res.json();
-  } catch (e) {}
-
-  const existing = existingEvaluations.find(e => e.studentId === studentId);
-  if (existing) {
-    document.querySelector('input[placeholder="0"]').value = existing.absences || '';
-    const inputs = document.querySelectorAll('.score-inputs input');
-    inputs[1].value = existing.quiz1 || '';
-    inputs[2].value = existing.quiz2 || '';
-    inputs[3].value = existing.quiz3 || '';
-    inputs[4].value = existing.midterm || '';
-    editor.innerHTML = existing.comment || '';
-  }
-
-
+  // === CÁC HÀM TIỆN ÍCH (GIỮ NGUYÊN) ===
   function updatePlaceholder() {
     if (editor.innerHTML.trim() === '' || editor.innerHTML === `<span style="color:#aaa;">${placeholderText}</span>`) {
       editor.innerHTML = '';
@@ -51,79 +39,64 @@ document.addEventListener('DOMContentLoaded', async () => {
   editor.addEventListener('focus', () => editor.classList.remove('empty'));
   editor.addEventListener('blur', updatePlaceholder);
   editor.addEventListener('input', updatePlaceholder);
-  updatePlaceholder(); // lần đầu
+  updatePlaceholder();
 
-  // =================================================================
-  // === TOOLBAR: LÀM NÚT SÁNG ĐÚNG KHI DÙNG ĐỊNH DẠNG ===
-  // =================================================================
+  // === TOOLBAR (GIỮ NGUYÊN) ===
   function updateToolbarState() {
     document.querySelectorAll('.toolbar button[data-command]').forEach(btn => {
       const cmd = btn.getAttribute('data-command');
       btn.classList.remove('active');
-
       let isActive = false;
       try {
-        if (['bold', 'italic', 'underline', 'strikeThrough',
-             'insertUnorderedList', 'insertOrderedList',
-             'justifyLeft', 'justifyCenter', 'justifyRight'].includes(cmd)) {
+        if (['bold', 'italic', 'underline', 'strikeThrough', 'insertUnorderedList', 'insertOrderedList', 'justifyLeft', 'justifyCenter', 'justifyRight'].includes(cmd)) {
           isActive = document.queryCommandState(cmd);
         }
       } catch (e) {}
-
       if (isActive) btn.classList.add('active');
     });
   }
-
-  // Cập nhật trạng thái liên tục
-  editor.addEventListener('keyup', updateToolbarState);
-  editor.addEventListener('mouseup', updateToolbarState);
-  editor.addEventListener('click', updateToolbarState);
-  editor.addEventListener('input', updateToolbarState);
-  editor.addEventListener('focus', updateToolbarState);
-
-  // Cập nhật ngay khi load (nếu có nội dung cũ đã định dạng)
+  ['keyup', 'mouseup', 'click', 'input', 'focus'].forEach(event => editor.addEventListener(event, updateToolbarState));
   setTimeout(updateToolbarState, 100);
 
-  // Xử lý click nút toolbar
   document.querySelectorAll('.toolbar button[data-command]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const cmd = btn.getAttribute('data-command');
-
       if (cmd === 'createLink') {
         const url = prompt('Nhập link:', 'https://');
         if (url) document.execCommand('createLink', false, url);
-      }
-      else if (cmd === 'insertImage') {
+      } else if (cmd === 'insertImage') {
         const url = prompt('Nhập URL ảnh:', 'https://');
         if (url) document.execCommand('insertImage', false, url);
-      }
-      else {
+      } else {
         document.execCommand(cmd, false, null);
       }
-
       editor.focus();
-      setTimeout(updateToolbarState, 10); // cực nhanh
+      setTimeout(updateToolbarState, 10);
     });
   });
 
-  // =================================================================
-  // === NÚT XÓA & GỬI ===
-  // =================================================================
-  document.querySelector('.btn-clear').addEventListener('click', () => {
-    if (confirm('Xóa toàn bộ nhận xét và điểm của sinh viên này?')) {
+  // === THAY ĐỔI: TẠO HÀM RESET FORM ===
+  function resetForm() {
       editor.innerHTML = '';
       updatePlaceholder();
       document.querySelectorAll('.score-inputs input').forEach(i => i.value = '');
       updateToolbarState();
+      feedbackMsg.textContent = ''; // Xóa thông báo lỗi (nếu có)
+  }
+
+  // === NÚT XÓA & GỬI ===
+  document.querySelector('.btn-clear').addEventListener('click', () => {
+    if (confirm('Xóa toàn bộ nội dung đang nhập trên form?')) {
+      resetForm();
     }
   });
 
   document.querySelector('.btn-submit').addEventListener('click', async () => {
     updatePlaceholder();
+    feedbackMsg.textContent = ''; // Xóa thông báo cũ
     let comment = editor.innerHTML.trim();
     if (editor.classList.contains('empty') || !editor.innerText.trim()) {
-      feedbackMsg.style.color = '#d00';
       feedbackMsg.textContent = 'Vui lòng nhập nhận xét!';
       return;
     }
@@ -135,6 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: `te_${Date.now()}_${tutorId}_${studentId}`,
       tutorId: tutorId,
       studentId: studentId,
+      courseId: courseId || 'not-specified',
       absences: document.querySelector('input[placeholder="0"]').value || '0',
       quiz1: document.querySelectorAll('.score-inputs input')[1].value || '0',
       quiz2: document.querySelectorAll('.score-inputs input')[2].value || '0',
@@ -147,25 +121,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const res = await fetch('/api/data/tutor-evaluate.json');
       if (res.ok) evaluations = await res.json();
-    } catch (e) {}
+    } catch (e) { /* Bỏ qua lỗi nếu file chưa tồn tại */ }
 
-    // Xóa bản ghi cũ của tutor này với sinh viên này
-    evaluations = evaluations.filter(e => !(e.tutorId === tutorId && e.studentId === studentId));
     evaluations.push(evaluation);
 
     try {
       const resp = await fetch('/api/data/tutor-evaluate.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(evaluations)
+        body: JSON.stringify(evaluations, null, 2)
       });
       if (resp.ok) {
-        feedbackMsg.style.color = '#0BB965';
-        feedbackMsg.textContent = 'Đã gửi nhận xét thành công!';
-      } else throw new Error();
+        // THAY ĐỔI: Hiển thị modal và reset form
+        resetForm();
+        successModal.show();
+      } else {
+        throw new Error('Server responded with an error');
+      }
     } catch (e) {
-      feedbackMsg.style.color = '#d00';
       feedbackMsg.textContent = 'Lỗi khi lưu nhận xét!';
+      console.error(e);
     }
   });
 });

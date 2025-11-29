@@ -62,7 +62,7 @@
   display: grid;
   grid-template-columns: 1fr 1.8fr;
   gap: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 24px; /* Giảm margin bottom */
 }
 
 
@@ -117,6 +117,15 @@
 
 .comment-editor:empty::before {
   display: block;
+}
+
+/* Vùng thông báo lỗi */
+#feedback-message {
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 16px;
+    min-height: 24px;
+    color: #d00;
 }
 
 /* Nút */
@@ -176,8 +185,8 @@
 .score-inputs .form-control {
   width: 80px;
   padding: 10px 12px;
-  border: 1.5px solid #ddd !important;        /* thêm border */
-  border-radius: 10px !important;             /* ép 4 góc tròn */
+  border: 1.5px solid #ddd !important;
+  border-radius: 10px !important;
   background: #f8f9fc;
   font-size: 15px;
   font-weight: 500;
@@ -204,11 +213,33 @@
   display: none;
 }
 
-/* Khi có nội dung thì ẩn placeholder */
 #commentEditor:not(:empty)::before {
   display: none;
 }
 
 .score-inputs input {
   pointer-events: auto !important;
+}
+
+/* THAY ĐỔI: Style cho modal thành công */
+.success-modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+.success-modal-content .modal-body i {
+    color: #28a745;
+}
+
+.success-modal-content .btn-primary {
+    background-color: #3a8abf;
+    border-color: #3a8abf;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+}
+
+.success-modal-content .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }

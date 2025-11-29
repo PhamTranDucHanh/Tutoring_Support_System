@@ -86,6 +86,22 @@
     font-size: 0.875rem;
 }
 
+/* THAY ĐỔI: Style cho modal thành công */
+.success-modal-content {
+    border-radius: 15px;
+}
+
+.success-modal-content .modal-body i {
+    color: #28a745;
+}
+
+.success-modal-content .btn-primary {
+    background-color: #667eea;
+    border-color: #667eea;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .main-content {

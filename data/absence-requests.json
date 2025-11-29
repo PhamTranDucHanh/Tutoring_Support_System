@@ -1,0 +1,28 @@
+[
+  {
+    "id": "ar_1764433063098_2310896",
+    "sessionId": "c_001",
+    "courseId": "c_000",
+    "studentId": "2310896",
+    "studentName": "Phạm Trần Đức Hạnh",
+    "sessionTopic": "Giới thiệu Python & môi trường phát triển",
+    "sessionDate": "2025-12-01",
+    "sessionTime": "19:00 - 21:00",
+    "reason": "Đơn xin vắng đầu tiên, test 123",
+    "requestDate": "2025-11-29T16:17:43.098Z",
+    "status": "pending"
+  },
+  {
+    "id": "ar_1764436427146_2210896",
+    "sessionId": "session_2b7f2bc0-5768-4241-8763-a3862e5cede9",
+    "courseId": "d_000",
+    "studentId": "2210896",
+    "studentName": "Trần Thị Mỹ Hạnh",
+    "sessionTopic": "Đọc vị áp lực giảng đường",
+    "sessionDate": "2026-01-04",
+    "sessionTime": "09:00 - 11:00",
+    "reason": "Lý do sức khỏe, em hứa sẽ làm bài đầy đủ",
+    "requestDate": "2025-11-29T17:13:47.146Z",
+    "status": "pending"
+  }
+]

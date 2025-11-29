@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? (currentUser.id || currentUser.username)
     : null;
 
-  // Chuẩn hóa ngày về định dạng dd-mm-yyyy để hiển thị nhất quán
+  // Chuẩn hóa ngày sang định dạng dd-mm-yyyy để hiển thị
   function toDDMMYYYYDash(value) {
     if (!value) return '';
     // yyyy-mm-dd -> dd-mm-yyyy
@@ -82,23 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
   async function saveCoursesAPI(courses){
     try {
       const resp = await fetch('/api/data/courses.json', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(courses)
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(courses, null, 2)
       });
       return resp.ok;
     } catch (e) { return false; }
   }
 
-  // --- ID generator: tạo ID duy nhất không phụ thuộc cấu trúc courseId
-  function generateUniqueSessionId(prefix = 'session') {
-    try {
-      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-        return `${prefix}_${window.crypto.randomUUID()}`;
+  // --- ID generator: Tạo ID buổi học tuần tự theo ID khóa học ---
+  function generateNextSessionId(courseId, existingSessions = []) {
+    const prefix = courseId.slice(0, courseId.lastIndexOf('_') + 1); // Ví dụ: "d_000" -> "d_"
+    let maxNum = 0;
+    existingSessions.forEach(session => {
+      if (session.id && session.id.startsWith(prefix)) {
+        const numPart = parseInt(session.id.replace(prefix, ''), 10);
+        if (!isNaN(numPart) && numPart > maxNum) {
+          maxNum = numPart;
+        }
       }
-    } catch (_) {}
-    const ts = Date.now();
-    const rnd = Math.floor(Math.random() * 0xFFFFFFFF);
-    generateUniqueSessionId._cnt = (generateUniqueSessionId._cnt || 0) + 1;
-    return `${prefix}_${ts.toString(36)}_${rnd.toString(36)}_${generateUniqueSessionId._cnt}`;
+    });
+    const nextNum = maxNum + 1;
+    return `${prefix}${String(nextNum).padStart(3, '0')}`; // Ví dụ: "d_001"
   }
 
   // populate courseSelect; if URL has courseId, preselect and disable
@@ -139,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const d = document.createElement('div');
       d.className = 'badge bg-light text-dark me-2 mb-1';
       d.style.padding = '8px';
-      d.innerHTML = `${s.date} (${s.start} - ${s.end}) <button type="button" class="btn-close btn-close-small ms-2" aria-label="Xóa" data-idx="${idx}"></button>`;
+      // Sử dụng displayDate để hiển thị
+      d.innerHTML = `${s.displayDate} (${s.start} - ${s.end}) <button type="button" class="btn-close btn-close-small ms-2" aria-label="Xóa" data-idx="${idx}"></button>`;
       chosenContainer.appendChild(d);
     });
     // attach delete handlers
@@ -159,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   addScheduleBtn.addEventListener('click', () => {
-    let date = scheduleDate.value;
+    const date = scheduleDate.value; // Format: yyyy-mm-dd
     const start = startTime.value;
     const end = endTime.value;
     if (!date || !start || !end) {
@@ -169,9 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // simple validation: start < end
     if (start >= end) { alert('Thời gian bắt đầu phải trước thời gian kết thúc.'); return; }
 
-    // Hiển thị dạng dd-mm-yyyy trong badge
-    date = toDDMMYYYYDash(date);
-    schedules.push({ date, start, end });
+    // Tạo định dạng để hiển thị cho người dùng
+    const displayDate = toDDMMYYYYDash(date);
+    // Lưu cả 2 định dạng: 1 để lưu, 1 để hiển thị
+    schedules.push({ date: date, displayDate: displayDate, start, end });
+    
     // lưu lại lần nhập để lần sau mở modal sẽ có sẵn
     saveLastScheduleInputs();
     renderSchedules();
@@ -196,9 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const idx = courses.findIndex(c => c.id === courseId);
     if (idx === -1) { sessionMsg.textContent = 'Không tìm thấy khóa học.'; return; }
 
-    // Tạo session cho mỗi lịch với ID tự sinh unique
+    if (!Array.isArray(courses[idx].sessions)) courses[idx].sessions = [];
+
+    // Tạo session cho mỗi lịch với ID tuần tự
     schedules.forEach(s => {
-      const sessionId = generateUniqueSessionId('session');
+      const sessionId = generateNextSessionId(courseId, courses[idx].sessions);
       // Nếu không lấy được từ loggedInUser, fallback course.tutors[0].id (nếu có)
       const fallbackTutorId = (courses[idx] && Array.isArray(courses[idx].tutors) && courses[idx].tutors[0])
         ? courses[idx].tutors[0].id : null;
@@ -208,13 +216,13 @@ document.addEventListener('DOMContentLoaded', () => {
         tutorId,
         topic,
         description,
-        date: s.date,
+        date: s.date, // Lưu định dạng yyyy-mm-dd
         start: s.start,
         end: s.end,
         mode,
         location
       };
-      if (!Array.isArray(courses[idx].sessions)) courses[idx].sessions = [];
+      
       // Kiểm tra trùng lặp theo id hoặc chủ đề/ngày/giờ
       const isDuplicate = courses[idx].sessions.some(sess =>
         sess.id === session.id ||
@@ -225,13 +233,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  // Lưu lại qua API để các trang khác nhận được
-    await saveCoursesAPI(courses);
-    sessionMsg.style.color = 'green';
-    sessionMsg.textContent = 'Tạo buổi học thành công.';
-    // redirect to manage-sessions for this course
-    setTimeout(() => {
-      window.location.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(courseId);
-    }, 900);
+    // Cập nhật lại số lượng buổi học
+    courses[idx].numCurrentSessions = courses[idx].sessions.length;
+
+    // Lưu lại qua API để các trang khác nhận được
+    const ok = await saveCoursesAPI(courses);
+    if (ok) {
+        sessionMsg.style.color = 'green';
+        sessionMsg.textContent = 'Tạo buổi học thành công.';
+        // redirect to manage-sessions for this course
+        setTimeout(() => {
+          window.location.href = '/pages/tutor/manage-sessions.html?courseId=' + encodeURIComponent(courseId);
+        }, 900);
+    } else {
+        sessionMsg.style.color = 'red';
+        sessionMsg.textContent = 'Lỗi: Không thể lưu buổi học.';
+    }
   });
 });

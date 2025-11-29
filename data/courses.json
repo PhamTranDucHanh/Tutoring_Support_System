@@ -101,7 +101,7 @@
         "location": "H6-610"
       }
     ],
-    "numCurrentStudents": 1,
+    "numCurrentStudents": 2,
     "numCurrentSessions": 7
   },
   {
@@ -173,7 +173,7 @@
         "location": "B3-210"
       }
     ],
-    "numCurrentStudents": 1,
+    "numCurrentStudents": 2,
     "numCurrentSessions": 4
   },
   {
@@ -317,7 +317,96 @@
         "location": "Giảng đường H6"
       }
     ],
+    "numCurrentStudents": 1,
+    "numCurrentSessions": 4
+  },
+  {
+    "id": "e_000",
+    "title": "DEMO TẠO KHÓA HỌC",
+    "image": "/assets/images/pattern2.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "description": "KHÓA HỌC DEMO 123",
+    "createdAt": "2025-11-29T12:27:33.327Z",
+    "durationMonths": 3,
+    "sessionsPerWeek": 2,
+    "maxStudents": 60,
+    "level": "Đại học",
+    "duration": "2 - 3 tháng",
+    "flexibleSchedule": true,
+    "tutors": [
+      {
+        "id": "TUT001",
+        "name": "Lê Văn X",
+        "rating": 0,
+        "reviews": 0,
+        "registered": 0
+      }
+    ],
+    "sessions": [
+      {
+        "id": "e_001",
+        "tutorId": "TUT001",
+        "topic": "session đầu tiên được tạo",
+        "description": "session đầu tiên được tạo, BE NICE `12",
+        "date": "2025-12-14",
+        "start": "08:00",
+        "end": "09:00",
+        "mode": "Offline",
+        "location": "H7-113"
+      },
+      {
+        "id": "e_002",
+        "tutorId": "TUT001",
+        "topic": "session fix bug",
+        "description": "session fix bug1111",
+        "date": "2025-12-20",
+        "start": "08:00",
+        "end": "09:00",
+        "mode": "Offline",
+        "location": "H6-610"
+      }
+    ],
+    "numCurrentStudents": 1,
+    "numCurrentSessions": 2
+  },
+  {
+    "id": "f_000",
+    "title": "Khóa học để demo trực tiếp tại lớp",
+    "image": "/assets/images/pattern3.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "description": "Khóa học để demo trực tiếp tại lớp",
+    "createdAt": "2025-11-29T17:23:58.072Z",
+    "durationMonths": 2,
+    "sessionsPerWeek": 2,
+    "maxStudents": 60,
+    "level": "Đại học",
+    "duration": "2 - 3 tháng",
+    "flexibleSchedule": true,
+    "tutors": [
+      {
+        "id": "TUT002",
+        "name": "Phạm Thị Y",
+        "rating": 0,
+        "reviews": 0,
+        "registered": 0
+      }
+    ],
+    "sessions": [
+      {
+        "id": "f_001",
+        "tutorId": "TUT002",
+        "topic": "demo tạo buổi học bên trong khóa học mới",
+        "description": "tại lớp ngày 30/11/2025",
+        "date": "2025-12-19",
+        "start": "08:00",
+        "end": "10:00",
+        "mode": "Offline",
+        "location": "H6-610"
+      }
+    ],
     "numCurrentStudents": 0,
-    "numCurrentSessions": 0
+    "numCurrentSessions": 1
   }
 ]

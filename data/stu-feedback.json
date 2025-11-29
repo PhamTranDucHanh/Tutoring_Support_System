@@ -6,5 +6,32 @@
     "sessionId": "d_002",
     "rating": 3,
     "content": "sinh viên đã phản hồi, khóa học hữu ích."
+  },
+  {
+    "id": "f_1764431461616_2310896_b_004",
+    "studentId": "2310896",
+    "courseId": "b_000",
+    "sessionId": "b_004",
+    "rating": 4,
+    "content": "2233333333333333",
+    "timestamp": "2025-11-29T15:51:01.616Z"
+  },
+  {
+    "id": "f_1764434072988_2310896_b_004",
+    "studentId": "2310896",
+    "courseId": "b_000",
+    "sessionId": "b_004",
+    "rating": 3,
+    "content": "sau khi cập nhật UI cho student feedback.",
+    "timestamp": "2025-11-29T16:34:32.988Z"
+  },
+  {
+    "id": "f_1764436903232_2210896_session_52dd2386-28bb-444b-b4fb-96baf022a402",
+    "studentId": "2210896",
+    "courseId": "d_000",
+    "sessionId": "session_52dd2386-28bb-444b-b4fb-96baf022a402",
+    "rating": 4,
+    "content": "Đã biết cách không trì hoãn, giảng viên nhiệt tình.",
+    "timestamp": "2025-11-29T17:21:43.232Z"
   }
 ]

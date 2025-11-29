@@ -1,4 +1,4 @@
-/* === PHẢN HỒI SINH VIÊN - KHUNG ĐẸP NHƯ TUTOR === */
+/* student-feedback.css */
 .feedback-container {
   max-width: 850px;
   margin: 0 auto;
@@ -192,4 +192,28 @@ button.submit:hover {
   font-weight: 500;
   margin-bottom: 16px;
   min-height: 24px; /* Để không bị nhảy layout khi text xuất hiện */
+  color: #d00; /* Mặc định màu đỏ cho lỗi */
+}
+
+/* THAY ĐỔI: Style cho modal thành công */
+.success-modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+.success-modal-content .modal-body i {
+    color: #28a745;
+}
+
+.success-modal-content .btn-primary {
+    background-color: #3a8abf;
+    border-color: #3a8abf;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+}
+
+.success-modal-content .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }

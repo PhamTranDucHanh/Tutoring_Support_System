@@ -10,9 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const feedbackMsg = document.getElementById('feedback-message');
   let currentRating = 0;
 
-  // === 1. PLACEHOLDER VÀ EDITOR (GIỮ NGUYÊN BẢN GỐC MƯỢT MÀ) ===
+  const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+  // === 1. PLACEHOLDER VÀ EDITOR (GIỮ NGUYÊN) ===
   editor.dataset.placeholder = "Sinh viên đưa ra phản hồi tại đây";
-  editor.innerHTML = ''; // Luôn bắt đầu rỗng
+  editor.innerHTML = ''; 
 
   const togglePlaceholder = () => {
     const isEmpty = editor.innerHTML.trim() === '' || editor.innerHTML === '<br>' || editor.innerHTML === '<div><br></div>';
@@ -26,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   editor.addEventListener('blur', togglePlaceholder);
   editor.addEventListener('input', togglePlaceholder);
-  togglePlaceholder(); // Khởi tạo
+  togglePlaceholder();
 
-  // === 2. TOOLBAR – SÁNG ĐÚNG, KHÔNG KẸT, TẮT/BẬT CHUẨN (GIỮ NGUYÊN BẢN GỐC) ===
+  // === 2. TOOLBAR (GIỮ NGUYÊN) ===
   const updateActiveButtons = () => {
     toolbarBtns.forEach(btn => btn.classList.remove('active'));
     const commands = ['bold', 'italic', 'underline', 'strikeThrough', 'justifyLeft', 'justifyCenter', 'justifyRight', 'insertUnorderedList', 'insertOrderedList'];
@@ -64,12 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('selectionchange', () => {
     if (document.activeElement === editor) debouncedUpdate();
   });
-  setTimeout(() => { // Khởi tạo căn lề trái
+  setTimeout(() => {
     document.execCommand('justifyLeft', false, null);
     updateActiveButtons();
   }, 100);
 
-  // === 3. ĐÁNH GIÁ SAO ===
+  // === 3. ĐÁNH GIÁ SAO (GIỮ NGUYÊN) ===
   const updateStars = () => {
     stars.forEach((star, i) => star.classList.toggle('filled', i < currentRating));
     ratingText.textContent = `${currentRating} / 5`;
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // === 4. HÀM RESET FORM VÀ NÚT XÓA ===
+  // === 4. HÀM RESET FORM VÀ NÚT XÓA (GIỮ NGUYÊN) ===
   function resetForm() {
     editor.innerHTML = '';
     togglePlaceholder();
@@ -97,11 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelector('.clear').addEventListener('click', () => {
-    feedbackMsg.textContent = ''; // Chỉ nút xóa mới xóa message
+    feedbackMsg.textContent = '';
     resetForm();
   });
 
-  // === 5. LOGIC API VÀ FORM (TỪ CODE MỚI) ===
+  // === 5. LOGIC API VÀ FORM ===
 
   // --- API functions ---
   async function getCoursesAPI() {
@@ -123,10 +125,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const resp = await fetch('/api/data/stu-feedback.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(feedbackArr, null, 2) // Thêm null, 2 để format JSON
+        body: JSON.stringify(feedbackArr, null, 2)
       });
       return resp.ok;
     } catch (e) { return false; }
+  }
+  
+  // THAY ĐỔI: Thêm hàm lấy dữ liệu sinh viên
+  async function getStudentsAPI() {
+    try {
+      const resp = await fetch('/api/data/stu.json');
+      const arr = await resp.json();
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
   }
 
   // --- Load khóa học và xử lý chọn lựa ---
@@ -149,23 +160,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- Khởi tạo giao diện ---
+  // THAY ĐỔI: Cập nhật logic hàm init()
   (async function init() {
-    coursesGlobal = await getCoursesAPI();
+    const userFromStorage = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+    const username = userFromStorage.username;
+
+    if (!username) {
+        courseSelect.innerHTML = '<option value="">-- Lỗi: Không tìm thấy người dùng --</option>';
+        courseSelect.disabled = true;
+        return;
+    }
+
+    // Tải song song dữ liệu khóa học và sinh viên
+    const [allCourses, allStudents] = await Promise.all([
+        getCoursesAPI(),
+        getStudentsAPI()
+    ]);
+
+    // Tìm thông tin mới nhất của sinh viên từ server
+    const currentStudent = allStudents.find(s => s.username === username);
+    const registeredCourseIds = (currentStudent?.registeredCourses || []).map(rc => rc.courseId);
+
+    // Lọc lại danh sách khóa học toàn cục để chỉ chứa các khóa đã đăng ký
+    coursesGlobal = allCourses.filter(course => registeredCourseIds.includes(course.id));
+
+    // Cập nhật dropdown với các khóa học đã lọc
     courseSelect.innerHTML = '<option value="">-- Chọn khóa học --</option>';
-    coursesGlobal.forEach(c => {
-      const courseName = c.name || c.courseName || c.title || 'Không tên';
-      const opt = document.createElement('option');
-      opt.value = c.id;
-      opt.textContent = `${courseName} (${c.id})`;
-      courseSelect.appendChild(opt);
-    });
+    if (coursesGlobal.length > 0) {
+        coursesGlobal.forEach(c => {
+            const courseName = c.name || c.courseName || c.title || 'Không tên';
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = `${courseName} (${c.id})`;
+            courseSelect.appendChild(opt);
+        });
+    } else {
+        // Xử lý trường hợp sinh viên chưa đăng ký khóa nào
+        courseSelect.innerHTML = '<option value="">-- Bạn chưa đăng ký khóa học nào --</option>';
+        courseSelect.disabled = true;
+    }
   })();
 
-  // === 6. NÚT GỬI PHẢN HỒI (TỪ CODE MỚI) ===
+  // === 6. NÚT GỬI PHẢN HỒI (GIỮ NGUYÊN) ===
   document.querySelector('.submit').addEventListener('click', async () => {
     feedbackMsg.textContent = '';
-    const text = editor.innerText.trim(); // Dùng innerText để lấy text thuần
+    const text = editor.innerText.trim();
     const courseId = courseSelect.value;
     const sessionId = sessionSelect.value;
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
@@ -192,22 +231,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackId = `f_${Date.now()}_${studentId}_${sessionId}`;
     const feedbackObj = {
       id: feedbackId,
-      studentId: String(studentId), // Đảm bảo là string
+      studentId: String(studentId),
       courseId: courseId,
       sessionId: sessionId,
       rating: currentRating,
       content: text,
-      timestamp: new Date().toISOString() // Thêm timestamp cho tiện theo dõi
+      timestamp: new Date().toISOString()
     };
 
     let feedbackArr = await getFeedbackAPI();
     feedbackArr.push(feedbackObj);
     const ok = await saveFeedbackAPI(feedbackArr);
 
+    // --- Hiển thị modal ---
     if (ok) {
-      feedbackMsg.style.color = '#0BB965';
-      feedbackMsg.textContent = 'Gửi phản hồi thành công!';
-      resetForm(); // Gọi hàm reset mới
+      resetForm();
+      successModal.show();
     } else {
       feedbackMsg.style.color = '#d00';
       feedbackMsg.textContent = 'Lỗi: Không thể gửi phản hồi. Vui lòng thử lại.';

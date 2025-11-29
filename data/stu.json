@@ -34,6 +34,14 @@
       {
         "courseId": "b_000",
         "registeredAt": "2025-11-23T17:25:59.490Z"
+      },
+      {
+        "courseId": "e_000",
+        "registeredAt": "2025-11-29T12:28:36.678Z"
+      },
+      {
+        "courseId": "d_000",
+        "registeredAt": "2025-11-29T17:11:42.233Z"
       }
     ]
   }
