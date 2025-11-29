@@ -14,6 +14,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const endTime = document.getElementById('endTime');
   const addScheduleBtn = document.getElementById('addScheduleBtn');
 
+  // Prefill inputs with last used values (persisted in localStorage)
+  function loadLastScheduleInputs() {
+    try {
+      const lastDate = localStorage.getItem('session.lastDate');
+      const lastStart = localStorage.getItem('session.lastStart');
+      const lastEnd = localStorage.getItem('session.lastEnd');
+      if (lastDate) scheduleDate.value = lastDate;
+      if (lastStart) startTime.value = lastStart;
+      if (lastEnd) endTime.value = lastEnd;
+    } catch (_) {}
+  }
+
+  function saveLastScheduleInputs() {
+    try {
+      if (scheduleDate.value) localStorage.setItem('session.lastDate', scheduleDate.value);
+      if (startTime.value) localStorage.setItem('session.lastStart', startTime.value);
+      if (endTime.value) localStorage.setItem('session.lastEnd', endTime.value);
+    } catch (_) {}
+  }
+
   // Lấy tutor hiện tại từ localStorage (ưu tiên loggedInUser)
   const currentUser = (() => {
     try {
@@ -68,25 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) { return false; }
   }
 
-  // --- ID generator for sessions following scheme: <letter>_001, <letter>_002, ...
-  function generateSessionIdForCourse(courseId, coursesArr) {
-    // courseId expected like 'a_000' -> letter = 'a'
-    const m = (courseId || '').match(/^([a-zA-Z])_\d{3}$/);
-    const letter = m ? m[1].toLowerCase() : 'x';
-    const courses = coursesArr || window.coursesGlobal || [];
-    const course = courses.find(c => c.id === courseId);
-    let maxSeq = 0;
-    if (course && Array.isArray(course.sessions)) {
-      course.sessions.forEach(s => {
-        const ms = (s.id || '').match(new RegExp('^' + letter + '_(\d{3})$'));
-        if (ms) {
-          const n = parseInt(ms[1], 10);
-          if (!isNaN(n) && n > maxSeq) maxSeq = n;
-        }
-      });
-    }
-    const next = maxSeq + 1;
-    return `${letter}_${String(next).padStart(3,'0')}`;
+  // --- ID generator: tạo ID duy nhất không phụ thuộc cấu trúc courseId
+  function generateUniqueSessionId(prefix = 'session') {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return `${prefix}_${window.crypto.randomUUID()}`;
+      }
+    } catch (_) {}
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 0xFFFFFFFF);
+    generateUniqueSessionId._cnt = (generateUniqueSessionId._cnt || 0) + 1;
+    return `${prefix}_${ts.toString(36)}_${rnd.toString(36)}_${generateUniqueSessionId._cnt}`;
   }
 
   // populate courseSelect; if URL has courseId, preselect and disable
@@ -140,7 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  btnChoose.addEventListener('click', () => chooseModal.show());
+  btnChoose.addEventListener('click', () => {
+    // mỗi lần mở modal, nạp lại giá trị lần nhập trước (nếu có)
+    loadLastScheduleInputs();
+    chooseModal.show();
+  });
 
   addScheduleBtn.addEventListener('click', () => {
     let date = scheduleDate.value;
@@ -156,6 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hiển thị dạng dd-mm-yyyy trong badge
     date = toDDMMYYYYDash(date);
     schedules.push({ date, start, end });
+    // lưu lại lần nhập để lần sau mở modal sẽ có sẵn
+    saveLastScheduleInputs();
     renderSchedules();
     chooseModal.hide();
   });
@@ -174,13 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (schedules.length === 0) { sessionMsg.textContent = 'Vui lòng chọn ít nhất một lịch cho buổi học.'; return; }
 
     // build session object (one session may contain multiple date-time entries; we will create one session entry per schedule)
-    const courses = window.coursesGlobal || await getCoursesAPI();
+    const courses = await getCoursesAPI();
     const idx = courses.findIndex(c => c.id === courseId);
     if (idx === -1) { sessionMsg.textContent = 'Không tìm thấy khóa học.'; return; }
 
-    // create sessions for each chosen schedule (use deterministic ids per course)
+    // Tạo session cho mỗi lịch với ID tự sinh unique
     schedules.forEach(s => {
-      const sessionId = generateSessionIdForCourse(courseId, courses);
+      const sessionId = generateUniqueSessionId('session');
       // Nếu không lấy được từ loggedInUser, fallback course.tutors[0].id (nếu có)
       const fallbackTutorId = (courses[idx] && Array.isArray(courses[idx].tutors) && courses[idx].tutors[0])
         ? courses[idx].tutors[0].id : null;
