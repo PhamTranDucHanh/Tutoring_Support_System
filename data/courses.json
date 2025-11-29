@@ -25,7 +25,7 @@
     "sessions": [
       {
         "id": "a_001",
-        "tutorId": "TUT002",
+        "tutorId": "TUT001",
         "topic": "Ôn tập đạo hàm cơ bản",
         "description": "Ôn tập lại các dạng đạo hàm đã học ở lớp 12",
         "date": "2025-12-01",
@@ -36,7 +36,7 @@
       },
       {
         "id": "a_002",
-        "tutorId": "TUT002",
+        "tutorId": "TUT001",
         "topic": "Ứng dụng tích phân",
         "description": "Bài tập ứng dụng tích phân trong kỹ thuật.",
         "date": "2025-12-08",
@@ -47,7 +47,7 @@
       },
       {
         "id": "a_003",
-        "tutorId": "TUT002",
+        "tutorId": "TUT001",
         "topic": "Bài tập đạo hàm nâng cao",
         "description": "Luyện tập các bài toán đạo hàm kết hợp ứng dụng.",
         "date": "2025-12-15",
@@ -58,7 +58,7 @@
       },
       {
         "id": "a_004",
-        "tutorId": "TUT002",
+        "tutorId": "TUT001",
         "topic": "Ứng dụng tích phân (phần 2)",
         "description": "Tiếp tục bài tập ứng dụng tích phân trong kỹ thuật.",
         "date": "2025-12-22",
@@ -69,7 +69,7 @@
       },
       {
         "id": "a_005",
-        "tutorId": "TUT002",
+        "tutorId": "TUT001",
         "topic": "Các kỹ thuật giải nhanh",
         "description": "Phương pháp rút gọn và mẹo giải nhanh cho bài toán tích phân và đạo hàm.",
         "date": "2025-12-29",
@@ -130,7 +130,7 @@
     "sessions": [
       {
         "id": "b_001",
-        "tutorId": "TUT001",
+        "tutorId": "TUT002",
         "topic": "Kỹ thuật mở đầu và cấu trúc bài nói",
         "description": "Cách mở đầu thu hút và cấu trúc bài trình bày.",
         "date": "2025-12-01",
@@ -141,7 +141,7 @@
       },
       {
         "id": "b_002",
-        "tutorId": "TUT001",
+        "tutorId": "TUT002",
         "topic": "Thuyết trình kỹ thuật: Slide & Demo",
         "description": "Thiết kế slide hiệu quả và demo thực hành.",
         "date": "2025-12-08",
@@ -163,7 +163,7 @@
       },
       {
         "id": "b_004",
-        "tutorId": "TUT001",
+        "tutorId": "TUT002",
         "topic": "Tổng hợp & phản biện",
         "description": "Bài tập thực hành trước nhóm và phản biện.",
         "date": "2025-12-22",
@@ -247,5 +247,77 @@
     ],
     "numCurrentStudents": 1,
     "numCurrentSessions": 4
+  },
+  {
+    "id": "d_000",
+    "title": "Giảng đường Tinh thần",
+    "image": "/assets/images/pattern1.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "description": "Giảng đường Tinh thần là khóa học tư vấn tâm lý và rèn luyện sức khỏe tinh thần dành riêng cho sinh viên trong môi trường đại học.\nKhóa học tập trung vào việc thấu hiểu bản thân, nhận diện và quản lý áp lực giảng đường, điều hòa cảm xúc, giảm trì hoãn – kiệt sức tinh thần (burnout), và xây dựng thói quen sống cân bằng bền vững.\nVới mô hình chia sẻ nhóm nhỏ, thực hành phản tư và các công cụ trị liệu dễ áp dụng, đây là không gian an toàn để sinh viên được lắng nghe, kết nối và trang bị kỹ năng chăm sóc tinh thần thực tế cho hành trình đại học và tương lai sau này.",
+    "createdAt": "2025-11-29T06:23:04.012Z",
+    "durationMonths": 1,
+    "sessionsPerWeek": 1,
+    "maxStudents": 50,
+    "level": "Đại học",
+    "duration": "1 - 2 tháng",
+    "flexibleSchedule": true,
+    "tutors": [
+      {
+        "id": "TUT002",
+        "name": "Phạm Thị Y",
+        "rating": 0,
+        "reviews": 0,
+        "registered": 0
+      }
+    ],
+    "sessions": [
+      {
+        "id": "session_2b7f2bc0-5768-4241-8763-a3862e5cede9",
+        "tutorId": "TUT002",
+        "topic": "Đọc vị áp lực giảng đường",
+        "description": "Giúp sinh viên nhận diện rõ các nguồn áp lực phổ biến trong đại học như điểm số, deadline, tài chính, kỳ vọng, và so sánh bạn bè.\nThông qua bài tập “Vẽ bản đồ áp lực cá nhân”, sinh viên hiểu được phản ứng stress của bản thân, phân biệt stress lành mạnh và stress gây hại, và chia sẻ để thấy mình không cô đơn trên hành trình đại học.",
+        "date": "2026-01-04",
+        "start": "09:00",
+        "end": "11:00",
+        "mode": "Offline",
+        "location": "Giảng đường H6"
+      },
+      {
+        "id": "session_2dc2a695-ab34-4899-adb2-0e233efa5831",
+        "tutorId": "TUT002",
+        "topic": "Nói chuyện với cảm xúc thật",
+        "description": "Tập trung vào việc giải mã cảm xúc bề mặt và cảm xúc ẩn sâu (ví dụ: cầu toàn do lo sợ thất bại, giận dữ do buồn bị dồn nén…).\nHọc kỹ thuật gọi tên cảm xúc (Emotion Labeling), viết nhật ký cảm xúc không phán xét, và thực hành 5 phút grounding để “giữ mình tỉnh” khi cảm xúc bị quá tải.",
+        "date": "2026-01-11",
+        "start": "09:00",
+        "end": "11:00",
+        "mode": "Offline",
+        "location": "Giảng đường H6"
+      },
+      {
+        "id": "session_52dd2386-28bb-444b-b4fb-96baf022a402",
+        "tutorId": "TUT002",
+        "topic": "Hiểu để bớt trì hoãn, bớt tự trách",
+        "description": "Giải mã trì hoãn và burnout dưới góc nhìn tâm lý – khoa học (dopamine, sợ thất bại, task paralysis).\nSinh viên học cách thiết kế thói quen nhỏ 10 phút/ngày (micro-habit), áp dụng nguyên tắc Tiến bộ > Hoàn hảo, và tìm “La bàn động lực nội tại” để học và làm việc bền vững thay vì gồng ép.",
+        "date": "18-01-2026",
+        "start": "09:00",
+        "end": "11:00",
+        "mode": "Offline",
+        "location": "Giảng đường H6"
+      },
+      {
+        "id": "session_eb07d4ea-910d-4c7e-81ef-c9e5945c4521",
+        "tutorId": "TUT002",
+        "topic": "Cân bằng đời sinh viên & dưỡng tâm lâu dài",
+        "description": "Giúp sinh viên tạo ra routine chăm sóc tinh thần phù hợp đại học: ngủ khoa học, dùng mạng xã hội có ranh giới, duy trì kết nối bạn bè – thầy cô lành mạnh, đặt ranh giới cá nhân trong quan hệ, và check-in tâm trạng mỗi tối.\nBuổi học kết thúc bằng việc thiết kế “Lịch chăm tinh thần cá nhân hóa” để có thể áp dụng ngay sau khóa học.",
+        "date": "25-01-2026",
+        "start": "09:00",
+        "end": "11:00",
+        "mode": "Offline",
+        "location": "Giảng đường H6"
+      }
+    ],
+    "numCurrentStudents": 0,
+    "numCurrentSessions": 0
   }
 ]
