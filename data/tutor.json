@@ -10,14 +10,6 @@
       {
         "courseId": "a_000",
         "openedAt": "2025-11-10T09:00:00.000Z"
-      },
-      {
-        "courseId": "b_000",
-        "openedAt": "2025-10-25T10:15:00.000Z"
-      },
-      {
-        "courseId": "d_000",
-        "openedAt": "2025-11-22T16:57:02.303Z"
       }
     ]
   },
@@ -29,7 +21,14 @@
     "email": "coy@example.com",
     "bio": "Chuyên gia tâm lý học, kỹ năng giao tiếp.",
     "courses": [
-      
+      {
+        "courseId": "b_000",
+        "openedAt": "2025-10-25T10:15:00.000Z"
+      },
+      {
+        "courseId": "d_000",
+        "openedAt": "2025-11-29T06:23:04.012Z"
+      }
     ]
   },
   {
