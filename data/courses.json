@@ -245,7 +245,7 @@
         "location": "https://meet.google.com/dir-rgxk-htj"
       }
     ],
-    "numCurrentStudents": 1,
+    "numCurrentStudents": 2,
     "numCurrentSessions": 4
   },
   {
@@ -404,6 +404,45 @@
         "end": "10:00",
         "mode": "Offline",
         "location": "H6-610"
+      }
+    ],
+    "numCurrentStudents": 0,
+    "numCurrentSessions": 1
+  },
+  {
+    "id": "g_000",
+    "title": "Lập trình STM32 cho mọi người",
+    "image": "/assets/images/pattern4.png",
+    "info1": "Mô tả khoá học",
+    "info2": "Đánh giá",
+    "description": "Lập trình STM32 cho người mới bắt đầu, sử dụng STM32F103C6 và Proteus.",
+    "createdAt": "2025-11-30T03:24:55.607Z",
+    "durationMonths": 2,
+    "sessionsPerWeek": 2,
+    "maxStudents": 50,
+    "level": "Đại học",
+    "duration": "2 - 3 tháng",
+    "flexibleSchedule": true,
+    "tutors": [
+      {
+        "id": "TUT001",
+        "name": "Lê Văn X",
+        "rating": 0,
+        "reviews": 0,
+        "registered": 0
+      }
+    ],
+    "sessions": [
+      {
+        "id": "g_001",
+        "tutorId": "TUT001",
+        "topic": "Cài đặt STM32CubeIDE và Proteus, setup môi trường và demo led blinky",
+        "description": "Demo đơn giản, môi trường cần thiết, bài học vỡ lòng khi làm việc với vi điều khiển STM32",
+        "date": "2026-01-02",
+        "start": "08:00",
+        "end": "11:00",
+        "mode": "Online",
+        "location": "https://www.overleaf.com/project/6925ae54eefa963b1ddbd6bc"
       }
     ],
     "numCurrentStudents": 0,

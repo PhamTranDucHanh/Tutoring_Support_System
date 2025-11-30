@@ -22,106 +22,63 @@
   <div id="app-header-placeholder"></div>
 
   <!-- Phần thân trang -->
-  <main class="container-fluid fill-form-page">
-    <div class="row">
-      <!-- <div class="logo-bk">
-            <img src="/assets/images/hcmut_logo.png" alt="Logo Trường">
-        </div> -->
-
-      <!-- Bên trái: Thông tin khóa học -->
-      <div class="col-lg-8 col-md-7 course-info">
-        <!--
-        <h1 class="mb-4">Đại cương<br></h1>
-        <h1 class="course-title">Phương pháp học giải tích 1</h1>
-
-        <p class="course-desc">
-          Môn giải tích 1 bao gồm các kiến thức cơ bản về vi tích phân hàm 1 biến và phương trình vi phân thường,
-          ứng dụng các kiến thức này để giải quyết một số bài toán thực tế.
-        </p>
-
-        <p class="course-desc">
-            Chương trình soạn có tính đến đối tượng chủ yếu là các kỹ sư tương lai nên chú ý vào các công thức ứng dụng 
-            và không đặt nặng các vấn đề lý thuyết toán học. Vì thời gian hướng dẫn có hạn nên Sinh viên cần nhiều thời gian tìm hiểu thêm và chuẩn bị bài.      
-        </p>
-
-        <div class="tutor-info" id="tutorInfo" style="cursor:pointer;">
-          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Tutor">
-          <span><strong>Tutor:</strong> Phạm Trần Đức Hạnh</span>
-        </div>
-        <div class="registered">
-            <p> <b> 1001 </b> đã đăng ký </p>
+  <main class="container fill-form-page">
+    <div class="fill-form-wrapper">
+      <div class="row g-0">
+        <!-- Bên trái: Thông tin khóa học -->
+        <div class="col-lg-8 col-md-7 course-info">
+          <h1 class="mb-4 course-title"></h1>
+          <div id="course-desc-container"></div>
+          <div class="tutor-info" id="tutorInfo" style="cursor:pointer;">
+            <span id="selected-tutor-name"><strong>Tutor:</strong> </span>
+          </div>
+          <div class="course-desc" id="registered"></div>
+          <div class="course-meta-card" id="course-meta-container"></div>
         </div>
 
-        <div class="course-meta-card">
-            <div class="course-meta-item rating">
-                <p> <b>4.4<i class="fa fa-star"></i> <br> (1001 đánh giá)</b>  </p>
+        <!-- Bên phải: Form đăng ký -->
+        <div class="col-lg-4 col-md-5 form-section">
+          <h2>Đăng ký tham gia khoá học</h2>
+          <form id="registerForm">
+            <div class="form-check">
+              <input class="form-check-input term" type="checkbox" id="t1">
+              <label class="form-check-label" for="t1">
+                Tôi đồng ý học đúng giờ và báo trước khi muốn đổi lịch.
+              </label>
             </div>
-            <div class="course-meta-item level">
-                <p> <b>Cấp độ đại học</b></p>
-            </div>
-            <div class="course-meta-item duration">
-                <p><b>1 - 6 tháng để hoàn thành</b></p>
-            </div>
-            <div class="course-meta-item schedule">
-                <p> <b>Lịch trình linh hoạt</b> </p>
-            </div>
-        </div>-->
 
-        <!-- Các nội dung khóa học sẽ được render bởi JS -->
-        <h1 class="mb-4 course-title"></h1>
-        <div id="course-desc-container"></div>
-        <div class="tutor-info" id="tutorInfo" style="cursor:pointer;">
-          <span id="selected-tutor-name"><strong>Tutor:</strong> </span>
+            <div class="form-check">
+              <input class="form-check-input term" type="checkbox" id="t2">
+              <label class="form-check-label" for="t2">
+                Tôi sẽ chủ động trao đổi khi có khó khăn trong bài học.
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input term" type="checkbox" id="t3">
+              <label class="form-check-label" for="t3">
+                Tôi sẽ hợp tác đầy đủ với tutor trong suốt khóa học.
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input term" type="checkbox" id="t4">
+              <label class="form-check-label" for="t4">
+                Tôi không chia sẻ tài liệu hoặc nội dung học cho người khác.
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input term" type="checkbox" id="t5">
+              <label class="form-check-label" for="t5">
+                Tôi đồng ý với các chính sách về quyền riêng tư và lưu trữ dữ liệu.
+              </label>
+            </div>
+
+            <!-- Nút gửi đăng ký (ban đầu nên disable) -->
+            <button type="submit" class="btn mt-3" id="submitBtn" disabled>Gửi</button>
+          </form>
         </div>
-        <div class="course-desc" id="registered"></div>
-        <div class="course-meta-card" id="course-meta-container"></div>
-
-
-
-      </div>
-
-      <!-- Bên phải: Form đăng ký -->
-      <div class="col-lg-4 col-md-5 form-section">
-        <h2>Đăng ký tham gia khoá học</h2>
-        <form id="registerForm">
-          <div class="form-check">
-            <input class="form-check-input term" type="checkbox" id="t1">
-            <label class="form-check-label" for="t1">
-              Tôi đồng ý học đúng giờ và báo trước khi muốn đổi lịch.
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input term" type="checkbox" id="t2">
-            <label class="form-check-label" for="t2">
-              Tôi sẽ chủ động trao đổi khi có khó khăn trong bài học.
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input term" type="checkbox" id="t3">
-            <label class="form-check-label" for="t3">
-              Tôi sẽ hợp tác đầy đủ với tutor trong suốt khóa học.
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input term" type="checkbox" id="t4">
-            <label class="form-check-label" for="t4">
-              Tôi không chia sẻ tài liệu hoặc nội dung học cho người khác.
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input term" type="checkbox" id="t5">
-            <label class="form-check-label" for="t5">
-              Tôi đồng ý với các chính sách về quyền riêng tư và lưu trữ dữ liệu.
-            </label>
-          </div>
-
-          <!-- Nút gửi đăng ký (ban đầu nên disable) -->
-          <button type="submit" class="btn mt-3" id="submitBtn" disabled>Gửi</button>
-        </form>
       </div>
     </div>
   </main>

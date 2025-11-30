@@ -7,25 +7,40 @@
 	const roomEl = document.getElementById('cd-room');
 	const exitBtn = document.getElementById('cd-exit');
 
-  function loadSession() {
-    try {
-      const raw = sessionStorage.getItem('selectedSession');
-      if (!raw) return;
-      const s = JSON.parse(raw);
-      
-      // Tutor name is already included in session object from my-course.js
-      const tutorName = s.tutorName || s.tutorId || '';
-      
-      // Populate fields with session data
-      if (lecturerEl) lecturerEl.value = tutorName;
-      if (topicEl) topicEl.value = s.topic || '';
-      if (descEl) descEl.value = s.description || s.desc || '';
-      if (formatEl) formatEl.value = s.mode || s.format || '';
-      if (roomEl) roomEl.value = s.location || s.room || s.link || '';
-    } catch (e) {
-      // ignore parse errors
-    }
-  }	function exit() {
+	/**
+	 * Fetches all tutors from the API.
+	 * @returns {Promise<any>}
+	 */
+	function getTutorsAPI() {
+		return fetch('/api/data/tutor.json').then((res) => {
+			if (!res.ok) throw new Error('Failed to fetch tutors');
+			return res.json();
+		});
+	}
+
+	async function loadSession() {
+		try {
+			const raw = sessionStorage.getItem('selectedSession');
+			if (!raw) return;
+			const s = JSON.parse(raw);
+
+			// Fetch tutors to find the tutor's name
+			const tutors = await getTutorsAPI();
+			const tutor = tutors.find((t) => t.id === s.tutorId);
+			const tutorName = tutor ? tutor.fullName : s.tutorId || '';
+
+			// Populate fields with session data
+			if (lecturerEl) lecturerEl.value = tutorName;
+			if (topicEl) topicEl.value = s.topic || '';
+			if (descEl) descEl.value = s.description || s.desc || '';
+			if (formatEl) formatEl.value = s.mode || s.format || '';
+			if (roomEl) roomEl.value = s.location || s.room || s.link || '';
+		} catch (e) {
+			console.error('Error loading session:', e);
+			// ignore parse errors
+		}
+	}
+	function exit() {
 		// Keep returnToCourseId / Title so my-course can re-open list
 		sessionStorage.removeItem('selectedSession');
 		window.location.href = '/pages/student/my-course.html';
