@@ -1,4 +1,7 @@
-## DEADLINE 8H TỐI THỨ 5 NGÀY 27/11/2025
+## Những thay đổi
+- Phần của Lê Huy: Bỏ logic xóa luôn session khi xin vắng thành công, thay bằng ghi một object đơn xin nghỉ vào absence-requests.json. Thêm pop up thông báo gửi đơn xin nghỉ thành công. Trang course-detail ở trường Giảng viên hiển thị tên giảng viên thay vì ID
+- Phần của Dũng: Thêm pop up thông báo gửi feedback và evaluation thành công.
+- Phần của  Gia Huy: căn lại UI (thẳng lề với footer và header) trong trang fill-form.html
 
 ## Our workflow
 - (đứng ở nhánh main: git checkout main) git pull origin main 
